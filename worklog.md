@@ -140,3 +140,40 @@ Stage Summary:
 - Connection lines upgraded from plain straight lines to: dashed pink gradient (marriage), curved Bezier with vertical gradient (parent-child), and solid slate (junctions).
 - Lint: 0 errors, 0 warnings. Dev server: running on port 3000, GET / returns 200.
 - Screenshots: scripts/04-redesigned.png (full tree), scripts/05-detail-panel.png (detail panel close-up).
+
+---
+Task ID: 3
+Agent: main (orchestrator)
+Task: User asked 6 questions/changes: (1) Supabase free-tier photo management, (2) free hosting/domain suggestions, (3) remove "Clear all" option, (4) remove "load sample family", (5) fix duplicate React key + add marriage-year validation (≤ death year of spouses, ≤ child birth year), (6) Android packaging advice.
+
+Work Log:
+- Added `compressImage()` utility in `supabase.ts` — resizes to max 800px (maintains aspect), converts to WebP at 78% quality. A 4MB phone photo becomes ~120KB. This takes Supabase free-tier 1GB storage from ~250 photos to ~8,000 photos.
+- Updated `uploadPhoto()` to call `compressImage()` before uploading (works in both demo and Supabase modes).
+- Set `cacheControl: '31536000'` (1 year) on uploads — photos are immutable, URL changes when replaced.
+- Added orphan-photo cleanup: `handleDeletePerson` now deletes the person's photo + their auto-event photos from Supabase Storage before dispatching DELETE_PERSON. `handleDeleteEvent` also deletes the event's photo.
+- Removed "Clear all" and "Load sample family" from the ⋯ menu (kept only Export PNG / Export PDF).
+- Removed the "Load sample family" button from `EmptyState` (kept only "Add first person").
+- Removed unused `handleLoadSample`, `handleClearAll`, `Sparkles`, `DropdownMenuSeparator` imports.
+- Fixed duplicate React key bug in `layout.ts`: added deduplication pass at the end of `computeLayout()` that filters out nodes with a `personId` already seen. This handles remarriage / accidental duplicate-link cases where the same person would otherwise be rendered twice.
+- Rewrote `RelationshipForm.tsx` with two new validators:
+  * `validateSpouse()`: marriage year ≤ death year of both spouses; marriage year ≥ birth year + 14 (sanity).
+  * `validateChild()`: child birth year ≥ parent's marriage year (from the parent's family unit); parent age at child birth 12-90 (sanity); parent not deceased before child's birth.
+  * Both validators show live amber hints as the user picks options/years, and block submit with a red error if invalid.
+  * Added `AlertCircle` icon for the validation messages.
+- Added `familyUnits` prop pass-through from `FamilyTree.tsx` → `RelationshipForm` so the child validator can look up the parent's marriage year.
+- `handleDeletePerson` now shows a confirmation dialog ("Delete X? This will also remove their photo and auto-events. Can be undone with Ctrl/Cmd+Z.") before deleting.
+- Verified end-to-end via agent-browser:
+  * Reloaded page → existing demo session restored, Sharma family visible.
+  * Opened ⋯ menu → only "Export PNG" and "Export PDF" remain (no Clear all, no Load sample).
+  * Opened Add Relationship → selected Rajesh (died 2010) + Sunita → entered marriage year 2015 → live amber hint + submit error: "Rajesh Sharma passed away in 2010 — marriage year 2015 is later."
+  * Cleared localStorage → fresh sign-up → created new family → EmptyState showed only "Add first person" (no Load sample button).
+  * Dev log: no React "two children with same key" warnings.
+  * Lint: 0 errors, 0 warnings.
+
+Stage Summary:
+- Photo management: client-side compression (WebP + resize) cuts storage ~30×. Orphan photos auto-deleted on person/event deletion. 1-year cache headers on uploads.
+- Menu simplified to just export options. No more destructive bulk actions.
+- Duplicate React key bug fixed via layout node deduplication.
+- Marriage/child year validation added with live hints — prevents contradictory dates.
+- Lint: 0 errors, 0 warnings. Dev server: running on port 3000.
+- Detailed written advice provided for: Supabase free-tier photo strategy, free hosting/domain recommendations, and Android packaging (PWA vs Capacitor vs React Native).

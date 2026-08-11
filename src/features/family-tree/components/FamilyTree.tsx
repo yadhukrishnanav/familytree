@@ -16,7 +16,6 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-  DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
 import {
   Plus,
@@ -28,7 +27,6 @@ import {
   Maximize,
   Download,
   FileText,
-  Sparkles,
   Trash2,
   Pencil,
   Undo2,
@@ -50,6 +48,7 @@ import { RelationshipForm } from './RelationshipForm';
 import { EventForm } from './EventForm';
 import { Timeline } from './Timeline';
 import { exportToPngFile, exportToPdfFile } from '../export';
+import { deletePhoto } from '../supabase';
 
 type ModalKind = 'add-person' | 'edit-person' | 'add-relationship' | 'add-event' | 'edit-event' | null;
 
@@ -269,11 +268,23 @@ export function FamilyTree() {
     }
   };
 
-  const handleDeletePerson = (personId: string) => {
+  const handleDeletePerson = async (personId: string) => {
     const p = state.persons[personId];
+    if (!p) return;
+    if (!confirm(`Delete ${p.firstName} ${p.lastName ?? ''}? This will also remove their photo and auto-events. Can be undone with Ctrl/Cmd+Z.`)) return;
+    // Delete photo from storage BEFORE removing the person (URL is gone after dispatch)
+    if (p.photoUrl) {
+      deletePhoto(p.photoUrl).catch(() => { /* ignore — might already be gone */ });
+    }
+    // Also delete photos on this person's auto-events (which DELETE_PERSON will purge)
+    for (const ev of state.timelineEvents) {
+      if (ev.photoUrl && ev.personIds.includes(personId) && ev.id.startsWith('auto_')) {
+        deletePhoto(ev.photoUrl).catch(() => {});
+      }
+    }
     store.dispatch({ type: 'DELETE_PERSON', personId });
     if (selectedId === personId) setSelectedId(null);
-    toast.success('Person removed', { description: p ? `${p.firstName} ${p.lastName ?? ''}` : undefined });
+    toast.success('Person removed', { description: `${p.firstName} ${p.lastName ?? ''}` });
   };
 
   const handleAddRelationship = async (
@@ -318,6 +329,11 @@ export function FamilyTree() {
   };
 
   const handleDeleteEvent = (eventId: string) => {
+    const ev = state.timelineEvents.find((e) => e.id === eventId);
+    // Best-effort delete the event's photo from storage
+    if (ev?.photoUrl) {
+      deletePhoto(ev.photoUrl).catch(() => {});
+    }
     store.dispatch({ type: 'DELETE_EVENT', eventId });
     toast.success('Event removed');
   };
@@ -342,24 +358,6 @@ export function FamilyTree() {
     } catch (e: any) {
       toast.error('Export failed', { description: e.message });
     }
-  };
-
-  const handleLoadSample = () => {
-    if (Object.keys(state.persons).length > 0) {
-      if (!confirm('Replace current tree with sample data? This can be undone with Ctrl/Cmd+Z.')) return;
-    }
-    store.dispatch({ type: 'LOAD_SAMPLE' });
-    toast.success('Sample family loaded');
-  };
-  const handleClearAll = () => {
-    if (Object.keys(state.persons).length === 0) {
-      toast.info('Tree is already empty');
-      return;
-    }
-    if (!confirm('Clear all persons, relationships, and events? This can be undone with Ctrl/Cmd+Z.')) return;
-    store.dispatch({ type: 'CLEAR_ALL' });
-    setSelectedId(null);
-    toast.success('Tree cleared');
   };
 
   const personsArray = useMemo(() => Object.values(state.persons), [state.persons]);
@@ -486,15 +484,6 @@ export function FamilyTree() {
               <FileText className="mr-2 h-3.5 w-3.5" />
               Export PDF
             </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={handleLoadSample}>
-              <Sparkles className="mr-2 h-3.5 w-3.5" />
-              Load sample family
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={handleClearAll} className="text-red-600 focus:text-red-700">
-              <Trash2 className="mr-2 h-3.5 w-3.5" />
-              Clear all
-            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
@@ -526,7 +515,7 @@ export function FamilyTree() {
         {store.loading ? (
           <div className="relative flex h-full items-center justify-center text-slate-400">Loading…</div>
         ) : Object.keys(state.persons).length === 0 ? (
-          <EmptyState onAdd={() => { setEditingPerson(null); setModal('add-person'); }} onLoadSample={handleLoadSample} />
+          <EmptyState onAdd={() => { setEditingPerson(null); setModal('add-person'); }} />
         ) : (
           <div
             ref={canvasRef}
@@ -711,6 +700,7 @@ export function FamilyTree() {
           </DialogHeader>
           <RelationshipForm
             persons={personsArray}
+            familyUnits={state.familyUnits}
             anchorPersonId={selectedId ?? undefined}
             onSubmit={handleAddRelationship}
             onCancel={() => setModal(null)}
@@ -875,7 +865,7 @@ function DetailPanel({
 }
 
 // ---------- Empty state ----------
-function EmptyState({ onAdd, onLoadSample }: { onAdd: () => void; onLoadSample: () => void }) {
+function EmptyState({ onAdd }: { onAdd: () => void }) {
   return (
     <div className="relative flex h-full items-center justify-center p-6">
       <div className="max-w-md text-center">
@@ -884,7 +874,7 @@ function EmptyState({ onAdd, onLoadSample }: { onAdd: () => void; onLoadSample: 
         </div>
         <h2 className="mb-2 text-2xl font-bold text-slate-800">Start your family tree</h2>
         <p className="mb-6 text-sm text-slate-500">
-          Add your first family member to begin. You can always load a sample family to explore the features.
+          Add your first family member to begin building your tree. You can add spouses, children, and timeline events as you go.
         </p>
         <div className="flex flex-col gap-2 sm:flex-row sm:justify-center">
           <Button
@@ -893,14 +883,6 @@ function EmptyState({ onAdd, onLoadSample }: { onAdd: () => void; onLoadSample: 
           >
             <Plus className="mr-1.5 h-4 w-4" />
             Add first person
-          </Button>
-          <Button
-            variant="outline"
-            onClick={onLoadSample}
-            className="rounded-lg px-5"
-          >
-            <Sparkles className="mr-1.5 h-4 w-4" />
-            Load sample family
           </Button>
         </div>
       </div>

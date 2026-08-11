@@ -2,6 +2,8 @@
 
 // Family Tree — Relationship form
 // Link two people as spouse (with marriage year) or parent→child.
+// Validates: marriage year ≤ death year of both spouses,
+//            marriage year ≤ birth year of any existing child of this couple (when adding child).
 
 import { useMemo, useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -14,13 +16,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Heart, GitBranch } from 'lucide-react';
+import { Heart, GitBranch, AlertCircle } from 'lucide-react';
 import type { FamilyUnit, Person } from '../types';
 
 type RelType = 'spouse' | 'parent-child';
 
 interface Props {
   persons: Person[];
+  familyUnits: FamilyUnit[];
   /** Optional anchor (e.g., when "Add relationship" is clicked from a person detail panel) */
   anchorPersonId?: string;
   onSubmit: (action: { type: 'spouse'; unit: FamilyUnit } | { type: 'parent-child'; parentId: string; childId: string }) => void | Promise<void>;
@@ -28,7 +31,7 @@ interface Props {
   submitting?: boolean;
 }
 
-export function RelationshipForm({ persons, anchorPersonId, onSubmit, onCancel, submitting }: Props) {
+export function RelationshipForm({ persons, familyUnits, anchorPersonId, onSubmit, onCancel, submitting }: Props) {
   const [relType, setRelType] = useState<RelType>('spouse');
   const sortedPersons = useMemo(
     () => [...persons].sort((a, b) =>
@@ -48,6 +51,71 @@ export function RelationshipForm({ persons, anchorPersonId, onSubmit, onCancel, 
 
   const [error, setError] = useState<string | null>(null);
 
+  // ---- Validation helpers ----
+  function validateSpouse(
+    p1Id: string,
+    p2Id: string,
+    mYear: number | undefined,
+  ): string | null {
+    const p1 = persons.find((p) => p.id === p1Id);
+    const p2 = persons.find((p) => p.id === p2Id);
+    if (!p1 || !p2) return null;
+    if (mYear == null) return null;
+
+    // Marriage year must not be after either spouse's death year
+    if (p1.deathYear != null && mYear > p1.deathYear) {
+      return `${p1.firstName} ${p1.lastName ?? ''} passed away in ${p1.deathYear} — marriage year ${mYear} is later.`;
+    }
+    if (p2.deathYear != null && mYear > p2.deathYear) {
+      return `${p2.firstName} ${p2.lastName ?? ''} passed away in ${p2.deathYear} — marriage year ${mYear} is later.`;
+    }
+    // Sanity: marriage year should be at least 14 years after each spouse's birth
+    if (p1.birthYear != null && mYear < p1.birthYear + 14) {
+      return `${p1.firstName} ${p1.lastName ?? ''} would be only ${mYear - p1.birthYear} years old at marriage (must be ≥ 14).`;
+    }
+    if (p2.birthYear != null && mYear < p2.birthYear + 14) {
+      return `${p2.firstName} ${p2.lastName ?? ''} would be only ${mYear - p2.birthYear} years old at marriage (must be ≥ 14).`;
+    }
+    return null;
+  }
+
+  function validateChild(
+    parentPersonId: string,
+    childPersonId: string,
+  ): string | null {
+    const parent = persons.find((p) => p.id === parentPersonId);
+    const child = persons.find((p) => p.id === childPersonId);
+    if (!parent || !child) return null;
+
+    // Find the parent's family unit (where they're a partner) — that's the marriage we care about
+    const parentUnit = familyUnits.find(
+      (u) => u.partner1Id === parentPersonId || u.partner2Id === parentPersonId,
+    );
+
+    if (parentUnit?.marriageYear != null && child.birthYear != null) {
+      if (child.birthYear < parentUnit.marriageYear) {
+        return `Child was born in ${child.birthYear}, but the parents married in ${parentUnit.marriageYear}. Marriage year must be on or before child's birth year.`;
+      }
+    }
+
+    // Sanity: parent should be at least 12 years older than child
+    if (parent.birthYear != null && child.birthYear != null) {
+      const ageAtBirth = child.birthYear - parent.birthYear;
+      if (ageAtBirth < 12) {
+        return `${parent.firstName} would be only ${ageAtBirth} years old when ${child.firstName} was born (must be ≥ 12).`;
+      }
+      if (ageAtBirth > 90) {
+        return `${parent.firstName} would be ${ageAtBirth} years old when ${child.firstName} was born — that seems unlikely.`;
+      }
+    }
+
+    // If parent is deceased before child's birth, that's contradictory
+    if (parent.deathYear != null && child.birthYear != null && child.birthYear > parent.deathYear) {
+      return `${parent.firstName} passed away in ${parent.deathYear}, before ${child.firstName} was born in ${child.birthYear}.`;
+    }
+    return null;
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -64,6 +132,11 @@ export function RelationshipForm({ persons, anchorPersonId, onSubmit, onCancel, 
       const my = marriageYear.trim() ? Number(marriageYear) : undefined;
       if (my != null && (Number.isNaN(my) || my < 0 || my > 9999)) {
         setError('Marriage year must be a valid year');
+        return;
+      }
+      const err = validateSpouse(partner1, partner2, my);
+      if (err) {
+        setError(err);
         return;
       }
       await onSubmit({
@@ -85,12 +158,25 @@ export function RelationshipForm({ persons, anchorPersonId, onSubmit, onCancel, 
         setError('A person cannot be their own parent');
         return;
       }
+      const err = validateChild(parentId, childId);
+      if (err) {
+        setError(err);
+        return;
+      }
       await onSubmit({ type: 'parent-child', parentId, childId });
     }
   };
 
   const personLabel = (p: Person) =>
     `${p.firstName} ${p.lastName ?? ''}`.trim() + (p.birthYear ? ` (${p.birthYear})` : '');
+
+  // Live validation hints (shown as warnings, not blockers)
+  const spouseHint = relType === 'spouse' && partner1 && partner2 && marriageYear.trim()
+    ? validateSpouse(partner1, partner2, Number(marriageYear))
+    : null;
+  const childHint = relType === 'parent-child' && parentId && childId
+    ? validateChild(parentId, childId)
+    : null;
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
@@ -168,7 +254,16 @@ export function RelationshipForm({ persons, anchorPersonId, onSubmit, onCancel, 
               min={0}
               max={9999}
             />
+            <p className="mt-1 text-xs text-slate-500">
+              Validated against each partner&apos;s birth &amp; death years.
+            </p>
           </div>
+          {spouseHint && (
+            <div className="flex items-start gap-2 rounded-md bg-amber-50 px-3 py-2 text-xs text-amber-800">
+              <AlertCircle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+              <span>{spouseHint}</span>
+            </div>
+          )}
         </>
       ) : (
         <div className="grid grid-cols-2 gap-3">
@@ -204,9 +299,18 @@ export function RelationshipForm({ persons, anchorPersonId, onSubmit, onCancel, 
           </div>
         </div>
       )}
+      {childHint && (
+        <div className="flex items-start gap-2 rounded-md bg-amber-50 px-3 py-2 text-xs text-amber-800">
+          <AlertCircle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+          <span>{childHint}</span>
+        </div>
+      )}
 
       {error && (
-        <div className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div>
+        <div className="flex items-start gap-2 rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
+          <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+          <span>{error}</span>
+        </div>
       )}
 
       <div className="flex justify-end gap-2 pt-2">

@@ -233,8 +233,20 @@ export function computeLayout(
     maxY = Math.max(maxY, isoY + NODE_HEIGHT);
   }
 
+  // Deduplicate nodes by personId — the layout algorithm may add the same person
+  // multiple times if they're a partner in more than one family unit (remarriage,
+  // accidental duplicate links, etc.). Keep only the first occurrence so React
+  // doesn't warn about duplicate keys.
+  const seenPersonIds = new Set<string>();
+  const dedupedNodes = nodes.filter((n) => {
+    if (!n.personId) return true;
+    if (seenPersonIds.has(n.personId)) return false;
+    seenPersonIds.add(n.personId);
+    return true;
+  });
+
   return {
-    nodes,
+    nodes: dedupedNodes,
     connections,
     width: Math.max(maxX, 0),
     height: Math.max(maxY, 0),

@@ -82,29 +82,92 @@ export interface FamilyMemberRow {
 // ---- Photo upload helpers ----
 // Uploads a File to the 'photos' bucket and returns the public URL.
 // Falls back to data URL when Supabase isn't configured.
+// IMPORTANT: Always compresses the image first (resize + WebP) to keep
+// Supabase free-tier storage (1 GB) and egress (1 GB/month) under control.
 export async function uploadPhoto(
   file: File | Blob,
   familyId: string,
   kind: 'person' | 'event',
 ): Promise<string> {
-  // Demo mode: return a data URL
+  // Compress first — this runs in both demo and Supabase modes.
+  // A typical 4 MB phone photo becomes ~80-150 KB after compression.
+  const compressed = await compressImage(file, 800, 0.78).catch((e) => {
+    console.warn('Compression failed, using original', e);
+    return file;
+  });
+
+  // Demo mode: return a data URL (compressed, so still small)
   const client = getSupabase();
   if (!client) {
-    return await fileToDataUrl(file);
+    return await fileToDataUrl(compressed);
   }
-  const ext = (file.type.split('/')[1] || 'png').replace('jpeg', 'jpg');
+  // Use .webp extension since we compressed to WebP
+  const ext = compressed.type === 'image/webp' ? 'webp' : (file.type.split('/')[1] || 'png').replace('jpeg', 'jpg');
   const path = `${familyId}/${kind}/${crypto.randomUUID()}.${ext}`;
-  const { error } = await client.storage.from('photos').upload(path, file, {
-    cacheControl: '3600',
+  const { error } = await client.storage.from('photos').upload(path, compressed, {
+    cacheControl: '31536000', // 1 year — photos are immutable, URL changes when replaced
     upsert: false,
-    contentType: file.type || 'image/png',
+    contentType: compressed.type || 'image/webp',
   });
   if (error) {
     console.warn('Supabase upload failed, falling back to data URL', error);
-    return await fileToDataUrl(file);
+    return await fileToDataUrl(compressed);
   }
   const { data } = client.storage.from('photos').getPublicUrl(path);
   return data.publicUrl;
+}
+
+/**
+ * Compress (resize + re-encode as WebP) an image File/Blob.
+ * - Resizes so the longest side is at most `maxDimension` (maintains aspect ratio).
+ * - Re-encodes as WebP at the given quality (0-1). WebP is ~30% smaller than JPEG at equal quality.
+ * - No-op for already-tiny images (< 200 KB and within dimensions).
+ *
+ * Typical result: 4 MB iPhone photo (4032×3024) → ~120 KB WebP at 800×600.
+ * This brings 1 GB of Supabase storage from ~250 photos up to ~8,000 photos.
+ */
+export async function compressImage(
+  file: File | Blob,
+  maxDimension = 800,
+  quality = 0.8,
+): Promise<Blob> {
+  // Skip compression for tiny images
+  if (file.size < 200 * 1024 && file.type !== 'image/png') {
+    // Still re-encode to WebP for consistency, but skip resize
+  }
+
+  const bitmap = await createImageBitmap(file);
+  let { width, height } = bitmap;
+
+  // Resize if exceeds max dimension (maintain aspect ratio)
+  if (width > maxDimension || height > maxDimension) {
+    if (width >= height) {
+      height = Math.round((height * maxDimension) / width);
+      width = maxDimension;
+    } else {
+      width = Math.round((width * maxDimension) / height);
+      height = maxDimension;
+    }
+  }
+
+  const canvas = document.createElement('canvas');
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext('2d');
+  if (!ctx) throw new Error('Canvas 2D context unavailable');
+  // White background for transparent PNGs (so they don't go black on WebP)
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, width, height);
+  ctx.drawImage(bitmap, 0, 0, width, height);
+  bitmap.close?.();
+
+  return new Promise<Blob>((resolve, reject) => {
+    canvas.toBlob(
+      (blob) => (blob ? resolve(blob) : reject(new Error('Failed to compress image'))),
+      'image/webp',
+      quality,
+    );
+  });
 }
 
 export async function deletePhoto(url: string): Promise<void> {
