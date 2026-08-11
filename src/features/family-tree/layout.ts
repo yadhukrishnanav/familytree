@@ -3,11 +3,11 @@
 
 import type { FamilyUnit, LayoutConnection, LayoutNode, LayoutResult, Person } from './types';
 
-export const NODE_WIDTH = 180;
-export const NODE_HEIGHT = 100;
-export const SPOUSE_GAP = 30; // gap between partners in a couple
-export const SIBLING_GAP = 40; // gap between sibling subtrees
-export const GENERATION_GAP = 140; // vertical gap between generations
+export const NODE_WIDTH = 220;
+export const NODE_HEIGHT = 110;
+export const SPOUSE_GAP = 40; // gap between partners in a couple
+export const SIBLING_GAP = 50; // gap between sibling subtrees
+export const GENERATION_GAP = 160; // vertical gap between generations
 
 interface SubtreeInfo {
   width: number;

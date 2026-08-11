@@ -71,3 +71,72 @@ Stage Summary:
   - `src/app/page.tsx`, `src/app/layout.tsx` (updated)
   - `supabase/schema.sql`, `.env.example`, `next.config.ts` (allowedDevOrigins added)
   - Screenshots: `scripts/01-sample-loaded.png`, `scripts/02-mobile.png`, `scripts/03-final-state.png`
+
+---
+Task ID: 2
+Agent: main (orchestrator)
+Task: User requested "better looking cards for persons and better UI elements for the family tree" — full visual polish pass on the existing Family Tree app.
+
+Work Log:
+- Read the existing PersonCard.tsx, FamilyTree.tsx, Timeline.tsx, and layout.ts to understand current visual design.
+- Redesigned PersonCard.tsx:
+  * Larger dimensions (NODE_WIDTH 180→220, NODE_HEIGHT 100→110).
+  * Circular 56px avatar with white ring + colored gender dot at corner.
+  * Two-tier name (firstName semibold + lastName medium) for typographic hierarchy.
+  * Lifespan as a colored pill (green for living, slate for deceased) with "present" instead of empty.
+  * Occupation with Briefcase icon, birthplace with MapPin icon.
+  * Top gradient accent bar replaces the right-side gender stripe.
+  * Selected state: blurred gradient halo behind card + 2px ring in person's color.
+  * Hover: subtle overlay highlight + smooth shadow transition.
+  * Deceased: grayscale(0.35) on avatar + bottom "✦ In memoriam ✦" ribbon with gradient.
+- Redesigned MarriageBadge:
+  * 28px gradient circle (pink→rose) with white heart SVG.
+  * Year shown in a pill below with pink ring.
+- Upgraded FamilyTree canvas:
+  * Added dot-grid background (radial-gradient 1px dots, 24px spacing) on slate-50 base.
+  * Added ambient gradient glow (purple top-left + amber bottom-right, low opacity).
+  * Marriage lines: dashed pink→rose gradient stroke, 2.5px, rounded caps.
+  * Parent-child lines: subtle Bezier curves with vertical gradient (slate-300→slate-400).
+  * Junction bars: solid slate-400, rounded caps.
+- Polished header/toolbar:
+  * Header: 8px gradient logo tile with green sync dot, larger title, sync status with colored pulse.
+  * Share code pill: rounded-full, purple→pink gradient bg, "SHARE" label + monospace code + copy icon, hover lift.
+  * Toolbar: gradient Add Person button (purple→pink) with shadow-md + shadow-lg on hover, outlined Link/Event buttons.
+  * More menu: dropdown with w-52 width for cleaner alignment.
+- Polished zoom controls:
+  * Rounded-xl container, ring-1 + shadow-lg, hover:bg-slate-100 on each button.
+  * Separator between zoom out and reset for visual grouping.
+- Redesigned DetailPanel:
+  * Top gradient strip in person's avatar colors.
+  * 14px rounded-2xl avatar with white ring + shadow.
+  * Info displayed in a slate-50 rounded panel with subtle backdrop.
+  * Heart icon next to "Spouse" label.
+  * Edit button (flex-1 outline) + Delete button (red-tinted outline).
+- Redesigned EmptyState:
+  * Larger 20px gradient rounded-3xl icon container with shadow-lg.
+  * Two CTA buttons with consistent styling.
+- Polished Timeline:
+  * Collapsed bar: gradient Calendar tile (amber→orange) + bold "events" count pill.
+  * Expanded header: same gradient tile, separator before collapse button.
+  * Cards: 170px wide, hover lift (-translate-y-0.5), icon now in a tinted square background, year shown in event color.
+  * Person mini-avatars: 16px circles with -4px overlap (stacked), ring-2 white.
+  * Connecting dot: 12px with ring-2 white + colored box-shadow.
+- Removed unused eslint-disable directives (auto-fixed).
+- Final lint: 0 errors, 0 warnings.
+- Verified via agent-browser + VLM:
+  * Reloaded page → existing demo session restored, Aisha Kapoor + Test cards visible with new design.
+  * Loaded sample family → 15 cards rendered across 4 generations.
+  * VLM confirmed: "person cards are visually polished, featuring circular avatars with gradient backgrounds in various colors (purple, blue, green, orange), clean white card containers with rounded corners, and subtle shadow effects."
+  * VLM confirmed: "clear dot grid pattern visible across the entire background" and "pink dashed lines connect married couples... solid gray vertical and horizontal lines show the parent-child relationships."
+  * Clicked Rajesh → detail panel opened with gradient header strip and clean info rows.
+  * VLM on detail panel: "very polished... purple gradient header with a rounded avatar... clean, well-spaced rows with clear labels... professional-looking Edit and delete buttons."
+  * VLM overall: "significantly more polished than typical CRUD app cards... modern and user-friendly... high-quality, professional application."
+
+Stage Summary:
+- Visual polish pass complete on all major surfaces: person cards, marriage badges, canvas background, connection lines, header, toolbar, zoom controls, detail panel, empty state, and timeline cards.
+- Color story unified around purple→pink→amber gradient for primary actions and accents.
+- Glassmorphism (backdrop-blur-xl + white/70-80 opacity) used consistently across header, toolbar, timeline, and detail panel.
+- Dot grid + ambient gradient glow added depth to canvas without distracting from content.
+- Connection lines upgraded from plain straight lines to: dashed pink gradient (marriage), curved Bezier with vertical gradient (parent-child), and solid slate (junctions).
+- Lint: 0 errors, 0 warnings. Dev server: running on port 3000, GET / returns 200.
+- Screenshots: scripts/04-redesigned.png (full tree), scripts/05-detail-panel.png (detail panel close-up).

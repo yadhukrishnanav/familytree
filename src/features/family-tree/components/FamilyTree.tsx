@@ -36,6 +36,7 @@ import {
   X,
   Copy,
   Check,
+  Heart,
   Menu as MenuIcon,
 } from 'lucide-react';
 import { toast } from 'sonner';
@@ -364,36 +365,40 @@ export function FamilyTree() {
   const personsArray = useMemo(() => Object.values(state.persons), [state.persons]);
 
   return (
-    <div className="flex h-screen flex-col bg-slate-50">
+    <div className="flex h-screen flex-col bg-gradient-to-br from-slate-50 via-white to-purple-50/40">
       {/* ---- Header ---- */}
-      <header className="flex items-center justify-between border-b border-slate-200 bg-white/80 px-3 py-2 backdrop-blur-md sm:px-4">
-        <div className="flex min-w-0 items-center gap-2">
-          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-purple-500 to-amber-500 text-white shadow-sm">
+      <header className="flex items-center justify-between border-b border-slate-200/80 bg-white/70 px-3 py-2.5 backdrop-blur-xl sm:px-5">
+        <div className="flex min-w-0 items-center gap-2.5">
+          <div className="relative flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 via-pink-500 to-amber-500 text-white shadow-md shadow-purple-500/30">
             <span className="text-xs font-bold">FT</span>
+            <span className="absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full bg-green-400 ring-2 ring-white" />
           </div>
           <div className="min-w-0">
-            <div className="truncate text-sm font-semibold text-slate-800">
+            <div className="truncate text-[15px] font-semibold leading-tight text-slate-800">
               {auth.activeFamily?.name ?? 'Family Tree'}
             </div>
-            <div className="hidden text-[10px] text-slate-400 sm:block">
+            <div className="hidden items-center gap-1 text-[10px] text-slate-400 sm:flex">
+              <span className={`h-1.5 w-1.5 rounded-full ${store.syncing ? 'bg-amber-400' : 'bg-green-400'}`} />
               {store.isDemo ? 'Demo mode (local)' : store.syncing ? 'Syncing…' : 'Synced'}
             </div>
           </div>
         </div>
 
-        {/* Share code with copy button */}
+        {/* Share code with copy button — premium pill */}
         {auth.activeFamily && (
           <button
             onClick={copyShareCode}
-            className="hidden items-center gap-1.5 rounded-md bg-slate-100 px-2 py-1 text-xs hover:bg-slate-200 sm:flex"
+            className="hidden items-center gap-2 rounded-full border border-purple-200/60 bg-gradient-to-r from-purple-50 to-pink-50 px-3 py-1.5 text-xs shadow-sm transition hover:shadow-md hover:from-purple-100 hover:to-pink-100 sm:flex"
             title="Click to copy share code"
           >
-            <span className="text-[10px] font-medium uppercase text-slate-400">Code</span>
-            <code className="font-mono font-bold text-slate-700">{auth.activeFamily.shareCode}</code>
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-purple-400">Share</span>
+            <code className="font-mono text-[13px] font-bold tracking-wider text-purple-700">
+              {auth.activeFamily.shareCode}
+            </code>
             {copiedCode ? (
-              <Check className="h-3 w-3 text-green-600" />
+              <Check className="h-3.5 w-3.5 text-green-600" />
             ) : (
-              <Copy className="h-3 w-3 text-slate-500" />
+              <Copy className="h-3.5 w-3.5 text-purple-400" />
             )}
           </button>
         )}
@@ -402,20 +407,21 @@ export function FamilyTree() {
         {auth.activeFamily && (
           <button
             onClick={copyShareCode}
-            className="rounded bg-slate-100 px-2 py-1 text-xs font-mono font-bold text-slate-700 hover:bg-slate-200 sm:hidden"
+            className="rounded-full bg-gradient-to-r from-purple-50 to-pink-50 px-2.5 py-1 font-mono text-xs font-bold text-purple-700 ring-1 ring-purple-200 sm:hidden"
             title="Tap to copy share code"
           >
             {auth.activeFamily.shareCode}
           </button>
         )}
 
-        <div className="flex items-center gap-1">
+        <div className="flex items-center gap-0.5">
           <Button
             variant="ghost"
             size="sm"
             onClick={store.undo}
             disabled={!store.canUndo}
             title="Undo (Ctrl/Cmd+Z)"
+            className="h-8 w-8 p-0"
           >
             <Undo2 className="h-4 w-4" />
           </Button>
@@ -425,6 +431,7 @@ export function FamilyTree() {
             onClick={store.redo}
             disabled={!store.canRedo}
             title="Redo (Ctrl/Cmd+Shift+Z)"
+            className="h-8 w-8 p-0"
           >
             <Redo2 className="h-4 w-4" />
           </Button>
@@ -432,11 +439,11 @@ export function FamilyTree() {
       </header>
 
       {/* ---- Toolbar ---- */}
-      <div className="flex items-center gap-2 border-b border-slate-200 bg-white/80 px-3 py-2 backdrop-blur-md sm:px-4">
+      <div className="flex items-center gap-1.5 border-b border-slate-200/80 bg-white/60 px-3 py-2 backdrop-blur-xl sm:gap-2 sm:px-5">
         <Button
           size="sm"
           onClick={() => { setEditingPerson(null); setModal('add-person'); }}
-          className="bg-purple-600 hover:bg-purple-700"
+          className="gap-1.5 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 px-3 shadow-md shadow-purple-500/25 hover:from-purple-700 hover:to-pink-700 hover:shadow-lg"
         >
           <Plus className="h-4 w-4" />
           <span className="hidden sm:inline">Add Person</span>
@@ -447,6 +454,7 @@ export function FamilyTree() {
           variant="outline"
           onClick={() => setModal('add-relationship')}
           disabled={personsArray.length < 2}
+          className="gap-1.5 rounded-lg border-slate-300 bg-white/80 hover:bg-white"
         >
           <Link2 className="h-4 w-4" />
           <span className="hidden sm:inline">Link</span>
@@ -455,6 +463,7 @@ export function FamilyTree() {
           size="sm"
           variant="outline"
           onClick={() => { setEditingEvent(null); setModal('add-event'); }}
+          className="gap-1.5 rounded-lg border-slate-300 bg-white/80 hover:bg-white"
         >
           <Calendar className="h-4 w-4" />
           <span className="hidden sm:inline">Event</span>
@@ -464,11 +473,11 @@ export function FamilyTree() {
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button size="sm" variant="ghost">
+            <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
               <MoreVertical className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
+          <DropdownMenuContent align="end" className="w-52">
             <DropdownMenuItem onClick={handleExportPng}>
               <Download className="mr-2 h-3.5 w-3.5" />
               Export PNG
@@ -491,15 +500,37 @@ export function FamilyTree() {
       </div>
 
       {/* ---- Canvas (main area) ---- */}
-      <div className="relative flex-1 overflow-hidden">
+      <div className="relative flex-1 overflow-hidden bg-slate-50">
+        {/* Dot grid background */}
+        <div
+          className="pointer-events-none absolute inset-0"
+          style={{
+            backgroundImage:
+              'radial-gradient(circle, rgba(148, 163, 184, 0.35) 1px, transparent 1px)',
+            backgroundSize: '24px 24px',
+            backgroundPosition: '0 0',
+          }}
+          aria-hidden
+        />
+
+        {/* Gradient ambient glow */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-40"
+          style={{
+            background:
+              'radial-gradient(ellipse 600px 400px at 30% 20%, rgba(168, 85, 247, 0.06), transparent), radial-gradient(ellipse 500px 300px at 80% 80%, rgba(245, 158, 11, 0.05), transparent)',
+          }}
+          aria-hidden
+        />
+
         {store.loading ? (
-          <div className="flex h-full items-center justify-center text-slate-400">Loading…</div>
+          <div className="relative flex h-full items-center justify-center text-slate-400">Loading…</div>
         ) : Object.keys(state.persons).length === 0 ? (
           <EmptyState onAdd={() => { setEditingPerson(null); setModal('add-person'); }} onLoadSample={handleLoadSample} />
         ) : (
           <div
             ref={canvasRef}
-            className="h-full w-full touch-none select-none overflow-hidden"
+            className="relative h-full w-full touch-none select-none overflow-hidden"
             style={{ cursor: 'grab' }}
             onWheel={onWheel}
             onMouseDown={onMouseDown}
@@ -526,8 +557,19 @@ export function FamilyTree() {
                 width={layout.width + 100}
                 height={layout.height + 100}
               >
+                <defs>
+                  <linearGradient id="grad-marriage" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#ec4899" />
+                    <stop offset="100%" stopColor="#f43f5e" />
+                  </linearGradient>
+                  <linearGradient id="grad-parent" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stopColor="#cbd5e1" />
+                    <stop offset="100%" stopColor="#94a3b8" />
+                  </linearGradient>
+                </defs>
                 {layout.connections.map((c, i) => {
                   if (c.type === 'marriage') {
+                    // Marriage: dashed pink line with subtle thickness
                     return (
                       <line
                         key={i}
@@ -535,13 +577,15 @@ export function FamilyTree() {
                         y1={c.fromY}
                         x2={c.toX}
                         y2={c.toY}
-                        stroke="#ec4899"
-                        strokeWidth={2}
-                        strokeDasharray="0"
+                        stroke="url(#grad-marriage)"
+                        strokeWidth={2.5}
+                        strokeDasharray="6 4"
+                        strokeLinecap="round"
                       />
                     );
                   }
                   if (c.type === 'junction') {
+                    // Junction bar (horizontal across siblings OR vertical drop from couple)
                     return (
                       <line
                         key={i}
@@ -551,19 +595,20 @@ export function FamilyTree() {
                         y2={c.toY}
                         stroke="#94a3b8"
                         strokeWidth={2}
+                        strokeLinecap="round"
                       />
                     );
                   }
-                  // parent-child
+                  // Parent-child: subtle Bezier curve
+                  const midY = (c.fromY + c.toY) / 2;
                   return (
-                    <line
+                    <path
                       key={i}
-                      x1={c.fromX}
-                      y1={c.fromY}
-                      x2={c.toX}
-                      y2={c.toY}
-                      stroke="#94a3b8"
+                      d={`M ${c.fromX} ${c.fromY} C ${c.fromX} ${midY}, ${c.toX} ${midY}, ${c.toX} ${c.toY}`}
+                      fill="none"
+                      stroke="url(#grad-parent)"
                       strokeWidth={2}
+                      strokeLinecap="round"
                     />
                   );
                 })}
@@ -603,17 +648,18 @@ export function FamilyTree() {
         )}
 
         {/* Zoom controls (above timeline if visible) */}
-        <div className="absolute right-3 bottom-3 z-40 flex flex-col gap-1 rounded-lg bg-white/90 p-1 shadow-md backdrop-blur-md ring-1 ring-slate-200">
-          <Button size="sm" variant="ghost" onClick={zoomIn} aria-label="Zoom in" className="h-8 w-8 p-0">
+        <div className="absolute right-3 bottom-3 z-40 flex flex-col gap-0.5 rounded-xl bg-white/80 p-1 shadow-lg ring-1 ring-slate-200/80 backdrop-blur-md">
+          <Button size="sm" variant="ghost" onClick={zoomIn} aria-label="Zoom in" className="h-8 w-8 p-0 hover:bg-slate-100">
             <ZoomIn className="h-4 w-4" />
           </Button>
-          <div className="py-0.5 text-center text-[10px] font-mono text-slate-500">
+          <div className="py-0.5 text-center text-[10px] font-mono font-semibold text-slate-500">
             {Math.round(transform.scale * 100)}%
           </div>
-          <Button size="sm" variant="ghost" onClick={zoomOut} aria-label="Zoom out" className="h-8 w-8 p-0">
+          <Button size="sm" variant="ghost" onClick={zoomOut} aria-label="Zoom out" className="h-8 w-8 p-0 hover:bg-slate-100">
             <ZoomOut className="h-4 w-4" />
           </Button>
-          <Button size="sm" variant="ghost" onClick={zoomReset} aria-label="Reset zoom" className="h-8 w-8 p-0">
+          <div className="my-0.5 h-px bg-slate-200" />
+          <Button size="sm" variant="ghost" onClick={zoomReset} aria-label="Reset zoom" className="h-8 w-8 p-0 hover:bg-slate-100">
             <Maximize className="h-4 w-4" />
           </Button>
         </div>
@@ -720,83 +766,109 @@ function DetailPanel({
   const parentsList = parents ? [parents.partner1Id, parents.partner2Id].filter(Boolean) as string[] : [];
 
   return (
-    <div className="absolute right-3 top-3 z-50 w-72 rounded-xl bg-white/95 p-4 shadow-xl backdrop-blur-md ring-1 ring-slate-200">
-      <div className="mb-3 flex items-start justify-between">
-        <div className="flex items-center gap-3">
-          <div
-            className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-full"
-            style={{ background: `linear-gradient(135deg, ${person.avatarColors[0]}, ${person.avatarColors[1]})` }}
-          >
-            {person.photoUrl ? (
-               
-              <img src={person.photoUrl} alt={person.firstName} className="h-full w-full object-cover" crossOrigin="anonymous" />
-            ) : (
-              <span className="text-lg font-bold text-white">
-                {(person.firstName[0] + (person.lastName?.[0] ?? '')).toUpperCase()}
-              </span>
-            )}
-          </div>
-          <div>
-            <div className="font-semibold text-slate-800">
-              {person.firstName} {person.lastName ?? ''}
+    <div className="absolute right-3 top-3 z-50 w-80 overflow-hidden rounded-2xl bg-white/95 shadow-2xl ring-1 ring-slate-200/80 backdrop-blur-xl">
+      {/* Gradient header strip */}
+      <div
+        className="h-1.5"
+        style={{ background: `linear-gradient(to right, ${person.avatarColors[0]}, ${person.avatarColors[1]})` }}
+      />
+
+      <div className="p-4">
+        <div className="mb-3 flex items-start justify-between gap-2">
+          <div className="flex items-center gap-3">
+            <div
+              className="flex h-14 w-14 items-center justify-center overflow-hidden rounded-2xl shadow-md ring-2 ring-white"
+              style={{ background: `linear-gradient(135deg, ${person.avatarColors[0]}, ${person.avatarColors[1]})` }}
+            >
+              {person.photoUrl ? (
+                 
+                <img src={person.photoUrl} alt={person.firstName} className="h-full w-full object-cover" crossOrigin="anonymous" />
+              ) : (
+                <span className="text-xl font-bold text-white drop-shadow-sm">
+                  {(person.firstName[0] + (person.lastName?.[0] ?? '')).toUpperCase()}
+                </span>
+              )}
             </div>
-            <div className="text-xs text-slate-500">
-              {person.birthYear ?? '?'}–{person.deathYear ?? ''}
+            <div className="min-w-0">
+              <div className="truncate text-base font-semibold text-slate-800">
+                {person.firstName} {person.lastName ?? ''}
+              </div>
+              <div
+                className="mt-0.5 inline-flex items-center gap-1 rounded-full px-1.5 py-0.5 text-[10px] font-semibold"
+                style={{
+                  background: person.deathYear != null ? 'rgba(100,116,139,0.12)' : 'rgba(16,185,129,0.12)',
+                  color: person.deathYear != null ? '#475569' : '#059669',
+                }}
+              >
+                {person.birthYear ?? '?'} – {person.deathYear ?? 'present'}
+              </div>
             </div>
           </div>
+          <button onClick={onClose} className="rounded-lg p-1.5 text-slate-400 transition hover:bg-slate-100 hover:text-slate-600">
+            <X className="h-4 w-4" />
+          </button>
         </div>
-        <button onClick={onClose} className="rounded p-1 text-slate-400 hover:bg-slate-100">
-          <X className="h-4 w-4" />
-        </button>
-      </div>
 
-      <dl className="space-y-1.5 text-sm">
-        {person.occupation && (
-          <div className="flex justify-between gap-2">
-            <dt className="text-slate-400">Occupation</dt>
-            <dd className="text-right text-slate-700">{person.occupation}</dd>
-          </div>
-        )}
-        {person.birthPlace && (
-          <div className="flex justify-between gap-2">
-            <dt className="text-slate-400">Born in</dt>
-            <dd className="text-right text-slate-700">{person.birthPlace}</dd>
-          </div>
-        )}
-        {spouseId && state.persons[spouseId] && (
-          <div className="flex justify-between gap-2">
-            <dt className="text-slate-400">Spouse</dt>
-            <dd className="text-right text-slate-700">
-              {state.persons[spouseId].firstName} {state.persons[spouseId].lastName ?? ''}
-            </dd>
-          </div>
-        )}
-        {parentsList.length > 0 && (
-          <div className="flex justify-between gap-2">
-            <dt className="text-slate-400">Parents</dt>
-            <dd className="text-right text-slate-700">
-              {parentsList.map((pid) => state.persons[pid]).filter(Boolean).map((p) => `${p.firstName} ${p.lastName ?? ''}`).join(', ')}
-            </dd>
-          </div>
-        )}
-        {children.length > 0 && (
-          <div className="flex justify-between gap-2">
-            <dt className="text-slate-400">Children</dt>
-            <dd className="text-right text-slate-700">
-              {children.map((pid) => state.persons[pid]).filter(Boolean).map((p) => `${p.firstName} ${p.lastName ?? ''}`).join(', ')}
-            </dd>
-          </div>
-        )}
-      </dl>
+        <dl className="space-y-1.5 rounded-lg bg-slate-50/80 p-3 text-sm">
+          {person.occupation && (
+            <div className="flex justify-between gap-2">
+              <dt className="text-slate-400">Occupation</dt>
+              <dd className="text-right font-medium text-slate-700">{person.occupation}</dd>
+            </div>
+          )}
+          {person.birthPlace && (
+            <div className="flex justify-between gap-2">
+              <dt className="text-slate-400">Born in</dt>
+              <dd className="text-right font-medium text-slate-700">{person.birthPlace}</dd>
+            </div>
+          )}
+          {spouseId && state.persons[spouseId] && (
+            <div className="flex justify-between gap-2">
+              <dt className="flex items-center gap-1 text-slate-400">
+                <Heart className="h-3 w-3" /> Spouse
+              </dt>
+              <dd className="text-right font-medium text-slate-700">
+                {state.persons[spouseId].firstName} {state.persons[spouseId].lastName ?? ''}
+              </dd>
+            </div>
+          )}
+          {parentsList.length > 0 && (
+            <div className="flex justify-between gap-2">
+              <dt className="text-slate-400">Parents</dt>
+              <dd className="text-right font-medium text-slate-700">
+                {parentsList.map((pid) => state.persons[pid]).filter(Boolean).map((p) => `${p.firstName} ${p.lastName ?? ''}`).join(', ')}
+              </dd>
+            </div>
+          )}
+          {children.length > 0 && (
+            <div className="flex justify-between gap-2">
+              <dt className="text-slate-400">Children ({children.length})</dt>
+              <dd className="text-right font-medium text-slate-700">
+                {children.map((pid) => state.persons[pid]).filter(Boolean).map((p) => `${p.firstName} ${p.lastName ?? ''}`).join(', ')}
+              </dd>
+            </div>
+          )}
+        </dl>
 
-      <div className="mt-4 flex gap-2">
-        <Button size="sm" variant="outline" onClick={onEdit} className="flex-1">
-          <Pencil className="mr-1 h-3.5 w-3.5" />
-          Edit
-        </Button>
-        <Button size="sm" variant="outline" onClick={onDelete} className="text-red-600 hover:bg-red-50">
-          <Trash2 className="h-3.5 w-3.5" />
-        </Button>
+        <div className="mt-3 flex gap-2">
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={onEdit}
+            className="flex-1 rounded-lg border-slate-300 hover:bg-slate-50"
+          >
+            <Pencil className="mr-1.5 h-3.5 w-3.5" />
+            Edit
+          </Button>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={onDelete}
+            className="rounded-lg border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700"
+          >
+            <Trash2 className="h-3.5 w-3.5" />
+          </Button>
+        </div>
       </div>
     </div>
   );
@@ -805,22 +877,29 @@ function DetailPanel({
 // ---------- Empty state ----------
 function EmptyState({ onAdd, onLoadSample }: { onAdd: () => void; onLoadSample: () => void }) {
   return (
-    <div className="flex h-full items-center justify-center p-6">
+    <div className="relative flex h-full items-center justify-center p-6">
       <div className="max-w-md text-center">
-        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-100 to-amber-100">
-          <Plus className="h-8 w-8 text-purple-600" />
+        <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-br from-purple-100 via-pink-100 to-amber-100 shadow-lg shadow-purple-500/10">
+          <Plus className="h-10 w-10 text-purple-600" />
         </div>
-        <h2 className="mb-1 text-xl font-bold text-slate-800">Start your family tree</h2>
-        <p className="mb-5 text-sm text-slate-500">
+        <h2 className="mb-2 text-2xl font-bold text-slate-800">Start your family tree</h2>
+        <p className="mb-6 text-sm text-slate-500">
           Add your first family member to begin. You can always load a sample family to explore the features.
         </p>
         <div className="flex flex-col gap-2 sm:flex-row sm:justify-center">
-          <Button onClick={onAdd} className="bg-purple-600 hover:bg-purple-700">
-            <Plus className="mr-1 h-4 w-4" />
+          <Button
+            onClick={onAdd}
+            className="rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 px-5 shadow-md shadow-purple-500/25 hover:shadow-lg"
+          >
+            <Plus className="mr-1.5 h-4 w-4" />
             Add first person
           </Button>
-          <Button variant="outline" onClick={onLoadSample}>
-            <Sparkles className="mr-1 h-4 w-4" />
+          <Button
+            variant="outline"
+            onClick={onLoadSample}
+            className="rounded-lg px-5"
+          >
+            <Sparkles className="mr-1.5 h-4 w-4" />
             Load sample family
           </Button>
         </div>
