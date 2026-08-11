@@ -177,3 +177,57 @@ Stage Summary:
 - Marriage/child year validation added with live hints — prevents contradictory dates.
 - Lint: 0 errors, 0 warnings. Dev server: running on port 3000.
 - Detailed written advice provided for: Supabase free-tier photo strategy, free hosting/domain recommendations, and Android packaging (PWA vs Capacitor vs React Native).
+
+---
+Task ID: 4
+Agent: main (orchestrator)
+Task: User requested 6 items: (1) Google login, (2) Recent activity panel, (3) per-person edit history with revert, (4) admin account with full rights + activity view, (5) Kerala-based placeholder names, (6) improvement suggestions.
+
+Work Log:
+- #5 (Kerala placeholders): Updated PersonForm placeholders — first name "Raghavan", last name "Nair", birth year "1940", occupation "Engineer", birthplace "Kochi".
+- #2 (Activity log infrastructure):
+  * Appended `activity_log` table to supabase/schema.sql with columns: id, family_id, user_id, user_email, action (insert/update/delete/link/unlink/revert/clear), entity_type, entity_id, entity_name, before (jsonb), after (jsonb), created_at.
+  * Added RLS policies: family members can read/insert; only admin/owner can delete.
+  * Added to realtime publication.
+  * Created `src/features/family-tree/activity.ts` with: `deriveActivityFromAction()` (computes log entries from a dispatched Action + beforeState), `logActivity()` (writes to Supabase, no-op in demo), `fetchRecentActivity()`, `fetchEntityHistory()`, `subscribeToActivity()` (realtime), `describeActivity()` (human-readable), `timeAgo()`.
+  * Updated `StoreProvider` to accept an `actor` prop ({id, email}) and log every dispatched action to activity_log via `logActivity()`. Updated `page.tsx` to pass `auth.user` as the actor.
+- #2 (Activity panel UI):
+  * Built `ActivityPanel.tsx` — fixed slide-in from right with backdrop, shows last 50 entries with color-coded action dots (green=insert, blue=update, red=delete, purple=link, cyan=revert), user email + time ago, and a Revert button on each entry.
+  * Revert logic: UPDATE → restore "before" snapshot via UPDATE_PERSON/UPDATE_EVENT. DELETE → re-insert via UPDATE_PERSON. INSERT → DELETE_PERSON/DELETE_EVENT. (Link/clear revert not yet supported — toast suggests Ctrl+Z.)
+  * Added a History icon button in the header (next to undo/redo) that opens the panel.
+  * Realtime subscription: new entries from other family members appear live.
+- #3 (Per-person edit history):
+  * Added a History icon button to the DetailPanel (between Edit and Delete).
+  * Built `PersonHistoryDialog` (inline in FamilyTree.tsx) — opens a modal showing all activity_log entries for that person, with expandable "View previous version" JSON and a "Restore" button on update/delete entries that dispatches UPDATE_PERSON with the before snapshot.
+- #4 (Admin role):
+  * Updated `FamilyMember.role` type to `'admin' | 'owner' | 'editor'` in types.ts and auth.tsx.
+  * Updated `handle_new_family_owner()` trigger in schema.sql to assign 'admin' (was 'owner') to family creators.
+  * Updated `family_members_role_check` constraint to allow 'admin'.
+  * Updated `createFamily()` in auth.tsx (both Supabase and demo paths) to use 'admin' for the creator.
+  * Updated AuthPage family-select card to show admin role as a rose-colored badge (owner=purple, editor=amber, admin=rose).
+  * `canRevert()` in ActivityPanel: anyone can revert their own changes; admin/owner can revert anyone's.
+- #1 (Google login):
+  * Added `signInWithGoogle()` to auth context — calls `supabase.auth.signInWithOAuth({ provider: 'google', redirectTo: window.location.origin })`. In demo mode, returns a helpful error message telling the user exactly what to configure.
+  * Added "Continue with Google" button to AuthPage with the official Google G logo SVG, below an "or" divider.
+  * When Supabase is configured, shows a small hint: "Make sure Google is enabled in Supabase → Authentication → Providers".
+- Lint: 0 errors, 0 warnings.
+- Verified via agent-browser:
+  * Reloaded page → "Recent activity" button visible in header.
+  * Clicked Activity → panel slides in showing "No activity yet" (correct for demo mode).
+  * Added a person "Raghavan" → card appeared.
+  * Clicked Raghavan → DetailPanel opened with Edit / Edit history / Delete buttons.
+  * Clicked Edit history → modal opened with title "Edit history · Raghavan" and "No edit history yet" (correct for demo mode).
+  * Cleared localStorage → reload → AuthPage showed "Continue with Google" button with Google logo and "or" divider.
+  * Clicked Continue with Google → got the expected demo-mode error message explaining what to configure.
+  * VLM confirmed: Google button visible with logo, divider present, helpful error message displayed.
+- #6 (Improvement suggestions): Provided in the response message — short-term (PWA, member management UI, search/filter, CSV import), medium-term (per-person edit lock, batch operations, family tree merging), and long-term (Android via Capacitor, multi-family federation, genealogy features).
+
+Stage Summary:
+- All 6 user items addressed (5 implemented in code, 1 advisory).
+- Activity log: full audit trail with realtime updates and revert capability.
+- Per-person history: modal showing all past versions with one-click restore.
+- Admin role: family creator auto-admin, can revert anyone's changes, badge shown in family-select.
+- Google login: button + handler, works the moment Supabase OAuth is configured.
+- Kerala names: placeholders updated.
+- Lint: 0 errors, 0 warnings. Dev server: running on port 3000.
+- Detailed improvement suggestions provided for future iterations.

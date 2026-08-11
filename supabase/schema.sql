@@ -214,3 +214,66 @@ drop trigger if exists on_person_updated on public.persons;
 create trigger on_person_updated
     before update on public.persons
     for each row execute function public.touch_updated_at();
+
+-- ============= Activity log (audit trail) =============
+-- Every INSERT/UPDATE/DELETE on persons/family_units/timeline_events
+-- gets a row here so we can show "Recent activity" and revert changes.
+
+create table if not exists public.activity_log (
+    id uuid primary key default uuid_generate_v4(),
+    family_id uuid not null references public.families(id) on delete cascade,
+    user_id uuid references auth.users(id) on delete set null,
+    user_email text,
+    action text not null check (action in ('insert','update','delete','link','unlink','revert','clear')),
+    entity_type text not null check (entity_type in ('person','family_unit','timeline_event','family','bulk')),
+    entity_id text not null,
+    entity_name text,
+    before jsonb,
+    after jsonb,
+    created_at timestamptz not null default now()
+);
+create index if not exists idx_activity_log_family on public.activity_log(family_id, created_at desc);
+create index if not exists idx_activity_log_entity on public.activity_log(entity_type, entity_id, created_at desc);
+
+alter table public.activity_log enable row level security;
+
+-- Any family member can read activity for their family
+create policy "activity_select_member" on public.activity_log
+    for select using (public.is_family_member(family_id));
+-- Any family member can insert activity rows (they're the actor)
+create policy "activity_insert_member" on public.activity_log
+    for insert to authenticated with check (public.is_family_member(family_id));
+-- Activity rows are immutable once written (only admin can delete, see below)
+create policy "activity_delete_admin" on public.activity_log
+    for delete using (
+        exists (
+            select 1 from public.family_members m
+            where m.family_id = activity_log.family_id
+              and m.user_id = auth.uid()
+              and m.role in ('admin','owner')
+        )
+    );
+
+-- Publish changes to realtime
+alter publication supabase_realtime add table public.activity_log;
+
+-- ============= Update family_members role check to include 'admin' =============
+-- Allow 'admin' role alongside 'owner' and 'editor'
+alter table public.family_members drop constraint if exists family_members_role_check;
+alter table public.family_members add constraint family_members_role_check
+    check (role in ('admin', 'owner', 'editor'));
+
+-- ============= Trigger: family creator becomes 'admin' (not just 'owner') =============
+create or replace function public.handle_new_family_owner()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+    insert into public.family_members (user_id, family_id, role)
+    values (auth.uid(), new.id, 'admin')
+    on conflict do nothing;
+    return new;
+end;
+$$;

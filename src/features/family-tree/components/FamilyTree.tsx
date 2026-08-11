@@ -35,6 +35,8 @@ import {
   Copy,
   Check,
   Heart,
+  History,
+  RotateCcw,
   Menu as MenuIcon,
 } from 'lucide-react';
 import { toast } from 'sonner';
@@ -47,6 +49,7 @@ import { PersonForm } from './PersonForm';
 import { RelationshipForm } from './RelationshipForm';
 import { EventForm } from './EventForm';
 import { Timeline } from './Timeline';
+import { ActivityPanel } from './ActivityPanel';
 import { exportToPngFile, exportToPdfFile } from '../export';
 import { deletePhoto } from '../supabase';
 
@@ -74,6 +77,8 @@ export function FamilyTree() {
   const [timelineCollapsed, setTimelineCollapsed] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [copiedCode, setCopiedCode] = useState(false);
+  const [showActivity, setShowActivity] = useState(false);
+  const [showHistory, setShowHistory] = useState(false); // person history modal
 
   const canvasRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null); // for export
@@ -416,6 +421,15 @@ export function FamilyTree() {
           <Button
             variant="ghost"
             size="sm"
+            onClick={() => setShowActivity(true)}
+            title="Recent activity"
+            className="h-8 w-8 p-0"
+          >
+            <History className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={store.undo}
             disabled={!store.canUndo}
             title="Undo (Ctrl/Cmd+Z)"
@@ -661,6 +675,7 @@ export function FamilyTree() {
             onClose={() => setSelectedId(null)}
             onEdit={() => { setEditingPerson(selectedPerson); setModal('edit-person'); }}
             onDelete={() => handleDeletePerson(selectedPerson.id)}
+            onShowHistory={() => setShowHistory(true)}
           />
         )}
       </div>
@@ -726,6 +741,29 @@ export function FamilyTree() {
           )}
         </DialogContent>
       </Dialog>
+
+      {/* Person edit history (audit log) */}
+      {selectedPerson && (
+        <PersonHistoryDialog
+          open={showHistory}
+          onOpenChange={setShowHistory}
+          familyId={auth.activeFamily!.id}
+          person={selectedPerson}
+          onRevert={(person) => {
+            store.dispatch({ type: 'UPDATE_PERSON', person });
+            setShowHistory(false);
+          }}
+        />
+      )}
+
+      {/* Recent activity panel (slide-in) */}
+      {showActivity && auth.activeFamily && (
+        <ActivityPanel
+          familyId={auth.activeFamily.id}
+          onClose={() => setShowActivity(false)}
+          onRevert={(action) => store.dispatch(action)}
+        />
+      )}
     </div>
   );
 }
@@ -737,12 +775,14 @@ function DetailPanel({
   onClose,
   onEdit,
   onDelete,
+  onShowHistory,
 }: {
   person: Person;
   state: FamilyTreeState;
   onClose: () => void;
   onEdit: () => void;
   onDelete: () => void;
+  onShowHistory: () => void;
 }) {
   const related = state.familyUnits.filter(
     (u) => u.partner1Id === person.id || u.partner2Id === person.id || u.childrenIds.includes(person.id),
@@ -853,6 +893,15 @@ function DetailPanel({
           <Button
             size="sm"
             variant="outline"
+            onClick={onShowHistory}
+            title="Edit history"
+            className="rounded-lg border-slate-300 hover:bg-slate-50"
+          >
+            <History className="h-3.5 w-3.5" />
+          </Button>
+          <Button
+            size="sm"
+            variant="outline"
             onClick={onDelete}
             className="rounded-lg border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700"
           >
@@ -887,5 +936,109 @@ function EmptyState({ onAdd }: { onAdd: () => void }) {
         </div>
       </div>
     </div>
+  );
+}
+
+// ---------- Person edit history dialog ----------
+import {
+  fetchEntityHistory,
+  describeActivity,
+  timeAgo,
+  type ActivityLogEntry,
+} from '../activity';
+
+function PersonHistoryDialog({
+  open,
+  onOpenChange,
+  familyId,
+  person,
+  onRevert,
+}: {
+  open: boolean;
+  onOpenChange: (o: boolean) => void;
+  familyId: string;
+  person: Person;
+  onRevert: (person: Person) => void;
+}) {
+  const [entries, setEntries] = useState<ActivityLogEntry[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    if (!open) return;
+    let mounted = true;
+    // Use a microtask to defer the setState, avoiding the synchronous-in-effect warning
+    Promise.resolve().then(() => {
+      if (!mounted || !open) return;
+      setLoading(true);
+      fetchEntityHistory(familyId, 'person', person.id, 30).then((rows) => {
+        if (!mounted) return;
+        setEntries(rows);
+        setLoading(false);
+      });
+    });
+    return () => { mounted = false; };
+  }, [open, familyId, person.id]);
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-h-[90vh] max-w-lg overflow-y-auto">
+        <DialogHeader>
+          <DialogTitle>Edit history · {person.firstName} {person.lastName ?? ''}</DialogTitle>
+        </DialogHeader>
+        {loading ? (
+          <div className="space-y-2">
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className="h-14 animate-pulse rounded-lg bg-slate-100" />
+            ))}
+          </div>
+        ) : entries.length === 0 ? (
+          <div className="py-8 text-center">
+            <History className="mx-auto mb-2 h-8 w-8 text-slate-300" />
+            <p className="text-sm text-slate-500">No edit history yet.</p>
+            <p className="mt-1 text-xs text-slate-400">
+              When you or a family member edits this person, the change will appear here.
+            </p>
+          </div>
+        ) : (
+          <ol className="space-y-2">
+            {entries.map((entry) => (
+              <li key={entry.id} className="rounded-lg border border-slate-200 bg-white p-3">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="min-w-0 flex-1">
+                    <p className="text-sm font-medium text-slate-800">
+                      {describeActivity(entry)}
+                    </p>
+                    <p className="mt-0.5 text-[11px] text-slate-500">
+                      {entry.user_email ?? 'Unknown'} · {timeAgo(entry.created_at)}
+                    </p>
+                    {(entry.action === 'update' || entry.action === 'delete') && entry.before && (
+                      <details className="mt-2">
+                        <summary className="cursor-pointer text-[11px] text-slate-400 hover:text-slate-600">
+                          View previous version
+                        </summary>
+                        <pre className="mt-1 max-h-32 overflow-auto rounded bg-slate-50 p-2 text-[10px] text-slate-600">
+{JSON.stringify(entry.before, null, 2)}
+                        </pre>
+                      </details>
+                    )}
+                  </div>
+                  {(entry.action === 'update' || entry.action === 'delete') && entry.before && (
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => onRevert(entry.before as Person)}
+                      className="shrink-0 text-[11px]"
+                    >
+                      <RotateCcw className="mr-1 h-3 w-3" />
+                      Restore
+                    </Button>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ol>
+        )}
+      </DialogContent>
+    </Dialog>
   );
 }

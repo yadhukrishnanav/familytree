@@ -28,6 +28,7 @@ import {
   subscribeToTreeChanges,
   type RealtimeChange,
 } from './sync';
+import { deriveActivityFromAction, logActivity } from './activity';
 
 interface StoreContextValue {
   state: FamilyTreeState;
@@ -72,9 +73,11 @@ interface History {
 
 export function StoreProvider({
   familyId,
+  actor,
   children,
 }: {
   familyId: string | null;
+  actor: { id: string; email: string } | null;
   children: ReactNode;
 }) {
   const [state, rawDispatch] = useReducer(reducer, initialState);
@@ -169,18 +172,26 @@ export function StoreProvider({
     };
   }, [state, familyId]);
 
-  // ---- Wrapped dispatch with history tracking ----
+  // ---- Wrapped dispatch with history tracking + activity logging ----
   // Note: LOAD_STATE actions from initial load / realtime / undo / redo all go through
-  // rawDispatch directly (not this wrapper), so they bypass history tracking naturally.
+  // rawDispatch directly (not this wrapper), so they bypass history + activity tracking naturally.
   const dispatch = useCallback((action: Action) => {
     if (action.type === 'UNDO' || action.type === 'REDO') return;
+    // Compute activity entries BEFORE the state mutates (we need the "before" snapshot)
+    if (actor && familyId) {
+      const entries = deriveActivityFromAction(action, stateRef.current, actor, familyId);
+      if (entries.length > 0) {
+        // Fire and forget — don't block the UI
+        logActivity(familyId, actor, entries).catch(() => {});
+      }
+    }
     // Push current state to past, clear future
     setHistory((h) => ({
       past: [...h.past, stateRef.current].slice(-MAX_HISTORY),
       future: [],
     }));
     rawDispatch(action);
-  }, []);
+  }, [actor, familyId]);
 
   const undo = useCallback(() => {
     setHistory((h) => {

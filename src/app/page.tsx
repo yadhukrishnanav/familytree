@@ -30,7 +30,10 @@ function AppContent() {
   }
 
   return (
-    <StoreProvider familyId={auth.activeFamily.id}>
+    <StoreProvider
+      familyId={auth.activeFamily.id}
+      actor={auth.user ? { id: auth.user.id, email: auth.user.email } : null}
+    >
       <FamilyTree />
     </StoreProvider>
   );

@@ -21,6 +21,7 @@ interface AuthContextValue {
   isDemo: boolean;
   signIn: (email: string, password: string) => Promise<{ error?: string }>;
   signUp: (email: string, password: string) => Promise<{ error?: string }>;
+  signInWithGoogle: () => Promise<{ error?: string }>;
   signOut: () => Promise<void>;
   setActiveFamilyId: (id: string) => void;
   createFamily: (name: string) => Promise<{ error?: string; family?: FamilyInfo }>;
@@ -50,7 +51,7 @@ interface DemoFamily {
 interface DemoMembership {
   userId: string;
   familyId: string;
-  role: 'owner' | 'editor';
+  role: 'admin' | 'owner' | 'editor';
 }
 
 function simpleHash(s: string): string {
@@ -260,6 +261,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return {};
   }, [supabase, refreshFamiliesFor]);
 
+  const signInWithGoogle = useCallback(async () => {
+    if (!isSupabaseConfigured || !supabase) {
+      return {
+        error:
+          'Google sign-in requires a configured Supabase project. Add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY to your .env.local, then enable Google OAuth in your Supabase dashboard (Authentication → Providers → Google).',
+      };
+    }
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        // Redirect back to the current page after Google OAuth completes
+        redirectTo: typeof window !== 'undefined' ? window.location.origin : undefined,
+      },
+    });
+    if (error) return { error: error.message };
+    // The browser will redirect to Google and back; session is picked up by onAuthStateChange
+    return {};
+  }, [supabase]);
+
   const signOut = useCallback(async () => {
     if (isSupabaseConfigured && supabase) {
       await supabase.auth.signOut();
@@ -293,13 +313,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       await supabase.from('family_members').insert({
         user_id: user.id,
         family_id: fam.id,
-        role: 'owner',
+        role: 'admin',
       });
       const newFamily: FamilyInfo = {
         id: fam.id,
         name: fam.name,
         shareCode: fam.share_code,
-        role: 'owner',
+        role: 'admin',
         memberCount: 1,
       };
       setFamilies((prev) => [...prev, newFamily]);
@@ -317,13 +337,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
     fams.push(newFam);
     saveDemoFamilies(fams);
-    members.push({ userId: user.id, familyId: newFam.id, role: 'owner' });
+    members.push({ userId: user.id, familyId: newFam.id, role: 'admin' });
     saveDemoMembers(members);
     const info: FamilyInfo = {
       id: newFam.id,
       name: newFam.name,
       shareCode: newFam.shareCode,
-      role: 'owner',
+      role: 'admin',
       memberCount: 1,
     };
     setFamilies((prev) => [...prev, info]);
@@ -400,6 +420,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     isDemo: !isSupabaseConfigured,
     signIn,
     signUp,
+    signInWithGoogle,
     signOut,
     setActiveFamilyId,
     createFamily,

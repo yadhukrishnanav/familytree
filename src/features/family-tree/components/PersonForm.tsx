@@ -196,7 +196,7 @@ export function PersonForm({ initial, familyId, onSubmit, onCancel, submitting }
             id="firstName"
             value={firstName}
             onChange={(e) => setFirstName(e.target.value)}
-            placeholder="Rajesh"
+            placeholder="Raghavan"
             required
           />
         </div>
@@ -206,7 +206,7 @@ export function PersonForm({ initial, familyId, onSubmit, onCancel, submitting }
             id="lastName"
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
-            placeholder="Sharma"
+            placeholder="Nair"
           />
         </div>
       </div>
@@ -283,7 +283,7 @@ export function PersonForm({ initial, familyId, onSubmit, onCancel, submitting }
             id="occupation"
             value={occupation}
             onChange={(e) => setOccupation(e.target.value)}
-            placeholder="Doctor"
+            placeholder="Engineer"
           />
         </div>
         <div>
@@ -292,7 +292,7 @@ export function PersonForm({ initial, familyId, onSubmit, onCancel, submitting }
             id="birthPlace"
             value={birthPlace}
             onChange={(e) => setBirthPlace(e.target.value)}
-            placeholder="Delhi"
+            placeholder="Kochi"
           />
         </div>
       </div>

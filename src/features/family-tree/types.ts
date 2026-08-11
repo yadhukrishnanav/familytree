@@ -55,7 +55,7 @@ export interface FamilyInfo {
   id: string;
   name: string;
   shareCode: string;
-  role: 'owner' | 'editor';
+  role: 'admin' | 'owner' | 'editor';
   memberCount: number;
 }
 
