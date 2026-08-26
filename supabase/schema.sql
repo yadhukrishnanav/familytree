@@ -277,3 +277,74 @@ begin
     return new;
 end;
 $$;
+
+-- ============= Family chat (in-app messenger) =============
+create table if not exists public.chat_messages (
+    id uuid primary key default uuid_generate_v4(),
+    family_id uuid not null references public.families(id) on delete cascade,
+    user_id uuid not null references auth.users(id) on delete cascade,
+    user_email text not null,
+    content text not null,
+    created_at timestamptz not null default now()
+);
+create index if not exists idx_chat_messages_family on public.chat_messages(family_id, created_at);
+
+alter table public.chat_messages enable row level security;
+create policy "chat_select_member" on public.chat_messages
+    for select using (public.is_family_member(family_id));
+create policy "chat_insert_member" on public.chat_messages
+    for insert to authenticated with check (public.is_family_member(family_id) and user_id = auth.uid());
+create policy "chat_delete_own_or_admin" on public.chat_messages
+    for delete using (
+        user_id = auth.uid()
+        or exists (
+            select 1 from public.family_members m
+            where m.family_id = chat_messages.family_id
+              and m.user_id = auth.uid()
+              and m.role in ('admin', 'owner')
+        )
+    );
+
+alter publication supabase_realtime add table public.chat_messages;
+
+-- ============= Multi-family federation =============
+-- Lets a family admin link to another family (e.g., spouse's tree).
+-- Linked families appear in each other's family-select screens as "Linked families".
+create table if not exists public.family_links (
+    id uuid primary key default uuid_generate_v4(),
+    family_a uuid not null references public.families(id) on delete cascade,
+    family_b uuid not null references public.families(id) on delete cascade,
+    created_by uuid references auth.users(id),
+    created_at timestamptz not null default now(),
+    -- Prevent duplicate links in either direction
+    constraint unique_pair unique (family_a, family_b),
+    constraint no_self_link check (family_a <> family_b)
+);
+create index if not exists idx_family_links_a on public.family_links(family_a);
+create index if not exists idx_family_links_b on public.family_links(family_b);
+
+alter table public.family_links enable row level security;
+-- Any member of either family can see the link
+create policy "links_select_member" on public.family_links
+    for select using (
+        public.is_family_member(family_a) or public.is_family_member(family_b)
+    );
+-- Only admin/owner of the requesting family can create a link
+create policy "links_insert_admin" on public.family_links
+    for insert to authenticated with check (
+        public.is_family_member(family_a) and exists (
+            select 1 from public.family_members m
+            where m.family_id = family_a and m.user_id = auth.uid() and m.role in ('admin', 'owner')
+        )
+    );
+-- Only admin/owner of either family can delete
+create policy "links_delete_admin" on public.family_links
+    for delete using (
+        (public.is_family_member(family_a) or public.is_family_member(family_b))
+        and exists (
+            select 1 from public.family_members m
+            where (m.family_id = family_a or m.family_id = family_b)
+              and m.user_id = auth.uid()
+              and m.role in ('admin', 'owner')
+        )
+    );

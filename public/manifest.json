@@ -1,0 +1,45 @@
+{
+  "name": "Family Tree — Build & Share Your Family Story",
+  "short_name": "Family Tree",
+  "description": "Interactive family tree builder with photos, timeline, and real-time collaboration.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fafaf9",
+  "theme_color": "#8b5cf6",
+  "orientation": "any",
+  "categories": ["lifestyle", "social", "productivity"],
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Add person",
+      "short_name": "Add",
+      "description": "Quickly add a new family member",
+      "url": "/?action=add-person"
+    },
+    {
+      "name": "Recent activity",
+      "short_name": "Activity",
+      "description": "See recent edits by your family",
+      "url": "/?action=activity"
+    }
+  ]
+}

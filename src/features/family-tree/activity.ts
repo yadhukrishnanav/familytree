@@ -166,16 +166,82 @@ export function deriveActivityFromAction(
   return out;
 }
 
+// ---- Demo-mode localStorage fallback ----
+// In demo mode (no Supabase), activity is persisted to localStorage so the
+// "Recent activity" panel still works for testing.
+const DEMO_ACTIVITY_KEY = 'family-tree-demo-activity';
+
+function loadDemoActivity(familyId: string): ActivityLogEntry[] {
+  try {
+    const all = JSON.parse(localStorage.getItem(DEMO_ACTIVITY_KEY) ?? '{}');
+    return all[familyId] ?? [];
+  } catch {
+    return [];
+  }
+}
+
+function saveDemoActivity(familyId: string, entries: ActivityLogEntry[]) {
+  const all = (() => { try { return JSON.parse(localStorage.getItem(DEMO_ACTIVITY_KEY) ?? '{}'); } catch { return {}; } })();
+  // Cap at 200 entries per family to avoid bloating localStorage
+  all[familyId] = entries.slice(-200);
+  try {
+    localStorage.setItem(DEMO_ACTIVITY_KEY, JSON.stringify(all));
+  } catch (e) {
+    console.warn('localStorage full, trimming activity log', e);
+    all[familyId] = entries.slice(-50);
+    localStorage.setItem(DEMO_ACTIVITY_KEY, JSON.stringify(all));
+  }
+}
+
+// Demo-mode realtime: dispatch to all open tabs via BroadcastChannel
+let demoBroadcastChannel: BroadcastChannel | null = null;
+function getDemoChannel(familyId: string): BroadcastChannel | null {
+  if (typeof window === 'undefined' || typeof BroadcastChannel === 'undefined') return null;
+  if (!demoBroadcastChannel) {
+    demoBroadcastChannel = new BroadcastChannel(`family-tree-activity-${familyId}`);
+  }
+  return demoBroadcastChannel;
+}
+
 /**
- * Persist activity log entries to Supabase. No-op in demo mode.
+ * Persist activity log entries to Supabase. In demo mode, writes to localStorage.
  */
 export async function logActivity(
   familyId: string,
   actor: Actor,
   entries: Omit<ActivityLogEntry, 'id' | 'created_at' | 'family_id' | 'user_id' | 'user_email'>[],
 ): Promise<void> {
-  if (!isSupabaseConfigured) return;
   if (entries.length === 0) return;
+
+  // Demo mode: localStorage + BroadcastChannel for cross-tab realtime
+  if (!isSupabaseConfigured) {
+    const existing = loadDemoActivity(familyId);
+    const newRows: ActivityLogEntry[] = entries.map((e) => ({
+      id: crypto.randomUUID(),
+      family_id: familyId,
+      user_id: actor.id,
+      user_email: actor.email,
+      action: e.action,
+      entity_type: e.entity_type,
+      entity_id: e.entity_id,
+      entity_name: e.entity_name,
+      before: e.before,
+      after: e.after,
+      created_at: new Date().toISOString(),
+    }));
+    const updated = [...existing, ...newRows];
+    saveDemoActivity(familyId, updated);
+    // Broadcast to other tabs/windows
+    const channel = getDemoChannel(familyId);
+    if (channel) {
+      for (const row of newRows) {
+        channel.postMessage(row);
+      }
+    }
+    return;
+  }
+
+  // Supabase mode
   const client = getSupabase()!;
   const rows = entries.map((e) => ({
     family_id: familyId,
@@ -199,7 +265,11 @@ export async function fetchRecentActivity(
   familyId: string,
   limit = 30,
 ): Promise<ActivityLogEntry[]> {
-  if (!isSupabaseConfigured) return [];
+  if (!isSupabaseConfigured) {
+    // Demo mode: read from localStorage, newest first
+    const all = loadDemoActivity(familyId);
+    return all.slice(-limit).reverse();
+  }
   const client = getSupabase()!;
   const { data, error } = await client
     .from('activity_log')
@@ -223,7 +293,13 @@ export async function fetchEntityHistory(
   entityId: string,
   limit = 30,
 ): Promise<ActivityLogEntry[]> {
-  if (!isSupabaseConfigured) return [];
+  if (!isSupabaseConfigured) {
+    const all = loadDemoActivity(familyId);
+    return all
+      .filter((e) => e.entity_type === entityType && e.entity_id === entityId)
+      .slice(-limit)
+      .reverse();
+  }
   const client = getSupabase()!;
   const { data, error } = await client
     .from('activity_log')
@@ -242,12 +318,25 @@ export async function fetchEntityHistory(
 
 /**
  * Subscribe to new activity log entries (realtime).
+ * In Supabase mode: postgres_changes subscription.
+ * In demo mode: BroadcastChannel across same-origin tabs.
  */
 export function subscribeToActivity(
   familyId: string,
   onNew: (entry: ActivityLogEntry) => void,
 ): (() => void) | null {
-  if (!isSupabaseConfigured) return null;
+  if (!isSupabaseConfigured) {
+    // Demo mode: listen to BroadcastChannel for cross-tab updates
+    if (typeof window === 'undefined' || typeof BroadcastChannel === 'undefined') return null;
+    const channel = new BroadcastChannel(`family-tree-activity-${familyId}`);
+    channel.onmessage = (e) => {
+      const entry = e.data as ActivityLogEntry;
+      if (entry) onNew(entry);
+    };
+    return () => {
+      channel.close();
+    };
+  }
   const client = getSupabase()!;
   const channel = client
     .channel(`activity-${familyId}`)

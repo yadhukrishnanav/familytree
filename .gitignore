@@ -1,54 +1,71 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+# Dependencies
+node_modules/
+.pnp
+.pnp.js
+.yarn/install-state.gz
+bun.lock
 
-# dependencies
-node_modules
-/.pnp
-.pnp.*
-.yarn/*
-!.yarn/patches
-!.yarn/plugins
-!.yarn/releases
-!.yarn/versions
+# Testing
+coverage/
 
-# testing
-/coverage
+# Next.js
+.next/
+out/
+build/
+dist/
 
-# next.js
-/.next/
-/out/
+# Production
+*.tsbuildinfo
+next-env.d.ts
 
-# production
-/build
-
-# misc
+# Misc
 .DS_Store
 *.pem
-
-# debug
+.vscode/
+.idea/
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-.pnpm-debug.log*
+dev.log
+server.log
 
-# env files (can opt-in for committing if needed)
-.env*
+# Local env files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
-# vercel
+# Vercel
 .vercel
 
+# Database
+*.db
+*.db-journal
+db/
 
-# typescript
-*.tsbuildinfo
-next-env.d.ts
-local-*
-.claude
-.z-ai-config
-*.log
-dev.log
-dev.out.log
-test
-prompt
+# Agent / workspace metadata (not part of the project)
+.zscripts/
+agent-ctx/
+worklog.md
 
-server.log
-# Skills directory
-/skills/
+# Original upload + bundled downloads (not part of the source)
+upload/
+download/
+
+# Sandbox extras (not part of the project)
+skills/
+tests/
+examples/
+mini-services/
+Caddyfile
+
+# Dev screenshots and bundling scripts (kept in /scripts/ for reference, ignored here)
+scripts/*.png
+scripts/*.tar.gz
+scripts/bundle_source.sh
+
+# Browser artifacts
+*.tar
+*.tar.gz

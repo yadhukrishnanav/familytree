@@ -75,6 +75,7 @@ export function computeLayout(
     unitId: string,
     centerX: number,
     topY: number,
+    generation: number = 0,
   ): void {
     const unit = familyUnits.find((u) => u.id === unitId);
     if (!unit) return;
@@ -95,6 +96,7 @@ export function computeLayout(
       y: topY,
       type: 'person',
       personId: unit.partner1Id,
+      generation,
     });
     if (partner2X !== null && unit.partner2Id) {
       nodes.push({
@@ -103,6 +105,7 @@ export function computeLayout(
         y: topY,
         type: 'person',
         personId: unit.partner2Id,
+        generation,
       });
       // Marriage line
       connections.push({
@@ -184,7 +187,7 @@ export function computeLayout(
       });
 
       if (cw.childUnitId) {
-        positionUnit(cw.childUnitId, childCenterX, topY + NODE_HEIGHT + GENERATION_GAP);
+        positionUnit(cw.childUnitId, childCenterX, topY + NODE_HEIGHT + GENERATION_GAP, generation + 1);
       } else {
         // Standalone child (no own family unit)
         nodes.push({
@@ -193,6 +196,7 @@ export function computeLayout(
           y: topY + NODE_HEIGHT + GENERATION_GAP,
           type: 'person',
           personId: cw.childId,
+          generation: generation + 1,
         });
         maxX = Math.max(maxX, childCenterX + NODE_WIDTH / 2);
         maxY = Math.max(maxY, topY + NODE_HEIGHT + GENERATION_GAP + NODE_HEIGHT);
@@ -204,7 +208,7 @@ export function computeLayout(
   for (const root of rootUnits) {
     const w = computeSubtreeWidth(root.id);
     const centerX = cursorX + w / 2;
-    positionUnit(root.id, centerX, 0);
+    positionUnit(root.id, centerX, 0, 0);
     cursorX = cursorX + w + SIBLING_GAP * 2;
   }
 
@@ -226,6 +230,7 @@ export function computeLayout(
         y: isoY,
         type: 'person',
         personId: p.id,
+        generation: 0,
       });
       cursorX += NODE_WIDTH + SIBLING_GAP;
     }

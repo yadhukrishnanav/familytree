@@ -15,20 +15,31 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Upload, X, User } from 'lucide-react';
+import { Upload, X, User, Heart, GitBranch } from 'lucide-react';
 import type { Gender, Person } from '../types';
 import { MALE_PALETTES, FEMALE_PALETTES, pickAvatarColors } from '../data';
 import { uploadPhoto, fileToDataUrl, deletePhoto } from '../supabase';
 
+// Relationship that should be created after the person is added.
+// `targetPersonId` is the ID of an existing person; the new person will be linked
+// as their spouse or child (or parent, if `asParent` is true).
+export type NewRelation =
+  | { kind: 'spouse'; targetPersonId: string; marriageYear?: number }
+  | { kind: 'child'; targetPersonId: string }    // new person is CHILD of targetPersonId
+  | { kind: 'parent'; targetPersonId: string };  // new person is PARENT of targetPersonId
+
 interface Props {
   initial?: Person;
   familyId: string;
-  onSubmit: (person: Person, photoChanged: boolean, oldPhotoUrl?: string) => void | Promise<void>;
+  /** Other persons already in the tree. Used to populate the relationship picker when adding a new person. */
+  existingPersons?: Person[];
+  /** Called with the new person + optional relationship when the form is submitted. */
+  onSubmit: (person: Person, photoChanged: boolean, oldPhotoUrl?: string, relation?: NewRelation) => void | Promise<void>;
   onCancel: () => void;
   submitting?: boolean;
 }
 
-export function PersonForm({ initial, familyId, onSubmit, onCancel, submitting }: Props) {
+export function PersonForm({ initial, familyId, existingPersons, onSubmit, onCancel, submitting }: Props) {
   const [firstName, setFirstName] = useState(initial?.firstName ?? '');
   const [lastName, setLastName] = useState(initial?.lastName ?? '');
   const [birthYear, setBirthYear] = useState<string>(
@@ -52,6 +63,18 @@ export function PersonForm({ initial, familyId, onSubmit, onCancel, submitting }
   const [photoDirty, setPhotoDirty] = useState(false);
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Relationship selection (only shown when adding a new person, not editing)
+  // kind: 'none' | 'spouse' | 'child' | 'parent'
+  const [relationKind, setRelationKind] = useState<'none' | 'spouse' | 'child' | 'parent'>('none');
+  const [relationTargetId, setRelationTargetId] = useState('');
+  const [relationMarriageYear, setRelationMarriageYear] = useState('');
+
+  const isAddingNew = !initial;
+  const showRelationSection = isAddingNew && (existingPersons?.length ?? 0) > 0;
+  const sortedExisting = [...(existingPersons ?? [])].sort((a, b) =>
+    `${a.firstName} ${a.lastName ?? ''}`.localeCompare(`${b.firstName} ${b.lastName ?? ''}`),
+  );
 
   // Sync palette when gender changes
   useEffect(() => {
@@ -125,7 +148,61 @@ export function PersonForm({ initial, familyId, onSubmit, onCancel, submitting }
       birthPlace: birthPlace.trim() || undefined,
       photoUrl: photoPreview,
     };
-    await onSubmit(person, photoDirty, initial?.photoUrl);
+
+    // Validate + build the relation if user picked one
+    let relation: NewRelation | undefined;
+    if (relationKind !== 'none' && relationTargetId) {
+      if (relationKind === 'spouse') {
+        let my: number | undefined;
+        if (relationMarriageYear.trim()) {
+          my = Number(relationMarriageYear);
+          if (Number.isNaN(my) || my < 0 || my > 9999) {
+            setError('Marriage year must be a valid year');
+            return;
+          }
+          // Sanity: marriage year shouldn't be after a deceased new person's death year
+          if (dy != null && my > dy) {
+            setError(`${firstName.trim()} passed away in ${dy} — marriage year ${my} is later.`);
+            return;
+          }
+          // Sanity: marriage year shouldn't be after the target spouse's death year
+          const target = existingPersons?.find((p) => p.id === relationTargetId);
+          if (target?.deathYear != null && my > target.deathYear) {
+            setError(`${target.firstName} ${target.lastName ?? ''} passed away in ${target.deathYear} — marriage year ${my} is later.`);
+            return;
+          }
+        }
+        relation = { kind: 'spouse', targetPersonId: relationTargetId, marriageYear: my };
+      } else if (relationKind === 'child') {
+        // New person is CHILD of targetPersonId
+        // Sanity: parent shouldn't be younger than child by <12 yrs
+        const target = existingPersons?.find((p) => p.id === relationTargetId);
+        if (target?.birthYear != null && by != null && by < target.birthYear + 12) {
+          setError(`${target.firstName} would be only ${by - target.birthYear} years old when ${firstName.trim()} was born (must be ≥ 12).`);
+          return;
+        }
+        // Sanity: parent shouldn't be deceased before child's birth
+        if (target?.deathYear != null && by != null && by > target.deathYear) {
+          setError(`${target.firstName} passed away in ${target.deathYear}, before ${firstName.trim()} was born in ${by}.`);
+          return;
+        }
+        relation = { kind: 'child', targetPersonId: relationTargetId };
+      } else if (relationKind === 'parent') {
+        // New person is PARENT of targetPersonId
+        const target = existingPersons?.find((p) => p.id === relationTargetId);
+        if (by != null && target?.birthYear != null && target.birthYear < by + 12) {
+          setError(`${firstName.trim()} would be only ${target.birthYear - by} years old when ${target.firstName} was born (must be ≥ 12).`);
+          return;
+        }
+        if (dy != null && target?.birthYear != null && dy < target.birthYear) {
+          setError(`${firstName.trim()} passed away in ${dy}, before ${target.firstName} was born in ${target.birthYear}.`);
+          return;
+        }
+        relation = { kind: 'parent', targetPersonId: relationTargetId };
+      }
+    }
+
+    await onSubmit(person, photoDirty, initial?.photoUrl, relation);
   };
 
   const palettes = gender === 'female' ? FEMALE_PALETTES : MALE_PALETTES;
@@ -296,6 +373,106 @@ export function PersonForm({ initial, familyId, onSubmit, onCancel, submitting }
           />
         </div>
       </div>
+
+      {/* Relationship picker — only shown when adding a new person, not the first one */}
+      {showRelationSection && (
+        <div className="rounded-lg border border-slate-200 bg-slate-50/50 p-3">
+          <Label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-slate-500">
+            Link to family (optional)
+          </Label>
+          <div className="grid grid-cols-4 gap-1.5">
+            <button
+              type="button"
+              onClick={() => { setRelationKind('none'); setRelationTargetId(''); setRelationMarriageYear(''); }}
+              className={`flex flex-col items-center justify-center gap-1 rounded-md border px-2 py-2 text-[11px] font-medium transition ${
+                relationKind === 'none'
+                  ? 'border-slate-400 bg-white text-slate-700 ring-1 ring-slate-300'
+                  : 'border-slate-200 bg-white/60 text-slate-500 hover:bg-white'
+              }`}
+            >
+              <User className="h-3.5 w-3.5" />
+              Standalone
+            </button>
+            <button
+              type="button"
+              onClick={() => setRelationKind('spouse')}
+              className={`flex flex-col items-center justify-center gap-1 rounded-md border px-2 py-2 text-[11px] font-medium transition ${
+                relationKind === 'spouse'
+                  ? 'border-pink-300 bg-pink-50 text-pink-700 ring-1 ring-pink-300'
+                  : 'border-slate-200 bg-white/60 text-slate-500 hover:bg-white'
+              }`}
+            >
+              <Heart className="h-3.5 w-3.5" />
+              Spouse of
+            </button>
+            <button
+              type="button"
+              onClick={() => setRelationKind('child')}
+              className={`flex flex-col items-center justify-center gap-1 rounded-md border px-2 py-2 text-[11px] font-medium transition ${
+                relationKind === 'child'
+                  ? 'border-purple-300 bg-purple-50 text-purple-700 ring-1 ring-purple-300'
+                  : 'border-slate-200 bg-white/60 text-slate-500 hover:bg-white'
+              }`}
+            >
+              <GitBranch className="h-3.5 w-3.5" />
+              Child of
+            </button>
+            <button
+              type="button"
+              onClick={() => setRelationKind('parent')}
+              className={`flex flex-col items-center justify-center gap-1 rounded-md border px-2 py-2 text-[11px] font-medium transition ${
+                relationKind === 'parent'
+                  ? 'border-amber-300 bg-amber-50 text-amber-700 ring-1 ring-amber-300'
+                  : 'border-slate-200 bg-white/60 text-slate-500 hover:bg-white'
+              }`}
+            >
+              <GitBranch className="h-3.5 w-3.5 rotate-180" />
+              Parent of
+            </button>
+          </div>
+
+          {relationKind !== 'none' && (
+            <div className="mt-3 space-y-2">
+              <div>
+                <Label htmlFor="relationTarget" className="text-xs text-slate-600">
+                  {relationKind === 'spouse' && 'Marry which person?'}
+                  {relationKind === 'child' && 'Who is the parent?'}
+                  {relationKind === 'parent' && 'Who is the child?'}
+                </Label>
+                <Select value={relationTargetId} onValueChange={setRelationTargetId}>
+                  <SelectTrigger id="relationTarget" className="bg-white">
+                    <SelectValue placeholder="Select a person…" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {sortedExisting.map((p) => (
+                      <SelectItem key={p.id} value={p.id}>
+                        {p.firstName} {p.lastName ?? ''}{p.birthYear ? ` (${p.birthYear})` : ''}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              {relationKind === 'spouse' && (
+                <div>
+                  <Label htmlFor="relationMarriageYear" className="text-xs text-slate-600">
+                    Marriage year (optional)
+                  </Label>
+                  <Input
+                    id="relationMarriageYear"
+                    type="number"
+                    value={relationMarriageYear}
+                    onChange={(e) => setRelationMarriageYear(e.target.value)}
+                    placeholder="1995"
+                    min={0}
+                    max={9999}
+                    className="bg-white"
+                  />
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      )}
 
       {error && (
         <div className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div>

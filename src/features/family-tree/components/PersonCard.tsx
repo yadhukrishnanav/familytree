@@ -13,6 +13,7 @@ interface Props {
   x: number;
   y: number;
   selected?: boolean;
+  generation?: number;
   onClick?: () => void;
 }
 
@@ -22,7 +23,7 @@ function initials(p: Person): string {
   return (f + l).toUpperCase() || '?';
 }
 
-export function PersonCard({ person, x, y, selected, onClick }: Props) {
+export function PersonCard({ person, x, y, selected, generation, onClick }: Props) {
   const gradient = `linear-gradient(135deg, ${person.avatarColors[0]}, ${person.avatarColors[1]})`;
   const isDeceased = person.deathYear != null;
   const lifespan =
@@ -87,6 +88,16 @@ export function PersonCard({ person, x, y, selected, onClick }: Props) {
           }}
           aria-hidden
         />
+
+        {/* Generation badge (top-left corner) */}
+        {generation != null && (
+          <div
+            className="pointer-events-none absolute -left-1.5 -top-2 z-10 rounded-md bg-white/95 px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-wider text-slate-500 shadow-sm ring-1 ring-slate-200"
+            title={`Generation ${generation + 1}`}
+          >
+            Gen {generation + 1}
+          </div>
+        )}
 
         {/* Card content */}
         <div className="flex h-full items-center gap-3 px-3 pt-2">

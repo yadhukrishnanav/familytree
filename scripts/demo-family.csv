@@ -1,0 +1,12 @@
+firstName,lastName,birthYear,deathYear,gender,occupation,birthPlace
+Raghavan,Nair,1940,2015,male,Engineer,Kochi
+Lakshmi,Nair,1945,2020,female,Teacher,Thrissur
+Suresh,Nair,1968,,male,Doctor,Kochi
+Anita,Nair,1972,,female,Architect,Thiruvananthapuram
+Meena,Nair,1970,,female,Lawyer,Alappuzha
+Vijay,Nair,1975,,male,Businessman,Kozhikode
+Arun,Nair,1995,,male,Software Engineer,Bangalore
+Divya,Nair,1997,,female,Designer,Mumbai
+Karthik,Nair,1999,,male,Student,Chennai
+Aisha,Nair,2000,,female,Doctor,Delhi
+Nikhil,Nair,2022,,male,,Bangalore

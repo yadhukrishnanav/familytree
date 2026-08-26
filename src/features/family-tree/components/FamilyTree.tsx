@@ -1,6 +1,7 @@
 'use client';
 
 // Family Tree — Main canvas component
+// Version: 2026-08-25-v2 (relation picker in PersonForm)
 // Renders tree SVG + person cards, pan/zoom (mouse + touch), toolbar, modals, detail panel, export.
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -16,6 +17,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
 import {
   Plus,
@@ -37,6 +39,14 @@ import {
   Heart,
   History,
   RotateCcw,
+  Search,
+  Cake,
+  MessageSquare,
+  Users,
+  LayoutGrid,
+  TreePine,
+  Upload,
+  LogOut,
   Menu as MenuIcon,
 } from 'lucide-react';
 import { toast } from 'sonner';
@@ -45,11 +55,19 @@ import { useStore } from '../store';
 import { useAuth } from '../auth';
 import { computeLayout, NODE_WIDTH, NODE_HEIGHT } from '../layout';
 import { PersonCard, MarriageBadge } from './PersonCard';
-import { PersonForm } from './PersonForm';
+import { PersonForm, type NewRelation } from './PersonForm';
 import { RelationshipForm } from './RelationshipForm';
 import { EventForm } from './EventForm';
 import { Timeline } from './Timeline';
 import { ActivityPanel } from './ActivityPanel';
+import { PWAInstallButton } from './PWAInstallButton';
+import { SearchPalette } from './SearchPalette';
+import { BirthdayPanel } from './BirthdayPanel';
+import { PhotoGridView } from './PhotoGridView';
+import { ChatPanel } from './ChatPanel';
+import { MemberManagerDialog } from './MemberManagerDialog';
+import { CSVImportDialog } from './CSVImportDialog';
+import { FederationPanel } from './FederationPanel';
 import { exportToPngFile, exportToPdfFile } from '../export';
 import { deletePhoto } from '../supabase';
 
@@ -79,6 +97,13 @@ export function FamilyTree() {
   const [copiedCode, setCopiedCode] = useState(false);
   const [showActivity, setShowActivity] = useState(false);
   const [showHistory, setShowHistory] = useState(false); // person history modal
+  const [showSearch, setShowSearch] = useState(false);
+  const [showBirthdays, setShowBirthdays] = useState(false);
+  const [showChat, setShowChat] = useState(false);
+  const [showMembers, setShowMembers] = useState(false);
+  const [showCsvImport, setShowCsvImport] = useState(false);
+  const [showFederation, setShowFederation] = useState(false);
+  const [viewMode, setViewMode] = useState<'tree' | 'grid'>('tree');
 
   const canvasRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null); // for export
@@ -250,11 +275,121 @@ export function FamilyTree() {
   }, [auth.activeFamily]);
 
   // ---- Form submission handlers ----
-  const handleAddPerson = async (person: Person) => {
+  const handleAddPerson = async (
+    person: Person,
+    _photoChanged: boolean,
+    _oldPhotoUrl?: string,
+    relation?: NewRelation,
+  ) => {
     setSubmitting(true);
     try {
       store.dispatch({ type: 'ADD_PERSON', person });
-      toast.success('Person added', { description: `${person.firstName} ${person.lastName ?? ''}` });
+
+      // If the user picked a relationship, link the new person to the target.
+      if (relation) {
+        if (relation.kind === 'spouse') {
+          // Create a family unit: target + new person as spouses
+          store.dispatch({
+            type: 'ADD_SPOUSE',
+            unit: {
+              id: crypto.randomUUID(),
+              partner1Id: relation.targetPersonId,
+              partner2Id: person.id,
+              childrenIds: [],
+              marriageYear: relation.marriageYear,
+            },
+          });
+          toast.success('Person added', {
+            description: `${person.firstName} ${person.lastName ?? ''} added and linked as spouse`,
+          });
+        } else if (relation.kind === 'child') {
+          // New person is CHILD of targetPersonId.
+          // Find the target's family unit (where they're a partner). If none exists, create a stub
+          // unit with just the target as partner1 so ADD_CHILD can attach to it.
+          const parentUnit = state.familyUnits.find(
+            (u) => u.partner1Id === relation.targetPersonId || u.partner2Id === relation.targetPersonId,
+          );
+          if (parentUnit) {
+            store.dispatch({
+              type: 'ADD_CHILD',
+              parentId: relation.targetPersonId,
+              childId: person.id,
+            });
+          } else {
+            // Target has no spouse unit — create one with just them, then add child
+            const newUnitId = crypto.randomUUID();
+            store.dispatch({
+              type: 'ADD_SPOUSE',
+              unit: {
+                id: newUnitId,
+                partner1Id: relation.targetPersonId,
+                partner2Id: undefined,
+                childrenIds: [],
+              },
+            });
+            store.dispatch({
+              type: 'ADD_CHILD',
+              parentId: relation.targetPersonId,
+              childId: person.id,
+            });
+          }
+          toast.success('Person added', {
+            description: `${person.firstName} ${person.lastName ?? ''} added as child`,
+          });
+        } else if (relation.kind === 'parent') {
+          // New person is PARENT of targetPersonId.
+          // Similar to above — find the target's existing unit (they're a child in it),
+          // and either attach the new parent, or create a new unit with the new person as partner1
+          // and the target as their child.
+          const targetUnit = state.familyUnits.find(
+            (u) => u.childrenIds.includes(relation.targetPersonId),
+          );
+          if (targetUnit) {
+            // Target already has a parent unit — add the new person as the second partner if empty,
+            // otherwise just attach as a new spouse-less parent (creates a new unit)
+            if (!targetUnit.partner2Id) {
+              // Fill the empty partner slot — but that requires UPDATE on the unit, which we don't have.
+              // Workaround: create a new unit with the new person as partner1 + the target as child.
+              store.dispatch({
+                type: 'ADD_SPOUSE',
+                unit: {
+                  id: crypto.randomUUID(),
+                  partner1Id: person.id,
+                  partner2Id: undefined,
+                  childrenIds: [relation.targetPersonId],
+                },
+              });
+            } else {
+              // Both partner slots full — create a new unit with just the new parent
+              store.dispatch({
+                type: 'ADD_SPOUSE',
+                unit: {
+                  id: crypto.randomUUID(),
+                  partner1Id: person.id,
+                  partner2Id: undefined,
+                  childrenIds: [relation.targetPersonId],
+                },
+              });
+            }
+          } else {
+            // No existing parent unit for target — create one
+            store.dispatch({
+              type: 'ADD_SPOUSE',
+              unit: {
+                id: crypto.randomUUID(),
+                partner1Id: person.id,
+                partner2Id: undefined,
+                childrenIds: [relation.targetPersonId],
+              },
+            });
+          }
+          toast.success('Person added', {
+            description: `${person.firstName} ${person.lastName ?? ''} added as parent`,
+          });
+        }
+      } else {
+        toast.success('Person added', { description: `${person.firstName} ${person.lastName ?? ''}` });
+      }
       setModal(null);
     } finally {
       setSubmitting(false);
@@ -364,6 +499,20 @@ export function FamilyTree() {
       toast.error('Export failed', { description: e.message });
     }
   };
+
+  // Keyboard shortcut: Ctrl/Cmd+K to open search
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      const meta = e.metaKey || e.ctrlKey;
+      if (!meta) return;
+      if (e.key === 'k' || e.key === 'K') {
+        e.preventDefault();
+        setShowSearch(true);
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
 
   const personsArray = useMemo(() => Object.values(state.persons), [state.persons]);
 
@@ -481,15 +630,74 @@ export function FamilyTree() {
           <span className="hidden sm:inline">Event</span>
         </Button>
 
+        {/* Divider */}
+        <div className="mx-1 hidden h-5 w-px bg-slate-200 sm:block" />
+
+        {/* Search (Ctrl/Cmd+K) */}
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={() => setShowSearch(true)}
+          className="gap-1.5 rounded-lg border-slate-300 bg-white/80 hover:bg-white"
+          title="Search (Ctrl/Cmd+K)"
+        >
+          <Search className="h-4 w-4" />
+          <span className="hidden md:inline">Search</span>
+        </Button>
+
+        {/* View toggle: tree / grid */}
+        <div className="flex rounded-lg border border-slate-300 bg-white/80 p-0.5">
+          <button
+            onClick={() => setViewMode('tree')}
+            className={`flex h-7 w-7 items-center justify-center rounded-md text-xs transition ${viewMode === 'tree' ? 'bg-purple-100 text-purple-700' : 'text-slate-500 hover:bg-slate-50'}`}
+            title="Tree view"
+          >
+            <TreePine className="h-3.5 w-3.5" />
+          </button>
+          <button
+            onClick={() => setViewMode('grid')}
+            className={`flex h-7 w-7 items-center justify-center rounded-md text-xs transition ${viewMode === 'grid' ? 'bg-purple-100 text-purple-700' : 'text-slate-500 hover:bg-slate-50'}`}
+            title="Photo grid view"
+          >
+            <LayoutGrid className="h-3.5 w-3.5" />
+          </button>
+        </div>
+
+        {/* Birthdays */}
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={() => setShowBirthdays((v) => !v)}
+          className={`gap-1.5 rounded-lg border-slate-300 bg-white/80 hover:bg-white ${showBirthdays ? 'ring-2 ring-pink-300' : ''}`}
+          title="Birthdays"
+        >
+          <Cake className="h-4 w-4 text-pink-500" />
+        </Button>
+
+        {/* Chat */}
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={() => setShowChat(true)}
+          className="gap-1.5 rounded-lg border-slate-300 bg-white/80 hover:bg-white"
+          title="Family chat"
+        >
+          <MessageSquare className="h-4 w-4 text-emerald-500" />
+        </Button>
+
         <div className="flex-1" />
 
+        {/* Install app */}
+        <PWAInstallButton />
+
+        {/* More menu */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button size="sm" variant="ghost" className="h-8 w-8 p-0">
               <MoreVertical className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-52">
+          <DropdownMenuContent align="end" className="w-56">
             <DropdownMenuItem onClick={handleExportPng}>
               <Download className="mr-2 h-3.5 w-3.5" />
               Export PNG
@@ -498,12 +706,37 @@ export function FamilyTree() {
               <FileText className="mr-2 h-3.5 w-3.5" />
               Export PDF
             </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => setShowCsvImport(true)}>
+              <Upload className="mr-2 h-3.5 w-3.5" />
+              Import from CSV
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setShowMembers(true)}>
+              <Users className="mr-2 h-3.5 w-3.5" />
+              Manage members
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setShowFederation(true)}>
+              <TreePine className="mr-2 h-3.5 w-3.5" />
+              Linked families
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => { if (confirm('Sign out of Family Tree? You can sign back in with the same email.')) auth.signOut(); }} className="text-red-600 focus:text-red-700">
+              <LogOut className="mr-2 h-3.5 w-3.5" />
+              Sign out
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
 
       {/* ---- Canvas (main area) ---- */}
       <div className="relative flex-1 overflow-hidden bg-slate-50">
+      {viewMode === 'grid' ? (
+        <PhotoGridView
+          persons={state.persons}
+          onSelectPerson={(id) => { setSelectedId(id); setViewMode('tree'); }}
+        />
+      ) : (
+        <>
         {/* Dot grid background */}
         <div
           className="pointer-events-none absolute inset-0"
@@ -640,6 +873,7 @@ export function FamilyTree() {
                       person={person}
                       x={node.x}
                       y={node.y}
+                      generation={node.generation}
                       selected={selectedId === node.personId}
                       onClick={() => setSelectedId(node.personId!)}
                     />
@@ -678,6 +912,8 @@ export function FamilyTree() {
             onShowHistory={() => setShowHistory(true)}
           />
         )}
+        </>
+      )}
       </div>
 
       {/* ---- Timeline ---- */}
@@ -700,6 +936,7 @@ export function FamilyTree() {
             <PersonForm
               initial={editingPerson ?? undefined}
               familyId={auth.activeFamily.id}
+              existingPersons={editingPerson ? undefined : personsArray}
               onSubmit={editingPerson ? handleUpdatePerson : handleAddPerson}
               onCancel={() => { setModal(null); setEditingPerson(null); }}
               submitting={submitting}
@@ -762,6 +999,66 @@ export function FamilyTree() {
           familyId={auth.activeFamily.id}
           onClose={() => setShowActivity(false)}
           onRevert={(action) => store.dispatch(action)}
+        />
+      )}
+
+      {/* Search palette (Ctrl/Cmd+K) */}
+      <SearchPalette
+        open={showSearch}
+        onOpenChange={setShowSearch}
+        persons={state.persons}
+        onSelectPerson={(id) => {
+          setSelectedId(id);
+          setViewMode('tree');
+        }}
+      />
+
+      {/* Birthday panel */}
+      {showBirthdays && (
+        <BirthdayPanel
+          persons={state.persons}
+          onClose={() => setShowBirthdays(false)}
+          onSelectPerson={(id) => {
+            setSelectedId(id);
+            setShowBirthdays(false);
+            setViewMode('tree');
+          }}
+        />
+      )}
+
+      {/* Family chat panel */}
+      {showChat && auth.activeFamily && (
+        <ChatPanel
+          familyId={auth.activeFamily.id}
+          onClose={() => setShowChat(false)}
+        />
+      )}
+
+      {/* Member manager dialog */}
+      {auth.activeFamily && (
+        <MemberManagerDialog
+          open={showMembers}
+          onOpenChange={setShowMembers}
+          familyId={auth.activeFamily.id}
+        />
+      )}
+
+      {/* CSV import dialog */}
+      <CSVImportDialog
+        open={showCsvImport}
+        onOpenChange={setShowCsvImport}
+        onImport={(persons) => {
+          for (const p of persons) {
+            store.dispatch({ type: 'ADD_PERSON', person: p });
+          }
+        }}
+      />
+
+      {/* Federation (linked families) panel */}
+      {showFederation && auth.activeFamily && (
+        <FederationPanel
+          familyId={auth.activeFamily.id}
+          onClose={() => setShowFederation(false)}
         />
       )}
     </div>

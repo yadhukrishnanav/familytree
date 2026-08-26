@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
@@ -19,8 +19,19 @@ export const metadata: Metadata = {
   description: "Interactive family tree builder with photos, timeline events, real-time collaboration, PNG/PDF export. Powered by Next.js + Supabase.",
   keywords: ["Family Tree", "Genealogy", "Next.js", "Supabase", "Family History"],
   authors: [{ name: "Family Tree App" }],
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Family Tree",
+  },
   icons: {
-    icon: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg",
+    icon: [
+      { url: "https://z-cdn.chatglm.cn/z-ai/static/logo.svg", sizes: "any" },
+      { url: "/icon-192.png", sizes: "192x192", type: "image/png" },
+      { url: "/icon-512.png", sizes: "512x512", type: "image/png" },
+    ],
+    apple: [{ url: "/icon-192.png", sizes: "192x192" }],
   },
   openGraph: {
     title: "Family Tree",
@@ -33,6 +44,30 @@ export const metadata: Metadata = {
     description: "Build, visualize, and share your family's story.",
   },
 };
+
+export const viewport: Viewport = {
+  themeColor: "#8b5cf6",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+};
+
+// Register service worker for PWA install + offline support
+function ServiceWorkerRegister() {
+  return (
+    <script
+      dangerouslySetInnerHTML={{
+        __html: `if ('serviceWorker' in navigator) {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js').catch((e) => {
+              console.warn('SW registration failed', e);
+            });
+          });
+        }`,
+      }}
+    />
+  );
+}
 
 export default function RootLayout({
   children,
@@ -47,6 +82,7 @@ export default function RootLayout({
         {children}
         <Toaster />
         <SonnerToaster position="top-right" richColors closeButton />
+        <ServiceWorkerRegister />
       </body>
     </html>
   );

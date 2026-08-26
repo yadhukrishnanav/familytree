@@ -69,6 +69,7 @@ export interface LayoutNode {
   partner1Id?: string;
   partner2Id?: string;
   marriageYear?: number;
+  generation?: number; // 0 = top generation, increases downward
 }
 
 export interface LayoutConnection {
