@@ -22,6 +22,8 @@ interface AuthContextValue {
   signIn: (email: string, password: string) => Promise<{ error?: string }>;
   signUp: (email: string, password: string) => Promise<{ error?: string }>;
   signInWithGoogle: () => Promise<{ error?: string }>;
+  signInWithOtp: (email: string) => Promise<{ error?: string }>;
+  verifyOtp: (email: string, token: string) => Promise<{ error?: string }>;
   signOut: () => Promise<void>;
   setActiveFamilyId: (id: string) => void;
   createFamily: (name: string) => Promise<{ error?: string; family?: FamilyInfo }>;
@@ -280,6 +282,42 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return {};
   }, [supabase]);
 
+  // ---- Magic Link (OTP) sign-in ----
+  // Step 1: send a 6-digit code to the user's email
+  const signInWithOtp = useCallback(async (email: string) => {
+    if (!isSupabaseConfigured || !supabase) {
+      return {
+        error:
+          'Magic link sign-in requires a configured Supabase project. Add NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY to your .env.local, then enable Email OTP in your Supabase dashboard (Authentication → Providers → Email → enable Email OTP).',
+      };
+    }
+    const { error } = await supabase.auth.signInWithOtp({
+      email,
+      options: { shouldCreateUser: true },
+    });
+    if (error) return { error: error.message };
+    return {};
+  }, [supabase]);
+
+  // Step 2: verify the 6-digit code the user received
+  const verifyOtp = useCallback(async (email: string, token: string) => {
+    if (!isSupabaseConfigured || !supabase) {
+      return { error: 'Magic link requires a configured Supabase project.' };
+    }
+    const { data, error } = await supabase.auth.verifyOtp({
+      email,
+      token,
+      type: 'email',
+    });
+    if (error) return { error: error.message };
+    // Session is set automatically by Supabase; onAuthStateChange will pick it up
+    if (data.user) {
+      setUser({ id: data.user.id, email: data.user.email ?? email });
+      await refreshFamiliesFor(data.user.id);
+    }
+    return {};
+  }, [supabase, refreshFamiliesFor]);
+
   const signOut = useCallback(async () => {
     if (isSupabaseConfigured && supabase) {
       await supabase.auth.signOut();
@@ -421,6 +459,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     signIn,
     signUp,
     signInWithGoogle,
+    signInWithOtp,
+    verifyOtp,
     signOut,
     setActiveFamilyId,
     createFamily,

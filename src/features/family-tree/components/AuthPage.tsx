@@ -9,7 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
-  Users, Plus, LogIn, LogOut, TreePine, Copy, Check, Sparkles, AlertCircle,
+  Users, Plus, LogIn, LogOut, TreePine, Copy, Check, Sparkles, AlertCircle, Mail,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { isSupabaseConfigured } from '../supabase';
@@ -50,12 +50,53 @@ function AuthForms({
   const [confirm, setConfirm] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [info, setInfo] = useState<string | null>(null);
+  // Magic link (OTP) mode
+  const [useMagicLink, setUseMagicLink] = useState(false);
+  const [otpSent, setOtpSent] = useState(false);
+  const [otpCode, setOtpCode] = useState('');
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
-    if (!email.trim() || !password) {
-      setError('Email and password are required');
+    setInfo(null);
+    if (!email.trim()) {
+      setError('Email is required');
+      return;
+    }
+    // Magic link flow
+    if (useMagicLink) {
+      if (!otpSent) {
+        // Step 1: send OTP
+        setSubmitting(true);
+        const res = await auth.signInWithOtp(email.trim());
+        setSubmitting(false);
+        if (res.error) {
+          setError(res.error);
+        } else {
+          setOtpSent(true);
+          setInfo(`We sent a 6-digit code to ${email.trim()}. Check your inbox and enter it below.`);
+        }
+        return;
+      }
+      // Step 2: verify OTP
+      if (!otpCode.trim()) {
+        setError('Enter the 6-digit code from your email');
+        return;
+      }
+      setSubmitting(true);
+      const res = await auth.verifyOtp(email.trim(), otpCode.trim());
+      setSubmitting(false);
+      if (res.error) {
+        setError(res.error);
+      } else {
+        setInfo('Signed in! Loading your families…');
+      }
+      return;
+    }
+    // Password flow
+    if (!password) {
+      setError('Password is required');
       return;
     }
     if (isSignUp && password !== confirm) {
@@ -100,28 +141,31 @@ function AuthForms({
           </div>
 
           <div className="rounded-2xl bg-white/80 p-6 shadow-xl backdrop-blur-md ring-1 ring-slate-200">
-            <div className="mb-4 flex rounded-lg bg-slate-100 p-1">
-              <button
-                type="button"
-                onClick={() => { setIsSignUp(false); setError(null); }}
-                className={`flex-1 rounded-md px-3 py-1.5 text-sm font-medium transition ${
-                  !isSignUp ? 'bg-white shadow text-purple-700' : 'text-slate-600'
-                }`}
-              >
-                Sign in
-              </button>
-              <button
-                type="button"
-                onClick={() => { setIsSignUp(true); setError(null); }}
-                className={`flex-1 rounded-md px-3 py-1.5 text-sm font-medium transition ${
-                  isSignUp ? 'bg-white shadow text-purple-700' : 'text-slate-600'
-                }`}
-              >
-                Create account
-              </button>
-            </div>
+            {/* Sign-in / Sign-up toggle — hidden in magic link mode */}
+            {!useMagicLink && (
+              <div className="mb-4 flex rounded-lg bg-slate-100 p-1">
+                <button
+                  type="button"
+                  onClick={() => { setIsSignUp(false); setError(null); }}
+                  className={`flex-1 rounded-md px-3 py-1.5 text-sm font-medium transition ${
+                    !isSignUp ? 'bg-white shadow text-purple-700' : 'text-slate-600'
+                  }`}
+                >
+                  Sign in
+                </button>
+                <button
+                  type="button"
+                  onClick={() => { setIsSignUp(true); setError(null); }}
+                  className={`flex-1 rounded-md px-3 py-1.5 text-sm font-medium transition ${
+                    isSignUp ? 'bg-white shadow text-purple-700' : 'text-slate-600'
+                  }`}
+                >
+                  Create account
+                </button>
+              </div>
+            )}
 
-            <form onSubmit={submit} className="space-y-3">
+            <form onSubmit={submit} className="space-y-3" noValidate>
               <div>
                 <Label htmlFor="email">Email</Label>
                 <Input
@@ -131,44 +175,102 @@ function AuthForms({
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="you@example.com"
                   autoComplete="email"
+                  disabled={otpSent}
                   required
                 />
               </div>
-              <div>
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  autoComplete={isSignUp ? 'new-password' : 'current-password'}
-                  required
-                />
-              </div>
-              {isSignUp && (
+
+              {/* Magic link OTP code input (shown after sending) */}
+              {useMagicLink && otpSent && (
                 <div>
-                  <Label htmlFor="confirm">Confirm password</Label>
+                  <Label htmlFor="otp">6-digit code</Label>
                   <Input
-                    id="confirm"
-                    type="password"
-                    value={confirm}
-                    onChange={(e) => setConfirm(e.target.value)}
-                    placeholder="Re-enter password"
-                    required
+                    id="otp"
+                    type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    maxLength={6}
+                    value={otpCode}
+                    onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, ''))}
+                    placeholder="123456"
+                    className="text-center text-lg font-bold tracking-[0.5em]"
+                    autoFocus
                   />
+                  <button
+                    type="button"
+                    onClick={() => { setOtpSent(false); setOtpCode(''); setInfo(null); setError(null); }}
+                    className="mt-1 text-xs text-slate-500 hover:text-slate-700"
+                  >
+                    ← Use a different email
+                  </button>
                 </div>
               )}
+
+              {/* Password fields — hidden in magic link mode */}
+              {!useMagicLink && (
+                <>
+                  <div>
+                    <Label htmlFor="password">Password</Label>
+                    <Input
+                      id="password"
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      placeholder="••••••••"
+                      autoComplete={isSignUp ? 'new-password' : 'current-password'}
+                    />
+                  </div>
+                  {isSignUp && (
+                    <div>
+                      <Label htmlFor="confirm">Confirm password</Label>
+                      <Input
+                        id="confirm"
+                        type="password"
+                        value={confirm}
+                        onChange={(e) => setConfirm(e.target.value)}
+                        placeholder="Re-enter password"
+                      />
+                    </div>
+                  )}
+                </>
+              )}
+
+              {/* Info message (OTP sent) */}
+              {info && !error && (
+                <div className="flex items-start gap-2 rounded-md bg-emerald-50 px-3 py-2 text-sm text-emerald-700">
+                  <Mail className="mt-0.5 h-4 w-4 shrink-0" />
+                  <span>{info}</span>
+                </div>
+              )}
+
               {error && (
                 <div className="flex items-start gap-2 rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
                   <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
                   <span>{error}</span>
                 </div>
               )}
+
               <Button type="submit" disabled={submitting} className="w-full bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-700 hover:to-purple-600">
-                {submitting ? 'Please wait...' : isSignUp ? 'Create account' : 'Sign in'}
+                {submitting
+                  ? 'Please wait...'
+                  : useMagicLink
+                    ? otpSent ? 'Verify code' : 'Send code'
+                    : isSignUp ? 'Create account' : 'Sign in'}
               </Button>
             </form>
+
+            {/* Toggle between password and magic link */}
+            {!otpSent && (
+              <button
+                type="button"
+                onClick={() => { setUseMagicLink(!useMagicLink); setError(null); setInfo(null); }}
+                className="mt-3 w-full text-center text-xs text-slate-500 hover:text-purple-600"
+              >
+                {useMagicLink
+                  ? '← Sign in with password instead'
+                  : '✉️ Sign in with email link (no password needed)'}
+              </button>
+            )}
 
             {/* Divider */}
             <div className="my-4 flex items-center gap-3">
@@ -494,3 +596,4 @@ function FamilySelect({ setView }: { setView: (v: View) => void }) {
     </div>
   );
 }
+// Magic link v2
