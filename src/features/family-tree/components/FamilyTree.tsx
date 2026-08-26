@@ -21,7 +21,6 @@ import {
 } from '@/components/ui/dropdown-menu';
 import {
   Plus,
-  Link2,
   Calendar,
   MoreVertical,
   ZoomIn,
@@ -56,7 +55,6 @@ import { useAuth } from '../auth';
 import { computeLayout, NODE_WIDTH, NODE_HEIGHT } from '../layout';
 import { PersonCard, MarriageBadge } from './PersonCard';
 import { PersonForm, type NewRelation } from './PersonForm';
-import { RelationshipForm } from './RelationshipForm';
 import { EventForm } from './EventForm';
 import { Timeline } from './Timeline';
 import { ActivityPanel } from './ActivityPanel';
@@ -71,7 +69,7 @@ import { FederationPanel } from './FederationPanel';
 import { exportToPngFile, exportToPdfFile } from '../export';
 import { deletePhoto } from '../supabase';
 
-type ModalKind = 'add-person' | 'edit-person' | 'add-relationship' | 'add-event' | 'edit-event' | null;
+type ModalKind = 'add-person' | 'edit-person' | 'add-event' | 'edit-event' | null;
 
 interface CanvasTransform {
   x: number;
@@ -427,24 +425,6 @@ export function FamilyTree() {
     toast.success('Person removed', { description: `${p.firstName} ${p.lastName ?? ''}` });
   };
 
-  const handleAddRelationship = async (
-    action: { type: 'spouse'; unit: import('../types').FamilyUnit } | { type: 'parent-child'; parentId: string; childId: string },
-  ) => {
-    setSubmitting(true);
-    try {
-      if (action.type === 'spouse') {
-        store.dispatch({ type: 'ADD_SPOUSE', unit: action.unit });
-        toast.success('Spouses linked');
-      } else {
-        store.dispatch({ type: 'ADD_CHILD', parentId: action.parentId, childId: action.childId });
-        toast.success('Parent-child link added');
-      }
-      setModal(null);
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
   const handleAddEvent = async (event: TimelineEvent) => {
     setSubmitting(true);
     try {
@@ -609,16 +589,6 @@ export function FamilyTree() {
           <Plus className="h-4 w-4" />
           <span className="hidden sm:inline">Add Person</span>
           <span className="sm:hidden">Person</span>
-        </Button>
-        <Button
-          size="sm"
-          variant="outline"
-          onClick={() => setModal('add-relationship')}
-          disabled={personsArray.length < 2}
-          className="gap-1.5 rounded-lg border-slate-300 bg-white/80 hover:bg-white"
-        >
-          <Link2 className="h-4 w-4" />
-          <span className="hidden sm:inline">Link</span>
         </Button>
         <Button
           size="sm"
@@ -942,22 +912,6 @@ export function FamilyTree() {
               submitting={submitting}
             />
           )}
-        </DialogContent>
-      </Dialog>
-
-      <Dialog open={modal === 'add-relationship'} onOpenChange={(o) => { if (!o) setModal(null); }}>
-        <DialogContent className="max-h-[90vh] max-w-lg overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle>Add relationship</DialogTitle>
-          </DialogHeader>
-          <RelationshipForm
-            persons={personsArray}
-            familyUnits={state.familyUnits}
-            anchorPersonId={selectedId ?? undefined}
-            onSubmit={handleAddRelationship}
-            onCancel={() => setModal(null)}
-            submitting={submitting}
-          />
         </DialogContent>
       </Dialog>
 

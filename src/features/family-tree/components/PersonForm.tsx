@@ -150,47 +150,67 @@ export function PersonForm({ initial, familyId, existingPersons, onSubmit, onCan
     };
 
     // Validate + build the relation if user picked one
+    // Mandatory rules:
+    //   - Spouse of → marriage year is 
+    //   - Child of  → new person's birth year is required (must have been born to be someone's child)
+    //   - Parent of → new person's birth year is required (must have been born to be someone's parent)
     let relation: NewRelation | undefined;
-    if (relationKind !== 'none' && relationTargetId) {
+    if (relationKind !== 'none') {
+      if (!relationTargetId) {
+        setError('Please select a person to link to.');
+        return;
+      }
       if (relationKind === 'spouse') {
-        let my: number | undefined;
-        if (relationMarriageYear.trim()) {
-          my = Number(relationMarriageYear);
-          if (Number.isNaN(my) || my < 0 || my > 9999) {
-            setError('Marriage year must be a valid year');
-            return;
-          }
-          // Sanity: marriage year shouldn't be after a deceased new person's death year
-          if (dy != null && my > dy) {
-            setError(`${firstName.trim()} passed away in ${dy} — marriage year ${my} is later.`);
-            return;
-          }
-          // Sanity: marriage year shouldn't be after the target spouse's death year
-          const target = existingPersons?.find((p) => p.id === relationTargetId);
-          if (target?.deathYear != null && my > target.deathYear) {
-            setError(`${target.firstName} ${target.lastName ?? ''} passed away in ${target.deathYear} — marriage year ${my} is later.`);
-            return;
-          }
+        // Marriage year is MANDATORY for spouse
+        if (!relationMarriageYear.trim()) {
+          setError('Marriage year is required when linking as a spouse.');
+          return;
+        }
+        const my = Number(relationMarriageYear);
+        if (Number.isNaN(my) || my < 0 || my > 9999) {
+          setError('Marriage year must be a valid year');
+          return;
+        }
+        // Sanity: marriage year shouldn't be after a deceased new person's death year
+        if (dy != null && my > dy) {
+          setError(`${firstName.trim()} passed away in ${dy} — marriage year ${my} is later.`);
+          return;
+        }
+        // Sanity: marriage year shouldn't be after the target spouse's death year
+        const target = existingPersons?.find((p) => p.id === relationTargetId);
+        if (target?.deathYear != null && my > target.deathYear) {
+          setError(`${target.firstName} ${target.lastName ?? ''} passed away in ${target.deathYear} — marriage year ${my} is later.`);
+          return;
         }
         relation = { kind: 'spouse', targetPersonId: relationTargetId, marriageYear: my };
       } else if (relationKind === 'child') {
+        // New person's birth year is MANDATORY for child
+        if (by == null) {
+          setError(`Birth year is required when adding ${firstName.trim()} as a child.`);
+          return;
+        }
         // New person is CHILD of targetPersonId
         // Sanity: parent shouldn't be younger than child by <12 yrs
         const target = existingPersons?.find((p) => p.id === relationTargetId);
-        if (target?.birthYear != null && by != null && by < target.birthYear + 12) {
+        if (target?.birthYear != null && by < target.birthYear + 12) {
           setError(`${target.firstName} would be only ${by - target.birthYear} years old when ${firstName.trim()} was born (must be ≥ 12).`);
           return;
         }
         // Sanity: parent shouldn't be deceased before child's birth
-        if (target?.deathYear != null && by != null && by > target.deathYear) {
+        if (target?.deathYear != null && by > target.deathYear) {
           setError(`${target.firstName} passed away in ${target.deathYear}, before ${firstName.trim()} was born in ${by}.`);
           return;
         }
         relation = { kind: 'child', targetPersonId: relationTargetId };
       } else if (relationKind === 'parent') {
+        // New person's birth year is MANDATORY for parent
+        if (by == null) {
+          setError(`Birth year is required when adding ${firstName.trim()} as a parent.`);
+          return;
+        }
         // New person is PARENT of targetPersonId
         const target = existingPersons?.find((p) => p.id === relationTargetId);
-        if (by != null && target?.birthYear != null && target.birthYear < by + 12) {
+        if (target?.birthYear != null && target.birthYear < by + 12) {
           setError(`${firstName.trim()} would be only ${target.birthYear - by} years old when ${target.firstName} was born (must be ≥ 12).`);
           return;
         }
@@ -208,7 +228,7 @@ export function PersonForm({ initial, familyId, existingPersons, onSubmit, onCan
   const palettes = gender === 'female' ? FEMALE_PALETTES : MALE_PALETTES;
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-4" noValidate>
       {/* Photo upload */}
       <div className="flex items-center gap-4">
         <div className="relative">
@@ -291,7 +311,9 @@ export function PersonForm({ initial, familyId, existingPersons, onSubmit, onCan
       {/* Years */}
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <Label htmlFor="birthYear">Birth year</Label>
+          <Label htmlFor="birthYear" className={(relationKind === 'child' || relationKind === 'parent') ? 'text-red-600' : ''}>
+            Birth year{(relationKind === 'child' || relationKind === 'parent') ? ' *' : ''}
+          </Label>
           <Input
             id="birthYear"
             type="number"
@@ -378,7 +400,7 @@ export function PersonForm({ initial, familyId, existingPersons, onSubmit, onCan
       {showRelationSection && (
         <div className="rounded-lg border border-slate-200 bg-slate-50/50 p-3">
           <Label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-slate-500">
-            Link to family (optional)
+            Link to family
           </Label>
           <div className="grid grid-cols-4 gap-1.5">
             <button
@@ -454,8 +476,8 @@ export function PersonForm({ initial, familyId, existingPersons, onSubmit, onCan
               </div>
               {relationKind === 'spouse' && (
                 <div>
-                  <Label htmlFor="relationMarriageYear" className="text-xs text-slate-600">
-                    Marriage year (optional)
+                  <Label htmlFor="relationMarriageYear" className="text-xs text-red-600">
+                    Marriage year *
                   </Label>
                   <Input
                     id="relationMarriageYear"
@@ -466,6 +488,11 @@ export function PersonForm({ initial, familyId, existingPersons, onSubmit, onCan
                     min={0}
                     max={9999}
                     className="bg-white"
+                    // Note: do NOT add HTML5 `required` — our JS validation in handleSubmit
+                    // handles the required check with a custom error message. HTML5 required
+                    // would show the browser's generic "Please fill in this field" tooltip
+                    // which is less helpful and blocks our custom error from showing.
+                    required={false}
                   />
                 </div>
               )}

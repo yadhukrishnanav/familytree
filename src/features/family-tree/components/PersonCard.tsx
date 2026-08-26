@@ -89,13 +89,17 @@ export function PersonCard({ person, x, y, selected, generation, onClick }: Prop
           aria-hidden
         />
 
-        {/* Generation badge (top-left corner) */}
+        {/* Generation badge (top-left, INSIDE card to avoid overflow clipping) */}
         {generation != null && (
           <div
-            className="pointer-events-none absolute -left-1.5 -top-2 z-10 rounded-md bg-white/95 px-1.5 py-0.5 text-[8px] font-bold uppercase tracking-wider text-slate-500 shadow-sm ring-1 ring-slate-200"
+            className="pointer-events-none absolute left-2 top-2 z-20 flex items-center gap-1 rounded-md px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow-md"
+            style={{
+              background: `linear-gradient(135deg, ${person.avatarColors[0]}, ${person.avatarColors[1]})`,
+            }}
             title={`Generation ${generation + 1}`}
           >
-            Gen {generation + 1}
+            <span className="opacity-80">Gen</span>
+            <span>{generation + 1}</span>
           </div>
         )}
 
