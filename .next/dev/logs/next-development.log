@@ -1,8 +1,2 @@
-[00:00:01.544] Server  LOG     ✓ Ready in 1306ms
-[00:00:04.571] Server  LOG     ○ Compiling / ...
-[00:00:13.911] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:25.604] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:02:15.491] Browser ERROR   uncaughtError: ChunkLoadError: Loading chunk app/page failed.
-(timeout: https://preview-chat-0af61295-d4ba-4817-a5aa-dab7f52a34bf.space-z.ai/_next/static/chunks/app/page.js)
-[00:02:15.493] Browser ERROR   uncaughtError: ChunkLoadError: Loading chunk app/page failed.
-(timeout: https://preview-chat-0af61295-d4ba-4817-a5aa-dab7f52a34bf.space-z.ai/_next/static/chunks/app/page.js)
+[00:00:01.588] Server  LOG     ✓ Ready in 1357ms
+[00:00:04.641] Server  LOG     ○ Compiling / ...
