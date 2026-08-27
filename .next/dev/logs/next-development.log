@@ -39,3 +39,5 @@
 [00:05:31.419] Browser LOG     FETCH to families, apikey starts with: eyJhbGciOiJIUzI1NiIsInR5cCI6Ik
 [00:05:31.563] Browser LOG     FETCH POST https://qiauymlahxitqzgiyduo.supabase.co/rest/v1/families → 403 {"code":"42501","details":null,"hint":null,"message":"new row violates row-level security policy for table \"families\""}
 [00:05:31.563] Browser LOG     Fresh insert: 403 {"code":"42501","details":null,"hint":null,"message":"new row violates row-level security policy for table \"families\""}
+[01:00:00.080] Browser LOG     FETCH to families, apikey starts with: none
+[01:00:00.570] Browser LOG     FETCH GET https://qiauymlahxitqzgiyduo.supabase.co/rest/v1/family_members?select=family_id%2Crole%2Cfamilies%28id%2Cname%2Cshare_code%29&user_id=eq.bad30c4d-bd81-4c8f-815b-ca6b35972c39 → 200 []
