@@ -1,2 +1,64 @@
-skills/
+# Dependencies
 node_modules/
+.pnp
+.pnp.js
+
+# Testing
+coverage/
+
+# Next.js
+.next/
+out/
+build/
+dist/
+
+# Production
+*.tsbuildinfo
+next-env.d.ts
+
+# Misc
+.DS_Store
+*.pem
+.vscode/
+.idea/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+dev.log
+server.log
+
+# Local env files — NEVER commit these
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Vercel
+.vercel
+
+# Database
+*.db
+*.db-journal
+db/
+
+# Agent / workspace metadata
+.zscripts/
+agent-ctx/
+worklog.md
+
+# Source bundles and screenshots (dev-only)
+download/
+upload/
+tests/
+examples/
+mini-services/
+Caddyfile
+bun.lock
+scripts/*.png
+scripts/*.tar.gz
+scripts/bundle_source.sh
+
+# Skills
+skills/
