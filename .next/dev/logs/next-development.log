@@ -1,7 +1,0 @@
-[00:00:01.547] Server  LOG     ✓ Ready in 1313ms
-[00:00:04.565] Server  LOG     ○ Compiling / ...
-[00:00:28.131] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:36.264] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:01:24.440] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
-[00:01:38.753] Browser ERROR   Supabase save failed {"code":"22P02","details":null,"hint":null,"message":"invalid input syntax for type uuid: \"auto_birth_e4b0e299-f988-431b-a917-f668f516765c\""}
-[00:01:53.993] Browser ERROR   Can't perform a React state update on a component that hasn't mounted yet. This indicates that you have a side-effect in your render function that asynchronously tries to update the component. Move this work to useEffect instead.

@@ -41,7 +41,7 @@ drop policy if exists "links_delete_admin" on public.family_links;
 
 -- Recreate all policies
 create policy "families_select_member" on public.families
-    for select using (public.is_family_member(id));
+    for select to authenticated using (true);
 create policy "families_insert_authenticated" on public.families
     for insert to authenticated with check (auth.uid() is not null);
 create policy "families_update_member" on public.families
