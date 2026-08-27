@@ -1,43 +1,7 @@
-[00:00:01.641] Server  LOG     ✓ Ready in 1410ms
-[00:00:04.675] Server  LOG     ○ Compiling / ...
-[00:00:21.297] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:00:29.121] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
-[00:02:15.402] Browser ERROR   uncaughtError: ChunkLoadError: Loading chunk app/page failed.
-(timeout: https://preview-chat-0af61295-d4ba-4817-a5aa-dab7f52a34bf.space-z.ai/_next/static/chunks/app/page.js)
-[00:03:17.405] Browser LOG     FETCH POST https://qiauymlahxitqzgiyduo.supabase.co/rest/v1/families?select=* → 403 {"code":"42501","details":null,"hint":null,"message":"new row violates row-level security policy for table \"families\""}
-[00:03:44.400] Browser LOG     FETCH to families, apikey starts with: none
-[00:03:44.537] Browser LOG     FETCH POST https://qiauymlahxitqzgiyduo.supabase.co/rest/v1/families?select=* → 403 {"code":"42501","details":null,"hint":null,"message":"new row violates row-level security policy for table \"families\""}
-[00:04:17.153] Browser LOG     CREATE FAMILY REQUEST:
-[00:04:17.153] Browser LOG       apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzd...
-[00:04:17.153] Browser LOG       authorization: Bearer eyJhbGciOiJFUzI1NiIsImtpZCI6Ijg2YzYxNmQwLTZ...
-[00:04:17.153] Browser LOG       body: {"name":"The Nair Family","share_code":"FHVOKV"}
-[00:04:17.153] Browser LOG     FETCH to families, apikey starts with: none
-[00:04:17.359] Browser LOG     FETCH POST https://qiauymlahxitqzgiyduo.supabase.co/rest/v1/families?select=* → 403 {"code":"42501","details":null,"hint":null,"message":"new row violates row-level security policy for table \"families\""}
-[00:04:30.617] Browser LOG     APIKEY ROLE: anon REF: qiauymlahxitqzgiyduo
-[00:04:30.617] Browser LOG     AUTH TOKEN ROLE: authenticated SUB: bad30c4d-bd81-4c8f-815b-ca6b35972c39
-[00:04:30.617] Browser LOG     CREATE FAMILY REQUEST:
-[00:04:30.617] Browser LOG       apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzd...
-[00:04:30.617] Browser LOG       authorization: Bearer eyJhbGciOiJFUzI1NiIsImtpZCI6Ijg2YzYxNmQwLTZ...
-[00:04:30.617] Browser LOG       body: {"name":"The Nair Family","share_code":"6BQE26"}
-[00:04:30.617] Browser LOG     FETCH to families, apikey starts with: none
-[00:04:30.617] Browser LOG     FETCH POST https://qiauymlahxitqzgiyduo.supabase.co/rest/v1/families?select=* → 403 {"code":"42501","details":null,"hint":null,"message":"new row violates row-level security policy for table \"families\""}
-[00:04:49.487] Browser LOG     APIKEY ROLE: anon REF: qiauymlahxitqzgiyduo
-[00:04:49.487] Browser LOG     AUTH TOKEN ROLE: authenticated SUB: bad30c4d-bd81-4c8f-815b-ca6b35972c39
-[00:04:49.487] Browser LOG     CREATE FAMILY REQUEST:
-[00:04:49.487] Browser LOG       apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzd...
-[00:04:49.487] Browser LOG       authorization: Bearer eyJhbGciOiJFUzI1NiIsImtpZCI6Ijg2YzYxNmQwLTZ...
-[00:04:49.487] Browser LOG       body: {"name":"Direct Test","share_code":"DIRECT1787826757789"}
-[00:04:49.487] Browser LOG     FETCH to families, apikey starts with: eyJhbGciOiJIUzI1NiIsInR5cCI6Ik
-[00:04:49.618] Browser LOG     FETCH POST https://qiauymlahxitqzgiyduo.supabase.co/rest/v1/families → 403 {"code":"42501","details":null,"hint":null,"message":"new row violates row-level security policy for table \"families\""}
-[00:05:31.419] Browser LOG     Fresh sign-in: 200
-[00:05:31.419] Browser LOG     APIKEY ROLE: anon REF: qiauymlahxitqzgiyduo
-[00:05:31.419] Browser LOG     AUTH TOKEN ROLE: authenticated SUB: bad30c4d-bd81-4c8f-815b-ca6b35972c39
-[00:05:31.419] Browser LOG     CREATE FAMILY REQUEST:
-[00:05:31.419] Browser LOG       apikey: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzd...
-[00:05:31.419] Browser LOG       authorization: Bearer eyJhbGciOiJFUzI1NiIsImtpZCI6Ijg2YzYxNmQwLTZ...
-[00:05:31.419] Browser LOG       body: {"name":"Fresh Test","share_code":"FRESH1787826799722"}
-[00:05:31.419] Browser LOG     FETCH to families, apikey starts with: eyJhbGciOiJIUzI1NiIsInR5cCI6Ik
-[00:05:31.563] Browser LOG     FETCH POST https://qiauymlahxitqzgiyduo.supabase.co/rest/v1/families → 403 {"code":"42501","details":null,"hint":null,"message":"new row violates row-level security policy for table \"families\""}
-[00:05:31.563] Browser LOG     Fresh insert: 403 {"code":"42501","details":null,"hint":null,"message":"new row violates row-level security policy for table \"families\""}
-[01:00:00.080] Browser LOG     FETCH to families, apikey starts with: none
-[01:00:00.570] Browser LOG     FETCH GET https://qiauymlahxitqzgiyduo.supabase.co/rest/v1/family_members?select=family_id%2Crole%2Cfamilies%28id%2Cname%2Cshare_code%29&user_id=eq.bad30c4d-bd81-4c8f-815b-ca6b35972c39 → 200 []
+[00:00:01.547] Server  LOG     ✓ Ready in 1313ms
+[00:00:04.565] Server  LOG     ○ Compiling / ...
+[00:00:28.131] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:00:36.264] Browser INFO    %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold
+[00:01:24.440] Browser WARN    Warning: Missing `Description` or `aria-describedby={undefined}` for {DialogContent}.
+[00:01:38.753] Browser ERROR   Supabase save failed {"code":"22P02","details":null,"hint":null,"message":"invalid input syntax for type uuid: \"auto_birth_e4b0e299-f988-431b-a917-f668f516765c\""}
+[00:01:53.993] Browser ERROR   Can't perform a React state update on a component that hasn't mounted yet. This indicates that you have a side-effect in your render function that asynchronously tries to update the component. Move this work to useEffect instead.
