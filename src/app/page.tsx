@@ -1,9 +1,7 @@
 'use client';
 
-// Family Tree — Main app entry
-// Renders AuthPage when unauthenticated, otherwise the FamilyTree workspace.
-
 import { AuthProvider, useAuth } from '@/features/family-tree/auth';
+import { I18nProvider } from '@/features/family-tree/i18n';
 import { StoreProvider } from '@/features/family-tree/store';
 import { AuthPage } from '@/features/family-tree/components/AuthPage';
 import { FamilyTree } from '@/features/family-tree/components/FamilyTree';
@@ -14,12 +12,12 @@ function AppContent() {
 
   if (auth.loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-purple-50 via-white to-amber-50">
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-emerald-50 via-white to-teal-50">
         <div className="text-center">
-          <div className="mx-auto mb-3 flex h-12 w-12 animate-pulse items-center justify-center rounded-2xl bg-gradient-to-br from-purple-500 to-amber-500 shadow-lg">
+          <div className="mx-auto mb-3 flex h-12 w-12 animate-pulse items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg">
             <TreePine className="h-6 w-6 text-white" />
           </div>
-          <p className="text-sm text-slate-500">Loading Family Tree…</p>
+          <p className="text-sm text-slate-500">Loading…</p>
         </div>
       </div>
     );
@@ -41,8 +39,10 @@ function AppContent() {
 
 export default function Home() {
   return (
-    <AuthProvider>
-      <AppContent />
-    </AuthProvider>
+    <I18nProvider>
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
+    </I18nProvider>
   );
 }

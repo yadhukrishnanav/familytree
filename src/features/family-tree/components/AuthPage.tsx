@@ -5,6 +5,7 @@
 
 import { useState } from 'react';
 import { useAuth } from '../auth';
+import { useI18n } from '../i18n';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -44,7 +45,7 @@ function AuthForms({
   setView: (v: View) => void;
 }) {
   const auth = useAuth();
-  const [isSignUp, setIsSignUp] = useState(initialView === 'sign-up');
+  const i18n = useI18n();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
@@ -120,20 +121,32 @@ function AuthForms({
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-amber-50">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50">
+      {/* Language toggle — top right */}
+      <div className="absolute right-4 top-4 z-50">
+        <button
+          onClick={() => i18n.toggleLang()}
+          className="flex h-8 items-center gap-1 rounded-lg border border-slate-200 bg-white/80 px-2 text-xs font-bold shadow-sm transition hover:bg-white"
+          title="Toggle language"
+        >
+          <span className={i18n.lang === 'en' ? 'text-emerald-600' : 'text-slate-400'}>EN</span>
+          <span className="text-slate-300">|</span>
+          <span className={i18n.lang === 'ml' ? 'text-emerald-600' : 'text-slate-400'}>മലയാളം</span>
+        </button>
+      </div>
       <div className="flex min-h-screen items-center justify-center p-4">
         <div className="w-full max-w-md">
           {/* Brand header */}
           <div className="mb-6 text-center">
-            <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-500 to-amber-500 shadow-lg">
+            <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg">
               <TreePine className="h-7 w-7 text-white" />
             </div>
-            <h1 className="text-2xl font-bold text-slate-800">Family Tree</h1>
+            <h1 className="text-2xl font-bold text-slate-800">{t('app.name')}</h1>
             <p className="text-sm text-slate-500">
-              Build, visualize, and share your family&apos;s story
+              {t('app.tagline')}
             </p>
             {!isSupabaseConfigured && (
-              <div className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-amber-100 px-3 py-1 text-xs font-medium text-amber-700">
+              <div className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-teal-100 px-3 py-1 text-xs font-medium text-teal-700">
                 <Sparkles className="h-3 w-3" />
                 Demo mode — sign in with any email to explore
               </div>
@@ -148,7 +161,7 @@ function AuthForms({
                   type="button"
                   onClick={() => { setIsSignUp(false); setError(null); }}
                   className={`flex-1 rounded-md px-3 py-1.5 text-sm font-medium transition ${
-                    !isSignUp ? 'bg-white shadow text-purple-700' : 'text-slate-600'
+                    !isSignUp ? 'bg-white shadow text-emerald-700' : 'text-slate-600'
                   }`}
                 >
                   Sign in
@@ -157,7 +170,7 @@ function AuthForms({
                   type="button"
                   onClick={() => { setIsSignUp(true); setError(null); }}
                   className={`flex-1 rounded-md px-3 py-1.5 text-sm font-medium transition ${
-                    isSignUp ? 'bg-white shadow text-purple-700' : 'text-slate-600'
+                    isSignUp ? 'bg-white shadow text-emerald-700' : 'text-slate-600'
                   }`}
                 >
                   Create account
@@ -167,7 +180,7 @@ function AuthForms({
 
             <form onSubmit={submit} className="space-y-3" noValidate>
               <div>
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">{t('auth.email')}</Label>
                 <Input
                   id="email"
                   type="email"
@@ -210,7 +223,7 @@ function AuthForms({
               {!useMagicLink && (
                 <>
                   <div>
-                    <Label htmlFor="password">Password</Label>
+                    <Label htmlFor="password">{t('auth.password')}</Label>
                     <Input
                       id="password"
                       type="password"
@@ -222,7 +235,7 @@ function AuthForms({
                   </div>
                   {isSignUp && (
                     <div>
-                      <Label htmlFor="confirm">Confirm password</Label>
+                      <Label htmlFor="confirm">{t('auth.confirmPassword')}</Label>
                       <Input
                         id="confirm"
                         type="password"
@@ -250,7 +263,7 @@ function AuthForms({
                 </div>
               )}
 
-              <Button type="submit" disabled={submitting} className="w-full bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-700 hover:to-purple-600">
+              <Button type="submit" disabled={submitting} className="w-full bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-700 hover:to-teal-600">
                 {submitting
                   ? 'Please wait...'
                   : useMagicLink
@@ -264,7 +277,7 @@ function AuthForms({
               <button
                 type="button"
                 onClick={() => { setUseMagicLink(!useMagicLink); setError(null); setInfo(null); }}
-                className="mt-3 w-full text-center text-xs text-slate-500 hover:text-purple-600"
+                className="mt-3 w-full text-center text-xs text-slate-500 hover:text-emerald-600"
               >
                 {useMagicLink
                   ? '← Sign in with password instead'
@@ -285,10 +298,10 @@ function AuthForms({
 function FamilyCreateOrJoin({ setView }: { setView: (v: View) => void }) {
   const auth = useAuth();
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-amber-50">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50">
       <div className="flex min-h-screen items-center justify-center p-4">
         <div className="w-full max-w-md text-center">
-          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-purple-500 to-amber-500 shadow-lg">
+          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg">
             <TreePine className="h-7 w-7 text-white" />
           </div>
           <h2 className="mb-2 text-2xl font-bold text-slate-800">Welcome, {auth.user?.email}!</h2>
@@ -300,7 +313,7 @@ function FamilyCreateOrJoin({ setView }: { setView: (v: View) => void }) {
               onClick={() => setView('family-create')}
               className="flex w-full items-center gap-3 rounded-xl bg-white p-4 text-left shadow ring-1 ring-slate-200 hover:shadow-md"
             >
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-100 text-purple-600">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600">
                 <Plus className="h-5 w-5" />
               </div>
               <div>
@@ -312,7 +325,7 @@ function FamilyCreateOrJoin({ setView }: { setView: (v: View) => void }) {
               onClick={() => setView('family-join')}
               className="flex w-full items-center gap-3 rounded-xl bg-white p-4 text-left shadow ring-1 ring-slate-200 hover:shadow-md"
             >
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-100 text-amber-600">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-teal-100 text-teal-600">
                 <LogIn className="h-5 w-5" />
               </div>
               <div>
@@ -351,7 +364,7 @@ function CreateFamily({ setView }: { setView: (v: View) => void }) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-amber-50">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50">
       <div className="flex min-h-screen items-center justify-center p-4">
         <div className="w-full max-w-md rounded-2xl bg-white/80 p-6 shadow-xl backdrop-blur-md ring-1 ring-slate-200">
           <h2 className="mb-4 text-xl font-bold text-slate-800">Create a family</h2>
@@ -403,7 +416,7 @@ function JoinFamily({ setView }: { setView: (v: View) => void }) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-amber-50">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50">
       <div className="flex min-h-screen items-center justify-center p-4">
         <div className="w-full max-w-md rounded-2xl bg-white/80 p-6 shadow-xl backdrop-blur-md ring-1 ring-slate-200">
           <h2 className="mb-4 text-xl font-bold text-slate-800">Join a family</h2>
@@ -458,7 +471,7 @@ function FamilySelect({ setView }: { setView: (v: View) => void }) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-amber-50">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50">
       <div className="flex min-h-screen items-center justify-center p-4">
         <div className="w-full max-w-2xl">
           <div className="mb-6 flex items-center justify-between">
@@ -482,12 +495,12 @@ function FamilySelect({ setView }: { setView: (v: View) => void }) {
                 <div
                   key={fam.id}
                   className={`rounded-2xl bg-white p-4 shadow ring-1 transition hover:shadow-md ${
-                    active ? 'ring-2 ring-purple-400' : 'ring-slate-200'
+                    active ? 'ring-2 ring-emerald-400' : 'ring-slate-200'
                   }`}
                 >
                   <div className="mb-2 flex items-start justify-between">
                     <div className="flex items-center gap-2">
-                      <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-purple-500 to-amber-500 text-white">
+                      <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 text-white">
                         <Users className="h-4 w-4" />
                       </div>
                       <div>
@@ -501,8 +514,8 @@ function FamilySelect({ setView }: { setView: (v: View) => void }) {
                       fam.role === 'admin'
                         ? 'bg-rose-100 text-rose-700'
                         : fam.role === 'owner'
-                          ? 'bg-purple-100 text-purple-700'
-                          : 'bg-amber-100 text-amber-700'
+                          ? 'bg-emerald-100 text-emerald-700'
+                          : 'bg-teal-100 text-teal-700'
                     }`}>
                       {fam.role}
                     </span>
@@ -528,7 +541,7 @@ function FamilySelect({ setView }: { setView: (v: View) => void }) {
                     onClick={() => auth.setActiveFamilyId(fam.id)}
                     className={`w-full ${
                       active
-                        ? 'bg-purple-600 hover:bg-purple-700'
+                        ? 'bg-emerald-600 hover:bg-emerald-700'
                         : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
                     }`}
                     variant={active ? 'default' : 'secondary'}
@@ -541,7 +554,7 @@ function FamilySelect({ setView }: { setView: (v: View) => void }) {
 
             <button
               onClick={() => setView('family-create')}
-              className="flex min-h-[160px] flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-slate-300 text-slate-500 hover:border-purple-400 hover:text-purple-600"
+              className="flex min-h-[160px] flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-slate-300 text-slate-500 hover:border-emerald-400 hover:text-emerald-600"
             >
               <Plus className="h-6 w-6" />
               <span className="text-sm font-medium">Create new family</span>

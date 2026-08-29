@@ -67,7 +67,7 @@ import { MemberManagerDialog } from './MemberManagerDialog';
 import { CSVImportDialog } from './CSVImportDialog';
 import { FederationPanel } from './FederationPanel';
 import { exportToPngFile, exportToPdfFile } from '../export';
-import { deletePhoto } from '../supabase';
+import { useI18n } from '../i18n';
 
 type ModalKind = 'add-person' | 'edit-person' | 'add-event' | 'edit-event' | null;
 
@@ -83,6 +83,7 @@ const MAX_SCALE = 3;
 export function FamilyTree() {
   const store = useStore();
   const auth = useAuth();
+  const i18n = useI18n();
   const { state } = store;
 
   const [transform, setTransform] = useState<CanvasTransform>({ x: 100, y: 60, scale: 0.8 });
@@ -101,6 +102,8 @@ export function FamilyTree() {
   const [showMembers, setShowMembers] = useState(false);
   const [showCsvImport, setShowCsvImport] = useState(false);
   const [showFederation, setShowFederation] = useState(false);
+  const WEDDING_DATE = new Date('2026-09-05T00:00:00');
+  const [showCelebration, setShowCelebration] = useState(() => new Date() < WEDDING_DATE);
   const [viewMode, setViewMode] = useState<'tree' | 'grid'>('tree');
 
   const canvasRef = useRef<HTMLDivElement>(null);
@@ -497,11 +500,11 @@ export function FamilyTree() {
   const personsArray = useMemo(() => Object.values(state.persons), [state.persons]);
 
   return (
-    <div className="flex h-screen flex-col bg-gradient-to-br from-slate-50 via-white to-purple-50/40">
+    <div className="flex h-screen flex-col bg-gradient-to-br from-stone-50 via-white to-emerald-50/40">
       {/* ---- Header ---- */}
       <header className="flex items-center justify-between border-b border-slate-200/80 bg-white/70 px-3 py-2.5 backdrop-blur-xl sm:px-5">
         <div className="flex min-w-0 items-center gap-2.5">
-          <div className="relative flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-purple-500 via-pink-500 to-amber-500 text-white shadow-md shadow-purple-500/30">
+          <div className="relative flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-md shadow-emerald-500/30">
             <span className="text-xs font-bold">FT</span>
             <span className="absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full bg-green-400 ring-2 ring-white" />
           </div>
@@ -520,17 +523,17 @@ export function FamilyTree() {
         {auth.activeFamily && (
           <button
             onClick={copyShareCode}
-            className="hidden items-center gap-2 rounded-full border border-purple-200/60 bg-gradient-to-r from-purple-50 to-pink-50 px-3 py-1.5 text-xs shadow-sm transition hover:shadow-md hover:from-purple-100 hover:to-pink-100 sm:flex"
+            className="hidden items-center gap-2 rounded-full border border-emerald-200/60 bg-gradient-to-r from-emerald-50 to-teal-50 px-3 py-1.5 text-xs shadow-sm transition hover:shadow-md hover:from-emerald-100 hover:to-teal-100 sm:flex"
             title="Click to copy share code"
           >
-            <span className="text-[10px] font-semibold uppercase tracking-wider text-purple-400">Share</span>
-            <code className="font-mono text-[13px] font-bold tracking-wider text-purple-700">
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-emerald-400">{t('toolbar.share')}</span>
+            <code className="font-mono text-[13px] font-bold tracking-wider text-emerald-700">
               {auth.activeFamily.shareCode}
             </code>
             {copiedCode ? (
               <Check className="h-3.5 w-3.5 text-green-600" />
             ) : (
-              <Copy className="h-3.5 w-3.5 text-purple-400" />
+              <Copy className="h-3.5 w-3.5 text-emerald-400" />
             )}
           </button>
         )}
@@ -539,7 +542,7 @@ export function FamilyTree() {
         {auth.activeFamily && (
           <button
             onClick={copyShareCode}
-            className="rounded-full bg-gradient-to-r from-purple-50 to-pink-50 px-2.5 py-1 font-mono text-xs font-bold text-purple-700 ring-1 ring-purple-200 sm:hidden"
+            className="rounded-full bg-gradient-to-r from-emerald-50 to-teal-50 px-2.5 py-1 font-mono text-xs font-bold text-emerald-700 ring-1 ring-emerald-200 sm:hidden"
             title="Tap to copy share code"
           >
             {auth.activeFamily.shareCode}
@@ -547,11 +550,19 @@ export function FamilyTree() {
         )}
 
         <div className="flex items-center gap-0.5">
+          {/* Language toggle */}
+          <button
+            onClick={() => i18n.toggleLang()}
+            className="rounded-full border border-slate-300 bg-white/80 px-2.5 py-1 text-xs font-bold text-slate-600 transition hover:bg-white"
+            title={i18n.i18n.lang === 'en' ? 'മലയാളം' : 'English'}
+          >
+            {i18n.i18n.lang === 'en' ? 'മലയാളം' : 'EN'}
+          </button>
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setShowActivity(true)}
-            title="Recent activity"
+            title={i18n.t('Recent activity')}
             className="h-8 w-8 p-0"
           >
             <History className="h-4 w-4" />
@@ -576,6 +587,16 @@ export function FamilyTree() {
           >
             <Redo2 className="h-4 w-4" />
           </Button>
+          {/* Language toggle */}
+          <button
+            onClick={() => i18n.toggleLang()}
+            className="flex h-8 items-center gap-1 rounded-lg border border-slate-200 bg-white/80 px-2 text-xs font-bold transition hover:bg-slate-50"
+            title="Language"
+          >
+            <span className={i18n.lang === 'en' ? 'text-emerald-600' : 'text-slate-400'}>EN</span>
+            <span className="text-slate-300">|</span>
+            <span className={i18n.lang === 'ml' ? 'text-emerald-600' : 'text-slate-400'}>മലയാളം</span>
+          </button>
         </div>
       </header>
 
@@ -584,11 +605,11 @@ export function FamilyTree() {
         <Button
           size="sm"
           onClick={() => { setEditingPerson(null); setModal('add-person'); }}
-          className="gap-1.5 rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 px-3 shadow-md shadow-purple-500/25 hover:from-purple-700 hover:to-pink-700 hover:shadow-lg"
+          className="gap-1.5 rounded-lg bg-gradient-to-r from-emerald-600 to-teal-600 px-3 shadow-md shadow-emerald-500/25 hover:from-emerald-700 hover:to-teal-700 hover:shadow-lg"
         >
           <Plus className="h-4 w-4" />
-          <span className="hidden sm:inline">Add Person</span>
-          <span className="sm:hidden">Person</span>
+          <span className="hidden sm:inline">{t('toolbar.addPerson')}</span>
+          <span className="sm:hidden">{t('toolbar.person')}</span>
         </Button>
         <Button
           size="sm"
@@ -597,7 +618,7 @@ export function FamilyTree() {
           className="gap-1.5 rounded-lg border-slate-300 bg-white/80 hover:bg-white"
         >
           <Calendar className="h-4 w-4" />
-          <span className="hidden sm:inline">Event</span>
+          <span className="hidden sm:inline">{t('toolbar.event')}</span>
         </Button>
 
         {/* Divider */}
@@ -612,21 +633,21 @@ export function FamilyTree() {
           title="Search (Ctrl/Cmd+K)"
         >
           <Search className="h-4 w-4" />
-          <span className="hidden md:inline">Search</span>
+          <span className="hidden md:inline">{t('toolbar.search')}</span>
         </Button>
 
         {/* View toggle: tree / grid */}
         <div className="flex rounded-lg border border-slate-300 bg-white/80 p-0.5">
           <button
             onClick={() => setViewMode('tree')}
-            className={`flex h-7 w-7 items-center justify-center rounded-md text-xs transition ${viewMode === 'tree' ? 'bg-purple-100 text-purple-700' : 'text-slate-500 hover:bg-slate-50'}`}
+            className={`flex h-7 w-7 items-center justify-center rounded-md text-xs transition ${viewMode === 'tree' ? 'bg-emerald-100 text-emerald-700' : 'text-slate-500 hover:bg-slate-50'}`}
             title="Tree view"
           >
             <TreePine className="h-3.5 w-3.5" />
           </button>
           <button
             onClick={() => setViewMode('grid')}
-            className={`flex h-7 w-7 items-center justify-center rounded-md text-xs transition ${viewMode === 'grid' ? 'bg-purple-100 text-purple-700' : 'text-slate-500 hover:bg-slate-50'}`}
+            className={`flex h-7 w-7 items-center justify-center rounded-md text-xs transition ${viewMode === 'grid' ? 'bg-emerald-100 text-emerald-700' : 'text-slate-500 hover:bg-slate-50'}`}
             title="Photo grid view"
           >
             <LayoutGrid className="h-3.5 w-3.5" />
@@ -638,10 +659,10 @@ export function FamilyTree() {
           size="sm"
           variant="outline"
           onClick={() => setShowBirthdays((v) => !v)}
-          className={`gap-1.5 rounded-lg border-slate-300 bg-white/80 hover:bg-white ${showBirthdays ? 'ring-2 ring-pink-300' : ''}`}
+          className={`gap-1.5 rounded-lg border-slate-300 bg-white/80 hover:bg-white ${showBirthdays ? 'ring-2 ring-emerald-300' : ''}`}
           title="Birthdays"
         >
-          <Cake className="h-4 w-4 text-pink-500" />
+          <Cake className="h-4 w-4 text-emerald-500" />
         </Button>
 
         {/* Chat */}
@@ -775,7 +796,7 @@ export function FamilyTree() {
                 </defs>
                 {layout.connections.map((c, i) => {
                   if (c.type === 'marriage') {
-                    // Marriage: dashed pink line with subtle thickness
+                    // Marriage: dashed green line with subtle thickness
                     return (
                       <line
                         key={i}
@@ -896,9 +917,19 @@ export function FamilyTree() {
         onDeleteEvent={handleDeleteEvent}
       />
 
+      {/* Footnote */}
+      <div className="border-t border-slate-100 bg-white/50 px-4 py-2.5 text-center text-[16px] font-bold text-slate-900">
+        {t('footnote')}
+      </div>
+
+      {/* Celebration overlay (until Sep 4, 2026) */}
+      {showCelebration && (
+        <CelebrationOverlay onClose={() => setShowCelebration(false)} />
+      )}
+
       {/* ---- Modals ---- */}
       <Dialog open={modal === 'add-person' || modal === 'edit-person'} onOpenChange={(o) => { if (!o) { setModal(null); setEditingPerson(null); } }}>
-        <DialogContent className="max-h-[90vh] max-w-lg overflow-y-auto">
+        <DialogContent className="max-h-[85vh] w-[calc(100vw-2rem)] max-w-lg overflow-y-auto">
           <DialogHeader>
             <DialogTitle>{editingPerson ? 'Edit person' : 'Add person'}</DialogTitle>
           </DialogHeader>
@@ -916,7 +947,7 @@ export function FamilyTree() {
       </Dialog>
 
       <Dialog open={modal === 'add-event' || modal === 'edit-event'} onOpenChange={(o) => { if (!o) { setModal(null); setEditingEvent(null); } }}>
-        <DialogContent className="max-h-[90vh] max-w-lg overflow-y-auto">
+        <DialogContent className="max-h-[85vh] w-[calc(100vw-2rem)] max-w-lg overflow-y-auto">
           <DialogHeader>
             <DialogTitle>{editingEvent ? 'Edit event' : 'Add event'}</DialogTitle>
           </DialogHeader>
@@ -1015,6 +1046,40 @@ export function FamilyTree() {
           onClose={() => setShowFederation(false)}
         />
       )}
+    </div>
+  );
+}
+
+// ---------- Celebration overlay (until Sep 4, 2026) ----------
+function CelebrationOverlay({ onClose }: { onClose: () => void }) {
+  const [visible, setVisible] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setVisible(false);
+      setTimeout(onClose, 500);
+    }, 10000);
+    return () => clearTimeout(timer);
+  }, [onClose]);
+
+  return (
+    <div className={`fixed inset-0 z-[100] flex items-center justify-center transition-opacity duration-500 ${visible ? 'opacity-100' : 'opacity-0'}`}>
+      <div className="absolute inset-0 bg-emerald-900/80 backdrop-blur-md" onClick={onClose} />
+      <div className="absolute inset-0 opacity-30 bg-cover bg-center" style={{ backgroundImage: 'url(/wedding-invite.jpg)', filter: 'blur(8px) saturate(1.2)', transform: 'scale(1.1)' }} />
+      <div className="absolute inset-0 bg-gradient-to-t from-emerald-900/90 via-emerald-900/50 to-emerald-900/80" />
+      <div className="relative z-10 mx-4 flex max-w-md flex-col items-center text-center">
+        <div className="mb-4 overflow-hidden rounded-2xl shadow-2xl ring-2 ring-white/30" style={{ maxWidth: 200 }}>
+          <img src="/wedding-invite.jpg" alt="Wedding invitation" className="w-full h-auto" />
+        </div>
+        <div className="mb-3 text-4xl animate-bounce">💍</div>
+        <h2 className="mb-3 text-2xl font-bold text-white sm:text-3xl">
+          As we gather for <span className="bg-gradient-to-r from-amber-300 to-yellow-200 bg-clip-text text-transparent">Anu&apos;s Wedding</span>,
+        </h2>
+        <p className="mb-5 text-base text-emerald-100 sm:text-lg">let&apos;s map our roots and celebrate where we all come from. Add your branch to the family tree! 🌳</p>
+        <button onClick={onClose} className="rounded-full bg-white px-8 py-3 text-base font-bold text-emerald-700 shadow-xl transition hover:scale-105 hover:bg-emerald-50">Let&apos;s begin 🌿</button>
+        <p className="mt-4 text-xs text-emerald-300/60">(This message will disappear shortly)</p>
+      </div>
+      <button onClick={onClose} className="absolute right-4 top-4 z-20 rounded-full bg-white/20 p-2 text-white backdrop-blur-sm transition hover:bg-white/30" aria-label="Close"><X className="h-5 w-5" /></button>
     </div>
   );
 }
@@ -1169,20 +1234,20 @@ function EmptyState({ onAdd }: { onAdd: () => void }) {
   return (
     <div className="relative flex h-full items-center justify-center p-6">
       <div className="max-w-md text-center">
-        <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-br from-purple-100 via-pink-100 to-amber-100 shadow-lg shadow-purple-500/10">
-          <Plus className="h-10 w-10 text-purple-600" />
+        <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-br from-emerald-100 to-teal-100 shadow-lg shadow-emerald-500/10">
+          <Plus className="h-10 w-10 text-emerald-600" />
         </div>
-        <h2 className="mb-2 text-2xl font-bold text-slate-800">Start your family tree</h2>
+        <h2 className="mb-2 text-2xl font-bold text-slate-800">{t('empty.title')}</h2>
         <p className="mb-6 text-sm text-slate-500">
-          Add your first family member to begin building your tree. You can add spouses, children, and timeline events as you go.
+          {t('empty.desc')}
         </p>
         <div className="flex flex-col gap-2 sm:flex-row sm:justify-center">
           <Button
             onClick={onAdd}
-            className="rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 px-5 shadow-md shadow-purple-500/25 hover:shadow-lg"
+            className="rounded-lg bg-gradient-to-r from-emerald-600 to-teal-600 px-5 shadow-md shadow-emerald-500/25 hover:shadow-lg"
           >
             <Plus className="mr-1.5 h-4 w-4" />
-            Add first person
+            {t('empty.addFirst')}
           </Button>
         </div>
       </div>
@@ -1232,7 +1297,7 @@ function PersonHistoryDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-h-[90vh] max-w-lg overflow-y-auto">
+      <DialogContent className="max-h-[85vh] w-[calc(100vw-2rem)] max-w-lg overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Edit history · {person.firstName} {person.lastName ?? ''}</DialogTitle>
         </DialogHeader>
