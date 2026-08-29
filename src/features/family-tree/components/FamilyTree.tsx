@@ -5,6 +5,7 @@
 // Renders tree SVG + person cards, pan/zoom (mouse + touch), toolbar, modals, detail panel, export.
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { Button } from '@/components/ui/button';
 import {
   Dialog,
@@ -44,6 +45,7 @@ import {
   Users,
   LayoutGrid,
   TreePine,
+  Map as MapIcon,
   Upload,
   LogOut,
   Menu as MenuIcon,
@@ -64,6 +66,16 @@ import { SearchPalette } from './SearchPalette';
 import { BirthdayPanel } from './BirthdayPanel';
 import { PhotoGridView } from './PhotoGridView';
 import { ChatPanel } from './ChatPanel';
+
+// Leaflet touches `window` at import time, so the map MUST be loaded client-side only.
+const MapPanel = dynamic(() => import('./MapPanel').then((m) => m.MapPanel), {
+  ssr: false,
+  loading: () => (
+    <div className="flex h-full w-full items-center justify-center text-sm text-slate-400">
+      Loading map…
+    </div>
+  ),
+});
 import { MemberManagerDialog } from './MemberManagerDialog';
 import { CSVImportDialog } from './CSVImportDialog';
 import { FederationPanel } from './FederationPanel';
@@ -103,7 +115,7 @@ export function FamilyTree() {
   const [showFederation, setShowFederation] = useState(false);
   const WEDDING_DATE = new Date('2026-09-05T00:00:00');
   const [showCelebration, setShowCelebration] = useState(() => new Date() < WEDDING_DATE);
-  const [viewMode, setViewMode] = useState<'tree' | 'grid'>('tree');
+  const [viewMode, setViewMode] = useState<'tree' | 'grid' | 'map'>('tree');
 
   const canvasRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null); // for export
@@ -637,21 +649,28 @@ export function FamilyTree() {
           <span className="hidden md:inline">Search</span>
         </Button>
 
-        {/* View toggle: tree / grid */}
+        {/* View toggle: tree / grid / map */}
         <div className="flex rounded-lg border border-slate-300 bg-white/80 p-0.5">
           <button
             onClick={() => setViewMode('tree')}
-            className={`flex h-7 w-7 items-center justify-center rounded-md text-xs transition ${viewMode === 'tree' ? 'bg-emerald-100 text-emerald-700' : 'text-slate-500 hover:bg-slate-50'}`}
+            className={`flex h-7 w-7 items-center justify-center rounded-md text-xs transition ${viewMode === 'tree' ? 'bg-slate-200 text-slate-700' : 'text-slate-500 hover:bg-slate-50'}`}
             title="Tree view"
           >
             <TreePine className="h-3.5 w-3.5" />
           </button>
           <button
             onClick={() => setViewMode('grid')}
-            className={`flex h-7 w-7 items-center justify-center rounded-md text-xs transition ${viewMode === 'grid' ? 'bg-emerald-100 text-emerald-700' : 'text-slate-500 hover:bg-slate-50'}`}
+            className={`flex h-7 w-7 items-center justify-center rounded-md text-xs transition ${viewMode === 'grid' ? 'bg-slate-200 text-slate-700' : 'text-slate-500 hover:bg-slate-50'}`}
             title="Photo grid view"
           >
             <LayoutGrid className="h-3.5 w-3.5" />
+          </button>
+          <button
+            onClick={() => setViewMode('map')}
+            className={`flex h-7 w-7 items-center justify-center rounded-md text-xs transition ${viewMode === 'map' ? 'bg-slate-200 text-slate-700' : 'text-slate-500 hover:bg-slate-50'}`}
+            title="Birthplace map view"
+          >
+            <MapIcon className="h-3.5 w-3.5" />
           </button>
         </div>
 
@@ -660,10 +679,10 @@ export function FamilyTree() {
           size="sm"
           variant="outline"
           onClick={() => setShowBirthdays((v) => !v)}
-          className={`gap-1.5 rounded-lg border-slate-300 bg-white/80 hover:bg-white ${showBirthdays ? 'ring-2 ring-emerald-300' : ''}`}
+          className={`gap-1.5 rounded-lg border-slate-300 bg-white/80 hover:bg-white ${showBirthdays ? 'ring-2 ring-slate-300' : ''}`}
           title="Birthdays"
         >
-          <Cake className="h-4 w-4 text-emerald-500" />
+          <Cake className="h-4 w-4 text-slate-500" />
         </Button>
 
         {/* Chat */}
@@ -674,7 +693,7 @@ export function FamilyTree() {
           className="gap-1.5 rounded-lg border-slate-300 bg-white/80 hover:bg-white"
           title="Family chat"
         >
-          <MessageSquare className="h-4 w-4 text-emerald-500" />
+          <MessageSquare className="h-4 w-4 text-slate-500" />
         </Button>
 
         <div className="flex-1" />
@@ -722,7 +741,14 @@ export function FamilyTree() {
 
       {/* ---- Canvas (main area) ---- */}
       <div className="relative flex-1 overflow-hidden bg-slate-50">
-      {viewMode === 'grid' ? (
+      {viewMode === 'map' ? (
+        <MapPanel
+          persons={state.persons}
+          selectedId={selectedId}
+          onSelectPerson={(id) => { setSelectedId(id); setViewMode('tree'); }}
+          onClose={() => setViewMode('tree')}
+        />
+      ) : viewMode === 'grid' ? (
         <PhotoGridView
           persons={state.persons}
           onSelectPerson={(id) => { setSelectedId(id); setViewMode('tree'); }}
