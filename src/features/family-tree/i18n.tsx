@@ -54,6 +54,15 @@ export function I18nProvider({ children }: { children: ReactNode }) {
 
 export function useI18n() {
   const ctx = useContext(I18nContext);
-  if (!ctx) throw new Error('useI18n must be used inside I18nProvider');
+  // Fallback if context is not available — return English keys as-is
+  // instead of throwing (which crashes the entire app)
+  if (!ctx) {
+    return {
+      lang: 'en' as Lang,
+      setLang: () => {},
+      toggleLang: () => {},
+      t: (key: string) => key,
+    };
+  }
   return ctx;
 }

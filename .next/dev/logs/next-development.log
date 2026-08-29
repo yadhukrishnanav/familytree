@@ -106,3 +106,6 @@ https://react.dev/link/hydration-mismatch
 [06:12:38.195] Browser ERROR   uncaughtError: ReferenceError: t is not defined
 [06:12:59.058] Browser ERROR   uncaughtError: ReferenceError: t is not defined
 [06:13:34.747] Browser ERROR   uncaughtError: ReferenceError: t is not defined
+[07:16:28.687] Browser ERROR   uncaughtError: ReferenceError: t is not defined
+[07:19:19.380] Server  WARN    ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[07:19:22.346] Browser ERROR   uncaughtError: ReferenceError: t is not defined
