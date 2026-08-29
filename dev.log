@@ -149,3 +149,5 @@ Import trace for requested module:
 ./src/features/family-tree/components/AuthPage.tsx
 ./src/app/page.tsx
  GET / 200 in 604ms (compile: 170ms, render: 434ms)
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET / 200 in 1204ms (compile: 137ms, render: 1067ms)

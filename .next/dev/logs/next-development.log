@@ -423,3 +423,5 @@ Import trace for requested module:
 ./src/features/family-tree/components/AuthPage.tsx
 ./src/app/page.tsx
 [07:52:37.202] Browser ERROR   uncaughtError: ReferenceError: t is not defined
+[07:53:10.156] Server  WARN    ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[07:53:13.540] Browser ERROR   uncaughtError: ReferenceError: t is not defined
