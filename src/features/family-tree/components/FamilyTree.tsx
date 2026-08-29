@@ -49,6 +49,7 @@ import {
   Upload,
   LogOut,
   Menu as MenuIcon,
+  ChevronDown,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import type { FamilyTreeState, Person, TimelineEvent } from '../types';
@@ -66,6 +67,7 @@ import { SearchPalette } from './SearchPalette';
 import { BirthdayPanel } from './BirthdayPanel';
 import { PhotoGridView } from './PhotoGridView';
 import { ChatPanel } from './ChatPanel';
+import { FamilySwitcherDialog } from './FamilySwitcherDialog';
 
 // Leaflet touches `window` at import time, so the map MUST be loaded client-side only.
 const MapPanel = dynamic(() => import('./MapPanel').then((m) => m.MapPanel), {
@@ -113,6 +115,10 @@ export function FamilyTree() {
   const [showMembers, setShowMembers] = useState(false);
   const [showCsvImport, setShowCsvImport] = useState(false);
   const [showFederation, setShowFederation] = useState(false);
+  // Switcher modal: lets the user create a NEW family, JOIN an existing one with
+  // a code, or switch between families they already belong to — all without
+  // signing out. Previously a registered user with one family was stuck on it.
+  const [showFamilySwitcher, setShowFamilySwitcher] = useState(false);
   const WEDDING_DATE = new Date('2026-09-05T00:00:00');
   const [showCelebration, setShowCelebration] = useState(() => new Date() < WEDDING_DATE);
   const [viewMode, setViewMode] = useState<'tree' | 'grid' | 'map'>('tree');
@@ -539,15 +545,27 @@ export function FamilyTree() {
             <span className="text-xs font-bold">FT</span>
             <span className="absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full bg-green-400 ring-2 ring-white" />
           </div>
-          <div className="min-w-0">
-            <div className="truncate text-[15px] font-semibold leading-tight text-slate-800">
-              {auth.activeFamily?.name ?? 'Family Tree'}
+          {/* Clickable family name — opens the switcher (create / join / switch) */}
+          <button
+            type="button"
+            onClick={() => setShowFamilySwitcher(true)}
+            className="group flex min-w-0 items-center gap-1 rounded-md px-1 py-0.5 text-left transition hover:bg-slate-100"
+            title="Switch family, or create / join another"
+          >
+            <div className="min-w-0">
+              <div className="truncate text-[15px] font-semibold leading-tight text-slate-800 group-hover:text-slate-900">
+                {auth.activeFamily?.name ?? 'Family Tree'}
+              </div>
+              <div className="hidden items-center gap-1 text-[10px] text-slate-400 sm:flex">
+                <span className={`h-1.5 w-1.5 rounded-full ${store.syncing ? 'bg-amber-400' : 'bg-green-400'}`} />
+                {store.isDemo ? 'Demo mode (local)' : store.syncing ? 'Syncing…' : 'Synced'}
+                {auth.families.length > 1 && (
+                  <span className="ml-1 text-slate-400">· {auth.families.length} families</span>
+                )}
+              </div>
             </div>
-            <div className="hidden items-center gap-1 text-[10px] text-slate-400 sm:flex">
-              <span className={`h-1.5 w-1.5 rounded-full ${store.syncing ? 'bg-amber-400' : 'bg-green-400'}`} />
-              {store.isDemo ? 'Demo mode (local)' : store.syncing ? 'Syncing…' : 'Synced'}
-            </div>
-          </div>
+            <ChevronDown className="h-3.5 w-3.5 shrink-0 text-slate-400 transition group-hover:text-slate-600" />
+          </button>
         </div>
 
         {/* Share code with copy button — premium pill */}
@@ -725,6 +743,10 @@ export function FamilyTree() {
             <DropdownMenuItem onClick={() => setShowMembers(true)}>
               <Users className="mr-2 h-3.5 w-3.5" />
               Manage members
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setShowFamilySwitcher(true)}>
+              <TreePine className="mr-2 h-3.5 w-3.5" />
+              Switch / create / join family
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => setShowFederation(true)}>
               <TreePine className="mr-2 h-3.5 w-3.5" />
@@ -1105,6 +1127,13 @@ export function FamilyTree() {
           onClose={() => setShowFederation(false)}
         />
       )}
+
+      {/* Family switcher (create / join / switch between this user's families) */}
+      <FamilySwitcherDialog
+        open={showFamilySwitcher}
+        onClose={() => setShowFamilySwitcher(false)}
+        auth={auth}
+      />
     </div>
   );
 }

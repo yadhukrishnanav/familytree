@@ -13,7 +13,7 @@ interface DemoUser {
   email: string;
 }
 
-interface AuthContextValue {
+export interface AuthContextValue {
   user: DemoUser | null;
   families: FamilyInfo[];
   activeFamily: FamilyInfo | null;

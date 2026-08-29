@@ -4,6 +4,7 @@
 // Five views: sign-in, sign-up, family-select, family-create, family-join
 
 import { useState } from 'react';
+import dynamic from 'next/dynamic';
 import { useAuth } from '../auth';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -14,14 +15,32 @@ import {
 import { toast } from 'sonner';
 import { isSupabaseConfigured } from '../supabase';
 
+// Leaflet touches `window` at import time — load the landing map banner client-side only.
+const LandingMapBanner = dynamic(
+  () => import('./LandingMapBanner').then((m) => m.LandingMapBanner),
+  {
+    ssr: false,
+    loading: () => null,
+  },
+);
+
 type View = 'sign-in' | 'sign-up' | 'family-select' | 'family-create' | 'family-join' | 'quick-access';
 
 export function AuthPage() {
   const auth = useAuth();
   const [view, setView] = useState<View>(auth.user ? 'family-select' : 'sign-in');
 
+  // QuickAccess is a one-shot flow: user enters code -> we auto-create a guest
+  // account -> we join the family. While this flow is mid-flight (after signUp
+  // sets auth.user but before joinFamily sets activeFamily), we MUST keep
+  // showing the QuickAccess screen — otherwise AuthPage would re-render and
+  // route the now-signed-in user to the "Create a family / Join with a code"
+  // intermediary screen, defeating the whole point of Quick Access.
+  if (view === 'quick-access' && !auth.activeFamily) {
+    return <QuickAccess auth={auth} setView={setView} />;
+  }
+
   if (!auth.user) {
-    if (view === 'quick-access') return <QuickAccess auth={auth} setView={setView} />;
     return <AuthForms initialView={view} setView={setView} />;
   }
   // If user has families, go straight to family-select (or the active family)
@@ -217,6 +236,14 @@ function AuthForms({
               <p className="mb-3 text-base font-semibold text-emerald-700">Have a family code?</p>
               <button type="button" onClick={() => { setView('quick-access'); setError(null); }} className="w-full rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 px-4 py-3 text-lg font-bold text-white shadow-md transition hover:from-emerald-700 hover:to-teal-600 hover:shadow-lg">🔑 Enter Family Code</button>
               <p className="mt-2 text-xs text-slate-400">Simplest way to join — no email needed</p>
+            </div>
+          )}
+
+          {/* Landing map banner — asks for GPS permission and shows a teaser map.
+              Leaflet is loaded client-side only via next/dynamic (ssr:false). */}
+          {!otpSent && !useMagicLink && (
+            <div className="mb-4">
+              <LandingMapBanner compact />
             </div>
           )}
 
