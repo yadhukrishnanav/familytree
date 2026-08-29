@@ -2474,7 +2474,7 @@ function Input({ className, type, ...props }) {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
         type: type,
         "data-slot": "input",
-        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm", "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]", "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive", className),
+        className: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$utils$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["cn"])("file:text-foreground placeholder:text-slate-300 placeholder:italic placeholder:font-light placeholder:transition-opacity placeholder:duration-200 focus-visible:placeholder:opacity-0 selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input flex h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm", "focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]", "aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive", className),
         ...props
     }, void 0, false, {
         fileName: "[project]/src/components/ui/input.tsx",
@@ -11643,6 +11643,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 // Version: 2026-08-25-v2 (relation picker in PersonForm)
 // Renders tree SVG + person cards, pan/zoom (mouse + touch), toolbar, modals, detail panel, export.
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$shared$2f$lib$2f$app$2d$dynamic$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/shared/lib/app-dynamic.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/button.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$dialog$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/dialog.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$dropdown$2d$menu$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/ui/dropdown-menu.tsx [app-client] (ecmascript)");
@@ -11670,6 +11671,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$re
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$users$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Users$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/users.js [app-client] (ecmascript) <export default as Users>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$layout$2d$grid$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__LayoutGrid$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/layout-grid.js [app-client] (ecmascript) <export default as LayoutGrid>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$tree$2d$pine$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__TreePine$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/tree-pine.js [app-client] (ecmascript) <export default as TreePine>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$map$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Map$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/map.js [app-client] (ecmascript) <export default as Map>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$upload$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Upload$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/upload.js [app-client] (ecmascript) <export default as Upload>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$log$2d$out$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__LogOut$3e$__ = __turbopack_context__.i("[project]/node_modules/lucide-react/dist/esm/icons/log-out.js [app-client] (ecmascript) <export default as LogOut>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$sonner$2f$dist$2f$index$2e$mjs__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/sonner/dist/index.mjs [app-client] (ecmascript)");
@@ -11694,6 +11696,7 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$features$2f$family$2d
 // ---------- Person edit history dialog ----------
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$features$2f$family$2d$tree$2f$activity$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/features/family-tree/activity.ts [app-client] (ecmascript)");
 ;
+;
 var _s = __turbopack_context__.k.signature(), _s1 = __turbopack_context__.k.signature(), _s2 = __turbopack_context__.k.signature();
 'use client';
 ;
@@ -11716,6 +11719,25 @@ var _s = __turbopack_context__.k.signature(), _s1 = __turbopack_context__.k.sign
 ;
 ;
 ;
+;
+// Leaflet touches `window` at import time, so the map MUST be loaded client-side only.
+const MapPanel = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$shared$2f$lib$2f$app$2d$dynamic$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"])(()=>__turbopack_context__.A("[project]/src/features/family-tree/components/MapPanel.tsx [app-client] (ecmascript, next/dynamic entry, async loader)").then((m)=>m.MapPanel), {
+    loadableGenerated: {
+        modules: [
+            "[project]/src/features/family-tree/components/MapPanel.tsx [app-client] (ecmascript, next/dynamic entry)"
+        ]
+    },
+    ssr: false,
+    loading: ()=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            className: "flex h-full w-full items-center justify-center text-sm text-slate-400",
+            children: "Loading map…"
+        }, void 0, false, {
+            fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
+            lineNumber: 74,
+            columnNumber: 5
+        }, ("TURBOPACK compile-time value", void 0))
+});
+_c = MapPanel;
 ;
 ;
 ;
@@ -12286,20 +12308,20 @@ function FamilyTree() {
                                         children: "FT"
                                     }, void 0, false, {
                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                        lineNumber: 527,
+                                        lineNumber: 539,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                         className: "absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full bg-green-400 ring-2 ring-white"
                                     }, void 0, false, {
                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                        lineNumber: 528,
+                                        lineNumber: 540,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                lineNumber: 526,
+                                lineNumber: 538,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -12310,7 +12332,7 @@ function FamilyTree() {
                                         children: auth.activeFamily?.name ?? 'Family Tree'
                                     }, void 0, false, {
                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                        lineNumber: 531,
+                                        lineNumber: 543,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -12320,26 +12342,26 @@ function FamilyTree() {
                                                 className: `h-1.5 w-1.5 rounded-full ${store.syncing ? 'bg-amber-400' : 'bg-green-400'}`
                                             }, void 0, false, {
                                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                                lineNumber: 535,
+                                                lineNumber: 547,
                                                 columnNumber: 15
                                             }, this),
                                             store.isDemo ? 'Demo mode (local)' : store.syncing ? 'Syncing…' : 'Synced'
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                        lineNumber: 534,
+                                        lineNumber: 546,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                lineNumber: 530,
+                                lineNumber: 542,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                        lineNumber: 525,
+                        lineNumber: 537,
                         columnNumber: 9
                     }, this),
                     auth.activeFamily && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -12352,7 +12374,7 @@ function FamilyTree() {
                                 children: "Share"
                             }, void 0, false, {
                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                lineNumber: 548,
+                                lineNumber: 560,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("code", {
@@ -12360,26 +12382,26 @@ function FamilyTree() {
                                 children: auth.activeFamily.shareCode
                             }, void 0, false, {
                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                lineNumber: 549,
+                                lineNumber: 561,
                                 columnNumber: 13
                             }, this),
                             copiedCode ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$check$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Check$3e$__["Check"], {
                                 className: "h-3.5 w-3.5 text-green-600"
                             }, void 0, false, {
                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                lineNumber: 553,
+                                lineNumber: 565,
                                 columnNumber: 15
                             }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$copy$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Copy$3e$__["Copy"], {
                                 className: "h-3.5 w-3.5 text-emerald-400"
                             }, void 0, false, {
                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                lineNumber: 555,
+                                lineNumber: 567,
                                 columnNumber: 15
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                        lineNumber: 543,
+                        lineNumber: 555,
                         columnNumber: 11
                     }, this),
                     auth.activeFamily && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -12389,7 +12411,7 @@ function FamilyTree() {
                         children: auth.activeFamily.shareCode
                     }, void 0, false, {
                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                        lineNumber: 562,
+                        lineNumber: 574,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -12405,12 +12427,12 @@ function FamilyTree() {
                                     className: "h-4 w-4"
                                 }, void 0, false, {
                                     fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                    lineNumber: 579,
+                                    lineNumber: 591,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                lineNumber: 572,
+                                lineNumber: 584,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -12424,12 +12446,12 @@ function FamilyTree() {
                                     className: "h-4 w-4"
                                 }, void 0, false, {
                                     fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                    lineNumber: 589,
+                                    lineNumber: 601,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                lineNumber: 581,
+                                lineNumber: 593,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -12443,24 +12465,24 @@ function FamilyTree() {
                                     className: "h-4 w-4"
                                 }, void 0, false, {
                                     fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                    lineNumber: 599,
+                                    lineNumber: 611,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                lineNumber: 591,
+                                lineNumber: 603,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                        lineNumber: 571,
+                        lineNumber: 583,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                lineNumber: 524,
+                lineNumber: 536,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -12478,7 +12500,7 @@ function FamilyTree() {
                                 className: "h-4 w-4"
                             }, void 0, false, {
                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                lineNumber: 611,
+                                lineNumber: 623,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -12486,7 +12508,7 @@ function FamilyTree() {
                                 children: "Add Person"
                             }, void 0, false, {
                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                lineNumber: 612,
+                                lineNumber: 624,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -12494,13 +12516,13 @@ function FamilyTree() {
                                 children: "Person"
                             }, void 0, false, {
                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                lineNumber: 613,
+                                lineNumber: 625,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                        lineNumber: 606,
+                        lineNumber: 618,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -12516,7 +12538,7 @@ function FamilyTree() {
                                 className: "h-4 w-4"
                             }, void 0, false, {
                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                lineNumber: 621,
+                                lineNumber: 633,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -12524,20 +12546,20 @@ function FamilyTree() {
                                 children: "Event"
                             }, void 0, false, {
                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                lineNumber: 622,
+                                lineNumber: 634,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                        lineNumber: 615,
+                        lineNumber: 627,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "mx-1 hidden h-5 w-px bg-slate-200 sm:block"
                     }, void 0, false, {
                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                        lineNumber: 626,
+                        lineNumber: 638,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -12551,53 +12573,12 @@ function FamilyTree() {
                                 className: "h-4 w-4"
                             }, void 0, false, {
                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                lineNumber: 636,
+                                lineNumber: 648,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                 className: "hidden md:inline",
                                 children: "Search"
-                            }, void 0, false, {
-                                fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                lineNumber: 637,
-                                columnNumber: 11
-                            }, this)
-                        ]
-                    }, void 0, true, {
-                        fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                        lineNumber: 629,
-                        columnNumber: 9
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                        className: "flex rounded-lg border border-slate-300 bg-white/80 p-0.5",
-                        children: [
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                onClick: ()=>setViewMode('tree'),
-                                className: `flex h-7 w-7 items-center justify-center rounded-md text-xs transition ${viewMode === 'tree' ? 'bg-emerald-100 text-emerald-700' : 'text-slate-500 hover:bg-slate-50'}`,
-                                title: "Tree view",
-                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$tree$2d$pine$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__TreePine$3e$__["TreePine"], {
-                                    className: "h-3.5 w-3.5"
-                                }, void 0, false, {
-                                    fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                    lineNumber: 647,
-                                    columnNumber: 13
-                                }, this)
-                            }, void 0, false, {
-                                fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                lineNumber: 642,
-                                columnNumber: 11
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
-                                onClick: ()=>setViewMode('grid'),
-                                className: `flex h-7 w-7 items-center justify-center rounded-md text-xs transition ${viewMode === 'grid' ? 'bg-emerald-100 text-emerald-700' : 'text-slate-500 hover:bg-slate-50'}`,
-                                title: "Photo grid view",
-                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$layout$2d$grid$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__LayoutGrid$3e$__["LayoutGrid"], {
-                                    className: "h-3.5 w-3.5"
-                                }, void 0, false, {
-                                    fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                    lineNumber: 654,
-                                    columnNumber: 13
-                                }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
                                 lineNumber: 649,
@@ -12609,22 +12590,79 @@ function FamilyTree() {
                         lineNumber: 641,
                         columnNumber: 9
                     }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "flex rounded-lg border border-slate-300 bg-white/80 p-0.5",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                onClick: ()=>setViewMode('tree'),
+                                className: `flex h-7 w-7 items-center justify-center rounded-md text-xs transition ${viewMode === 'tree' ? 'bg-slate-200 text-slate-700' : 'text-slate-500 hover:bg-slate-50'}`,
+                                title: "Tree view",
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$tree$2d$pine$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__TreePine$3e$__["TreePine"], {
+                                    className: "h-3.5 w-3.5"
+                                }, void 0, false, {
+                                    fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
+                                    lineNumber: 659,
+                                    columnNumber: 13
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
+                                lineNumber: 654,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                onClick: ()=>setViewMode('grid'),
+                                className: `flex h-7 w-7 items-center justify-center rounded-md text-xs transition ${viewMode === 'grid' ? 'bg-slate-200 text-slate-700' : 'text-slate-500 hover:bg-slate-50'}`,
+                                title: "Photo grid view",
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$layout$2d$grid$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__LayoutGrid$3e$__["LayoutGrid"], {
+                                    className: "h-3.5 w-3.5"
+                                }, void 0, false, {
+                                    fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
+                                    lineNumber: 666,
+                                    columnNumber: 13
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
+                                lineNumber: 661,
+                                columnNumber: 11
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                                onClick: ()=>setViewMode('map'),
+                                className: `flex h-7 w-7 items-center justify-center rounded-md text-xs transition ${viewMode === 'map' ? 'bg-slate-200 text-slate-700' : 'text-slate-500 hover:bg-slate-50'}`,
+                                title: "Birthplace map view",
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$map$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Map$3e$__["Map"], {
+                                    className: "h-3.5 w-3.5"
+                                }, void 0, false, {
+                                    fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
+                                    lineNumber: 673,
+                                    columnNumber: 13
+                                }, this)
+                            }, void 0, false, {
+                                fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
+                                lineNumber: 668,
+                                columnNumber: 11
+                            }, this)
+                        ]
+                    }, void 0, true, {
+                        fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
+                        lineNumber: 653,
+                        columnNumber: 9
+                    }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
                         size: "sm",
                         variant: "outline",
                         onClick: ()=>setShowBirthdays((v)=>!v),
-                        className: `gap-1.5 rounded-lg border-slate-300 bg-white/80 hover:bg-white ${showBirthdays ? 'ring-2 ring-emerald-300' : ''}`,
+                        className: `gap-1.5 rounded-lg border-slate-300 bg-white/80 hover:bg-white ${showBirthdays ? 'ring-2 ring-slate-300' : ''}`,
                         title: "Birthdays",
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$cake$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Cake$3e$__["Cake"], {
-                            className: "h-4 w-4 text-emerald-500"
+                            className: "h-4 w-4 text-slate-500"
                         }, void 0, false, {
                             fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                            lineNumber: 666,
+                            lineNumber: 685,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                        lineNumber: 659,
+                        lineNumber: 678,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -12634,27 +12672,27 @@ function FamilyTree() {
                         className: "gap-1.5 rounded-lg border-slate-300 bg-white/80 hover:bg-white",
                         title: "Family chat",
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$lucide$2d$react$2f$dist$2f$esm$2f$icons$2f$message$2d$square$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__MessageSquare$3e$__["MessageSquare"], {
-                            className: "h-4 w-4 text-emerald-500"
+                            className: "h-4 w-4 text-slate-500"
                         }, void 0, false, {
                             fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                            lineNumber: 677,
+                            lineNumber: 696,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                        lineNumber: 670,
+                        lineNumber: 689,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "flex-1"
                     }, void 0, false, {
                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                        lineNumber: 680,
+                        lineNumber: 699,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$features$2f$family$2d$tree$2f$components$2f$PWAInstallButton$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["PWAInstallButton"], {}, void 0, false, {
                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                        lineNumber: 683,
+                        lineNumber: 702,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$dropdown$2d$menu$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DropdownMenu"], {
@@ -12669,17 +12707,17 @@ function FamilyTree() {
                                         className: "h-4 w-4"
                                     }, void 0, false, {
                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                        lineNumber: 689,
+                                        lineNumber: 708,
                                         columnNumber: 15
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                    lineNumber: 688,
+                                    lineNumber: 707,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                lineNumber: 687,
+                                lineNumber: 706,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$dropdown$2d$menu$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DropdownMenuContent"], {
@@ -12693,14 +12731,14 @@ function FamilyTree() {
                                                 className: "mr-2 h-3.5 w-3.5"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                                lineNumber: 694,
+                                                lineNumber: 713,
                                                 columnNumber: 15
                                             }, this),
                                             "Export PNG"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                        lineNumber: 693,
+                                        lineNumber: 712,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$dropdown$2d$menu$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DropdownMenuItem"], {
@@ -12710,19 +12748,19 @@ function FamilyTree() {
                                                 className: "mr-2 h-3.5 w-3.5"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                                lineNumber: 698,
+                                                lineNumber: 717,
                                                 columnNumber: 15
                                             }, this),
                                             "Export PDF"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                        lineNumber: 697,
+                                        lineNumber: 716,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$dropdown$2d$menu$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DropdownMenuSeparator"], {}, void 0, false, {
                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                        lineNumber: 701,
+                                        lineNumber: 720,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$dropdown$2d$menu$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DropdownMenuItem"], {
@@ -12732,14 +12770,14 @@ function FamilyTree() {
                                                 className: "mr-2 h-3.5 w-3.5"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                                lineNumber: 703,
+                                                lineNumber: 722,
                                                 columnNumber: 15
                                             }, this),
                                             "Import from CSV"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                        lineNumber: 702,
+                                        lineNumber: 721,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$dropdown$2d$menu$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DropdownMenuItem"], {
@@ -12749,14 +12787,14 @@ function FamilyTree() {
                                                 className: "mr-2 h-3.5 w-3.5"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                                lineNumber: 707,
+                                                lineNumber: 726,
                                                 columnNumber: 15
                                             }, this),
                                             "Manage members"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                        lineNumber: 706,
+                                        lineNumber: 725,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$dropdown$2d$menu$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DropdownMenuItem"], {
@@ -12766,19 +12804,19 @@ function FamilyTree() {
                                                 className: "mr-2 h-3.5 w-3.5"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                                lineNumber: 711,
+                                                lineNumber: 730,
                                                 columnNumber: 15
                                             }, this),
                                             "Linked families"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                        lineNumber: 710,
+                                        lineNumber: 729,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$dropdown$2d$menu$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DropdownMenuSeparator"], {}, void 0, false, {
                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                        lineNumber: 714,
+                                        lineNumber: 733,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$dropdown$2d$menu$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["DropdownMenuItem"], {
@@ -12791,37 +12829,49 @@ function FamilyTree() {
                                                 className: "mr-2 h-3.5 w-3.5"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                                lineNumber: 716,
+                                                lineNumber: 735,
                                                 columnNumber: 15
                                             }, this),
                                             "Sign out"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                        lineNumber: 715,
+                                        lineNumber: 734,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                lineNumber: 692,
+                                lineNumber: 711,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                        lineNumber: 686,
+                        lineNumber: 705,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                lineNumber: 605,
+                lineNumber: 617,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "relative flex-1 overflow-hidden bg-slate-50",
-                children: viewMode === 'grid' ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$features$2f$family$2d$tree$2f$components$2f$PhotoGridView$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["PhotoGridView"], {
+                children: viewMode === 'map' ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(MapPanel, {
+                    persons: state.persons,
+                    selectedId: selectedId,
+                    onSelectPerson: (id)=>{
+                        setSelectedId(id);
+                        setViewMode('tree');
+                    },
+                    onClose: ()=>setViewMode('tree')
+                }, void 0, false, {
+                    fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
+                    lineNumber: 745,
+                    columnNumber: 9
+                }, this) : viewMode === 'grid' ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$features$2f$family$2d$tree$2f$components$2f$PhotoGridView$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["PhotoGridView"], {
                     persons: state.persons,
                     onSelectPerson: (id)=>{
                         setSelectedId(id);
@@ -12829,7 +12879,7 @@ function FamilyTree() {
                     }
                 }, void 0, false, {
                     fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                    lineNumber: 726,
+                    lineNumber: 752,
                     columnNumber: 9
                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
                     children: [
@@ -12843,7 +12893,7 @@ function FamilyTree() {
                             "aria-hidden": true
                         }, void 0, false, {
                             fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                            lineNumber: 733,
+                            lineNumber: 759,
                             columnNumber: 9
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -12854,7 +12904,7 @@ function FamilyTree() {
                             "aria-hidden": true
                         }, void 0, false, {
                             fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                            lineNumber: 745,
+                            lineNumber: 771,
                             columnNumber: 9
                         }, this),
                         store.loading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -12862,7 +12912,7 @@ function FamilyTree() {
                             children: "Loading…"
                         }, void 0, false, {
                             fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                            lineNumber: 755,
+                            lineNumber: 781,
                             columnNumber: 11
                         }, this) : Object.keys(state.persons).length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(EmptyState, {
                             onAdd: ()=>{
@@ -12871,7 +12921,7 @@ function FamilyTree() {
                             }
                         }, void 0, false, {
                             fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                            lineNumber: 757,
+                            lineNumber: 783,
                             columnNumber: 11
                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                             ref: canvasRef,
@@ -12917,18 +12967,18 @@ function FamilyTree() {
                                                         strokeLinecap: "round"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                                        lineNumber: 799,
+                                                        lineNumber: 825,
                                                         columnNumber: 23
                                                     }, this)
                                                 }, `gen-line-${i}`, false, {
                                                     fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                                    lineNumber: 797,
+                                                    lineNumber: 823,
                                                     columnNumber: 21
                                                 }, this));
                                         })()
                                     }, void 0, false, {
                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                        lineNumber: 785,
+                                        lineNumber: 811,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("svg", {
@@ -12950,7 +13000,7 @@ function FamilyTree() {
                                                                 stopColor: "#ec4899"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                                                lineNumber: 822,
+                                                                lineNumber: 848,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
@@ -12958,13 +13008,13 @@ function FamilyTree() {
                                                                 stopColor: "#f43f5e"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                                                lineNumber: 823,
+                                                                lineNumber: 849,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                                        lineNumber: 821,
+                                                        lineNumber: 847,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("linearGradient", {
@@ -12979,7 +13029,7 @@ function FamilyTree() {
                                                                 stopColor: "#cbd5e1"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                                                lineNumber: 826,
+                                                                lineNumber: 852,
                                                                 columnNumber: 21
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("stop", {
@@ -12987,19 +13037,19 @@ function FamilyTree() {
                                                                 stopColor: "#94a3b8"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                                                lineNumber: 827,
+                                                                lineNumber: 853,
                                                                 columnNumber: 21
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                                        lineNumber: 825,
+                                                        lineNumber: 851,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                                lineNumber: 820,
+                                                lineNumber: 846,
                                                 columnNumber: 17
                                             }, this),
                                             layout.connections.map((c, i)=>{
@@ -13016,7 +13066,7 @@ function FamilyTree() {
                                                         strokeLinecap: "round"
                                                     }, i, false, {
                                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                                        lineNumber: 834,
+                                                        lineNumber: 860,
                                                         columnNumber: 23
                                                     }, this);
                                                 }
@@ -13032,7 +13082,7 @@ function FamilyTree() {
                                                         strokeLinecap: "round"
                                                     }, i, false, {
                                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                                        lineNumber: 850,
+                                                        lineNumber: 876,
                                                         columnNumber: 23
                                                     }, this);
                                                 }
@@ -13046,14 +13096,14 @@ function FamilyTree() {
                                                     strokeLinecap: "round"
                                                 }, i, false, {
                                                     fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                                    lineNumber: 865,
+                                                    lineNumber: 891,
                                                     columnNumber: 21
                                                 }, this);
                                             })
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                        lineNumber: 815,
+                                        lineNumber: 841,
                                         columnNumber: 15
                                     }, this),
                                     layout.connections.filter((c)=>c.type === 'marriage' && c.marriageYear != null).map((c, i)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$features$2f$family$2d$tree$2f$components$2f$PersonCard$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["MarriageBadge"], {
@@ -13062,7 +13112,7 @@ function FamilyTree() {
                                             year: c.marriageYear
                                         }, `mb-${i}`, false, {
                                             fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                            lineNumber: 881,
+                                            lineNumber: 907,
                                             columnNumber: 19
                                         }, this)),
                                     layout.nodes.map((node)=>{
@@ -13080,24 +13130,24 @@ function FamilyTree() {
                                                 onClick: ()=>setSelectedId(node.personId)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                                lineNumber: 896,
+                                                lineNumber: 922,
                                                 columnNumber: 21
                                             }, this)
                                         }, node.id, false, {
                                             fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                            lineNumber: 895,
+                                            lineNumber: 921,
                                             columnNumber: 19
                                         }, this);
                                     })
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                lineNumber: 772,
+                                lineNumber: 798,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                            lineNumber: 759,
+                            lineNumber: 785,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -13113,12 +13163,12 @@ function FamilyTree() {
                                         className: "h-4 w-4"
                                     }, void 0, false, {
                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                        lineNumber: 914,
+                                        lineNumber: 940,
                                         columnNumber: 13
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                    lineNumber: 913,
+                                    lineNumber: 939,
                                     columnNumber: 11
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -13129,7 +13179,7 @@ function FamilyTree() {
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                    lineNumber: 916,
+                                    lineNumber: 942,
                                     columnNumber: 11
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -13142,19 +13192,19 @@ function FamilyTree() {
                                         className: "h-4 w-4"
                                     }, void 0, false, {
                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                        lineNumber: 920,
+                                        lineNumber: 946,
                                         columnNumber: 13
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                    lineNumber: 919,
+                                    lineNumber: 945,
                                     columnNumber: 11
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                     className: "my-0.5 h-px bg-slate-200"
                                 }, void 0, false, {
                                     fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                    lineNumber: 922,
+                                    lineNumber: 948,
                                     columnNumber: 11
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -13167,18 +13217,18 @@ function FamilyTree() {
                                         className: "h-4 w-4"
                                     }, void 0, false, {
                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                        lineNumber: 924,
+                                        lineNumber: 950,
                                         columnNumber: 13
                                     }, this)
                                 }, void 0, false, {
                                     fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                    lineNumber: 923,
+                                    lineNumber: 949,
                                     columnNumber: 11
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                            lineNumber: 912,
+                            lineNumber: 938,
                             columnNumber: 9
                         }, this),
                         selectedPerson && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(DetailPanel, {
@@ -13193,14 +13243,14 @@ function FamilyTree() {
                             onShowHistory: ()=>setShowHistory(true)
                         }, void 0, false, {
                             fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                            lineNumber: 930,
+                            lineNumber: 956,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true)
             }, void 0, false, {
                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                lineNumber: 724,
+                lineNumber: 743,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$features$2f$family$2d$tree$2f$components$2f$Timeline$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Timeline"], {
@@ -13215,7 +13265,7 @@ function FamilyTree() {
                 onDeleteEvent: handleDeleteEvent
             }, void 0, false, {
                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                lineNumber: 944,
+                lineNumber: 970,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -13223,14 +13273,14 @@ function FamilyTree() {
                 children: "Built with ❤ by one among us"
             }, void 0, false, {
                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                lineNumber: 954,
+                lineNumber: 980,
                 columnNumber: 7
             }, this),
             showCelebration && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(CelebrationOverlay, {
                 onClose: ()=>setShowCelebration(false)
             }, void 0, false, {
                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                lineNumber: 960,
+                lineNumber: 986,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$dialog$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Dialog"], {
@@ -13249,12 +13299,12 @@ function FamilyTree() {
                                 children: editingPerson ? 'Edit person' : 'Add person'
                             }, void 0, false, {
                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                lineNumber: 967,
+                                lineNumber: 993,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                            lineNumber: 966,
+                            lineNumber: 992,
                             columnNumber: 11
                         }, this),
                         auth.activeFamily && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$features$2f$family$2d$tree$2f$components$2f$PersonForm$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["PersonForm"], {
@@ -13269,18 +13319,18 @@ function FamilyTree() {
                             submitting: submitting
                         }, void 0, false, {
                             fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                            lineNumber: 970,
+                            lineNumber: 996,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                    lineNumber: 965,
+                    lineNumber: 991,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                lineNumber: 964,
+                lineNumber: 990,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$dialog$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Dialog"], {
@@ -13299,12 +13349,12 @@ function FamilyTree() {
                                 children: editingEvent ? 'Edit event' : 'Add event'
                             }, void 0, false, {
                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                lineNumber: 985,
+                                lineNumber: 1011,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                            lineNumber: 984,
+                            lineNumber: 1010,
                             columnNumber: 11
                         }, this),
                         auth.activeFamily && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$features$2f$family$2d$tree$2f$components$2f$EventForm$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["EventForm"], {
@@ -13319,18 +13369,18 @@ function FamilyTree() {
                             submitting: submitting
                         }, void 0, false, {
                             fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                            lineNumber: 988,
+                            lineNumber: 1014,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                    lineNumber: 983,
+                    lineNumber: 1009,
                     columnNumber: 9
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                lineNumber: 982,
+                lineNumber: 1008,
                 columnNumber: 7
             }, this),
             selectedPerson && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(PersonHistoryDialog, {
@@ -13347,7 +13397,7 @@ function FamilyTree() {
                 }
             }, void 0, false, {
                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                lineNumber: 1002,
+                lineNumber: 1028,
                 columnNumber: 9
             }, this),
             showActivity && auth.activeFamily && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$features$2f$family$2d$tree$2f$components$2f$ActivityPanel$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ActivityPanel"], {
@@ -13356,7 +13406,7 @@ function FamilyTree() {
                 onRevert: (action)=>store.dispatch(action)
             }, void 0, false, {
                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                lineNumber: 1016,
+                lineNumber: 1042,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$features$2f$family$2d$tree$2f$components$2f$SearchPalette$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["SearchPalette"], {
@@ -13369,7 +13419,7 @@ function FamilyTree() {
                 }
             }, void 0, false, {
                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                lineNumber: 1024,
+                lineNumber: 1050,
                 columnNumber: 7
             }, this),
             showBirthdays && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$features$2f$family$2d$tree$2f$components$2f$BirthdayPanel$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["BirthdayPanel"], {
@@ -13382,7 +13432,7 @@ function FamilyTree() {
                 }
             }, void 0, false, {
                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                lineNumber: 1036,
+                lineNumber: 1062,
                 columnNumber: 9
             }, this),
             showChat && auth.activeFamily && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$features$2f$family$2d$tree$2f$components$2f$ChatPanel$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["ChatPanel"], {
@@ -13390,7 +13440,7 @@ function FamilyTree() {
                 onClose: ()=>setShowChat(false)
             }, void 0, false, {
                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                lineNumber: 1049,
+                lineNumber: 1075,
                 columnNumber: 9
             }, this),
             auth.activeFamily && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$features$2f$family$2d$tree$2f$components$2f$MemberManagerDialog$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["MemberManagerDialog"], {
@@ -13399,7 +13449,7 @@ function FamilyTree() {
                 familyId: auth.activeFamily.id
             }, void 0, false, {
                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                lineNumber: 1057,
+                lineNumber: 1083,
                 columnNumber: 9
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$features$2f$family$2d$tree$2f$components$2f$CSVImportDialog$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["CSVImportDialog"], {
@@ -13415,7 +13465,7 @@ function FamilyTree() {
                 }
             }, void 0, false, {
                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                lineNumber: 1065,
+                lineNumber: 1091,
                 columnNumber: 7
             }, this),
             showFederation && auth.activeFamily && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$features$2f$family$2d$tree$2f$components$2f$FederationPanel$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FederationPanel"], {
@@ -13423,13 +13473,13 @@ function FamilyTree() {
                 onClose: ()=>setShowFederation(false)
             }, void 0, false, {
                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                lineNumber: 1077,
+                lineNumber: 1103,
                 columnNumber: 9
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-        lineNumber: 522,
+        lineNumber: 534,
         columnNumber: 5
     }, this);
 }
@@ -13439,7 +13489,7 @@ _s(FamilyTree, "e6mVT6UyxMo1XV3hCZMg3kwgtZk=", false, function() {
         __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$features$2f$family$2d$tree$2f$auth$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useAuth"]
     ];
 });
-_c = FamilyTree;
+_c1 = FamilyTree;
 // ---------- Celebration overlay (until Sep 4, 2026) ----------
 function CelebrationOverlay({ onClose }) {
     _s1();
@@ -13467,7 +13517,7 @@ function CelebrationOverlay({ onClose }) {
                 onClick: onClose
             }, void 0, false, {
                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                lineNumber: 1100,
+                lineNumber: 1126,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -13479,14 +13529,14 @@ function CelebrationOverlay({ onClose }) {
                 }
             }, void 0, false, {
                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                lineNumber: 1101,
+                lineNumber: 1127,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                 className: "absolute inset-0 bg-gradient-to-t from-emerald-900/90 via-emerald-900/50 to-emerald-900/80"
             }, void 0, false, {
                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                lineNumber: 1102,
+                lineNumber: 1128,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -13503,12 +13553,12 @@ function CelebrationOverlay({ onClose }) {
                             className: "w-full h-auto"
                         }, void 0, false, {
                             fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                            lineNumber: 1105,
+                            lineNumber: 1131,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                        lineNumber: 1104,
+                        lineNumber: 1130,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -13516,7 +13566,7 @@ function CelebrationOverlay({ onClose }) {
                         children: "💍"
                     }, void 0, false, {
                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                        lineNumber: 1107,
+                        lineNumber: 1133,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -13524,7 +13574,7 @@ function CelebrationOverlay({ onClose }) {
                         children: "As we gather for"
                     }, void 0, false, {
                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                        lineNumber: 1108,
+                        lineNumber: 1134,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -13535,14 +13585,14 @@ function CelebrationOverlay({ onClose }) {
                                 children: "Anu's Wedding"
                             }, void 0, false, {
                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                lineNumber: 1112,
+                                lineNumber: 1138,
                                 columnNumber: 11
                             }, this),
                             " 💐"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                        lineNumber: 1111,
+                        lineNumber: 1137,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -13550,7 +13600,7 @@ function CelebrationOverlay({ onClose }) {
                         children: "31st August 2026 · Wasava Cliff House, Kannur"
                     }, void 0, false, {
                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                        lineNumber: 1114,
+                        lineNumber: 1140,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -13558,7 +13608,7 @@ function CelebrationOverlay({ onClose }) {
                         children: "let's map our roots and celebrate where we all come from. Add your branch to the family tree! 🌳"
                     }, void 0, false, {
                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                        lineNumber: 1115,
+                        lineNumber: 1141,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -13567,7 +13617,7 @@ function CelebrationOverlay({ onClose }) {
                         children: "Let's begin 🌿"
                     }, void 0, false, {
                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                        lineNumber: 1116,
+                        lineNumber: 1142,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -13575,13 +13625,13 @@ function CelebrationOverlay({ onClose }) {
                         children: "(This message will disappear shortly)"
                     }, void 0, false, {
                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                        lineNumber: 1117,
+                        lineNumber: 1143,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                lineNumber: 1103,
+                lineNumber: 1129,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -13592,23 +13642,23 @@ function CelebrationOverlay({ onClose }) {
                     className: "h-5 w-5"
                 }, void 0, false, {
                     fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                    lineNumber: 1119,
+                    lineNumber: 1145,
                     columnNumber: 178
                 }, this)
             }, void 0, false, {
                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                lineNumber: 1119,
+                lineNumber: 1145,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-        lineNumber: 1099,
+        lineNumber: 1125,
         columnNumber: 5
     }, this);
 }
 _s1(CelebrationOverlay, "+l2LUTlfMHnsWfc+O34BMiR0NHk=");
-_c1 = CelebrationOverlay;
+_c2 = CelebrationOverlay;
 // ---------- Detail panel ----------
 function DetailPanel({ person, state, onClose, onEdit, onDelete, onShowHistory }) {
     const related = state.familyUnits.filter((u)=>u.partner1Id === person.id || u.partner2Id === person.id || u.childrenIds.includes(person.id));
@@ -13630,7 +13680,7 @@ function DetailPanel({ person, state, onClose, onEdit, onDelete, onShowHistory }
                 }
             }, void 0, false, {
                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                lineNumber: 1154,
+                lineNumber: 1180,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -13654,19 +13704,19 @@ function DetailPanel({ person, state, onClose, onEdit, onDelete, onShowHistory }
                                             crossOrigin: "anonymous"
                                         }, void 0, false, {
                                             fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                            lineNumber: 1168,
+                                            lineNumber: 1194,
                                             columnNumber: 17
                                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                             className: "text-xl font-bold text-white drop-shadow-sm",
                                             children: (person.firstName[0] + (person.lastName?.[0] ?? '')).toUpperCase()
                                         }, void 0, false, {
                                             fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                            lineNumber: 1170,
+                                            lineNumber: 1196,
                                             columnNumber: 17
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                        lineNumber: 1162,
+                                        lineNumber: 1188,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -13681,7 +13731,7 @@ function DetailPanel({ person, state, onClose, onEdit, onDelete, onShowHistory }
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                                lineNumber: 1176,
+                                                lineNumber: 1202,
                                                 columnNumber: 15
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -13699,19 +13749,19 @@ function DetailPanel({ person, state, onClose, onEdit, onDelete, onShowHistory }
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                                lineNumber: 1179,
+                                                lineNumber: 1205,
                                                 columnNumber: 15
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                        lineNumber: 1175,
+                                        lineNumber: 1201,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                lineNumber: 1161,
+                                lineNumber: 1187,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -13721,18 +13771,18 @@ function DetailPanel({ person, state, onClose, onEdit, onDelete, onShowHistory }
                                     className: "h-4 w-4"
                                 }, void 0, false, {
                                     fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                    lineNumber: 1193,
+                                    lineNumber: 1219,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                lineNumber: 1192,
+                                lineNumber: 1218,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                        lineNumber: 1160,
+                        lineNumber: 1186,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("dl", {
@@ -13746,7 +13796,7 @@ function DetailPanel({ person, state, onClose, onEdit, onDelete, onShowHistory }
                                         children: "Occupation"
                                     }, void 0, false, {
                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                        lineNumber: 1200,
+                                        lineNumber: 1226,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("dd", {
@@ -13754,13 +13804,13 @@ function DetailPanel({ person, state, onClose, onEdit, onDelete, onShowHistory }
                                         children: person.occupation
                                     }, void 0, false, {
                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                        lineNumber: 1201,
+                                        lineNumber: 1227,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                lineNumber: 1199,
+                                lineNumber: 1225,
                                 columnNumber: 13
                             }, this),
                             person.birthPlace && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -13771,7 +13821,7 @@ function DetailPanel({ person, state, onClose, onEdit, onDelete, onShowHistory }
                                         children: "Born in"
                                     }, void 0, false, {
                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                        lineNumber: 1206,
+                                        lineNumber: 1232,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("dd", {
@@ -13779,13 +13829,13 @@ function DetailPanel({ person, state, onClose, onEdit, onDelete, onShowHistory }
                                         children: person.birthPlace
                                     }, void 0, false, {
                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                        lineNumber: 1207,
+                                        lineNumber: 1233,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                lineNumber: 1205,
+                                lineNumber: 1231,
                                 columnNumber: 13
                             }, this),
                             spouseId && state.persons[spouseId] && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -13798,14 +13848,14 @@ function DetailPanel({ person, state, onClose, onEdit, onDelete, onShowHistory }
                                                 className: "h-3 w-3"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                                lineNumber: 1213,
+                                                lineNumber: 1239,
                                                 columnNumber: 17
                                             }, this),
                                             " Spouse"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                        lineNumber: 1212,
+                                        lineNumber: 1238,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("dd", {
@@ -13817,13 +13867,13 @@ function DetailPanel({ person, state, onClose, onEdit, onDelete, onShowHistory }
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                        lineNumber: 1215,
+                                        lineNumber: 1241,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                lineNumber: 1211,
+                                lineNumber: 1237,
                                 columnNumber: 13
                             }, this),
                             parentsList.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -13834,7 +13884,7 @@ function DetailPanel({ person, state, onClose, onEdit, onDelete, onShowHistory }
                                         children: "Parents"
                                     }, void 0, false, {
                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                        lineNumber: 1222,
+                                        lineNumber: 1248,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("dd", {
@@ -13842,13 +13892,13 @@ function DetailPanel({ person, state, onClose, onEdit, onDelete, onShowHistory }
                                         children: parentsList.map((pid)=>state.persons[pid]).filter(Boolean).map((p)=>`${p.firstName} ${p.lastName ?? ''}`).join(', ')
                                     }, void 0, false, {
                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                        lineNumber: 1223,
+                                        lineNumber: 1249,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                lineNumber: 1221,
+                                lineNumber: 1247,
                                 columnNumber: 13
                             }, this),
                             children.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -13863,7 +13913,7 @@ function DetailPanel({ person, state, onClose, onEdit, onDelete, onShowHistory }
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                        lineNumber: 1230,
+                                        lineNumber: 1256,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("dd", {
@@ -13871,19 +13921,19 @@ function DetailPanel({ person, state, onClose, onEdit, onDelete, onShowHistory }
                                         children: children.map((pid)=>state.persons[pid]).filter(Boolean).map((p)=>`${p.firstName} ${p.lastName ?? ''}`).join(', ')
                                     }, void 0, false, {
                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                        lineNumber: 1231,
+                                        lineNumber: 1257,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                lineNumber: 1229,
+                                lineNumber: 1255,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                        lineNumber: 1197,
+                        lineNumber: 1223,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -13899,14 +13949,14 @@ function DetailPanel({ person, state, onClose, onEdit, onDelete, onShowHistory }
                                         className: "mr-1.5 h-3.5 w-3.5"
                                     }, void 0, false, {
                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                        lineNumber: 1245,
+                                        lineNumber: 1271,
                                         columnNumber: 13
                                     }, this),
                                     "Edit"
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                lineNumber: 1239,
+                                lineNumber: 1265,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -13919,12 +13969,12 @@ function DetailPanel({ person, state, onClose, onEdit, onDelete, onShowHistory }
                                     className: "h-3.5 w-3.5"
                                 }, void 0, false, {
                                     fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                    lineNumber: 1255,
+                                    lineNumber: 1281,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                lineNumber: 1248,
+                                lineNumber: 1274,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -13936,34 +13986,34 @@ function DetailPanel({ person, state, onClose, onEdit, onDelete, onShowHistory }
                                     className: "h-3.5 w-3.5"
                                 }, void 0, false, {
                                     fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                    lineNumber: 1263,
+                                    lineNumber: 1289,
                                     columnNumber: 13
                                 }, this)
                             }, void 0, false, {
                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                lineNumber: 1257,
+                                lineNumber: 1283,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                        lineNumber: 1238,
+                        lineNumber: 1264,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                lineNumber: 1159,
+                lineNumber: 1185,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-        lineNumber: 1152,
+        lineNumber: 1178,
         columnNumber: 5
     }, this);
 }
-_c2 = DetailPanel;
+_c3 = DetailPanel;
 // ---------- Empty state ----------
 function EmptyState({ onAdd }) {
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -13977,12 +14027,12 @@ function EmptyState({ onAdd }) {
                         className: "h-10 w-10 text-emerald-600"
                     }, void 0, false, {
                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                        lineNumber: 1277,
+                        lineNumber: 1303,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                    lineNumber: 1276,
+                    lineNumber: 1302,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
@@ -13990,7 +14040,7 @@ function EmptyState({ onAdd }) {
                     children: "Start your family tree"
                 }, void 0, false, {
                     fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                    lineNumber: 1279,
+                    lineNumber: 1305,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -13998,7 +14048,7 @@ function EmptyState({ onAdd }) {
                     children: "Add your first family member to begin building your tree."
                 }, void 0, false, {
                     fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                    lineNumber: 1280,
+                    lineNumber: 1306,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -14011,34 +14061,34 @@ function EmptyState({ onAdd }) {
                                 className: "mr-1.5 h-4 w-4"
                             }, void 0, false, {
                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                lineNumber: 1288,
+                                lineNumber: 1314,
                                 columnNumber: 13
                             }, this),
                             "Add first person"
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                        lineNumber: 1284,
+                        lineNumber: 1310,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                    lineNumber: 1283,
+                    lineNumber: 1309,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-            lineNumber: 1275,
+            lineNumber: 1301,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-        lineNumber: 1274,
+        lineNumber: 1300,
         columnNumber: 5
     }, this);
 }
-_c3 = EmptyState;
+_c4 = EmptyState;
 ;
 function PersonHistoryDialog({ open, onOpenChange, familyId, person, onRevert }) {
     _s2();
@@ -14089,12 +14139,12 @@ function PersonHistoryDialog({ open, onOpenChange, familyId, person, onRevert })
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                        lineNumber: 1341,
+                        lineNumber: 1367,
                         columnNumber: 11
                     }, this)
                 }, void 0, false, {
                     fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                    lineNumber: 1340,
+                    lineNumber: 1366,
                     columnNumber: 9
                 }, this),
                 loading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -14105,12 +14155,12 @@ function PersonHistoryDialog({ open, onOpenChange, familyId, person, onRevert })
                             className: "h-14 animate-pulse rounded-lg bg-slate-100"
                         }, i, false, {
                             fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                            lineNumber: 1346,
+                            lineNumber: 1372,
                             columnNumber: 15
                         }, this))
                 }, void 0, false, {
                     fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                    lineNumber: 1344,
+                    lineNumber: 1370,
                     columnNumber: 11
                 }, this) : entries.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                     className: "py-8 text-center",
@@ -14119,7 +14169,7 @@ function PersonHistoryDialog({ open, onOpenChange, familyId, person, onRevert })
                             className: "mx-auto mb-2 h-8 w-8 text-slate-300"
                         }, void 0, false, {
                             fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                            lineNumber: 1351,
+                            lineNumber: 1377,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -14127,7 +14177,7 @@ function PersonHistoryDialog({ open, onOpenChange, familyId, person, onRevert })
                             children: "No edit history yet."
                         }, void 0, false, {
                             fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                            lineNumber: 1352,
+                            lineNumber: 1378,
                             columnNumber: 13
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -14135,13 +14185,13 @@ function PersonHistoryDialog({ open, onOpenChange, familyId, person, onRevert })
                             children: "When you or a family member edits this person, the change will appear here."
                         }, void 0, false, {
                             fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                            lineNumber: 1353,
+                            lineNumber: 1379,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                    lineNumber: 1350,
+                    lineNumber: 1376,
                     columnNumber: 11
                 }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("ol", {
                     className: "space-y-2",
@@ -14158,7 +14208,7 @@ function PersonHistoryDialog({ open, onOpenChange, familyId, person, onRevert })
                                                 children: (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$features$2f$family$2d$tree$2f$activity$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["describeActivity"])(entry)
                                             }, void 0, false, {
                                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                                lineNumber: 1363,
+                                                lineNumber: 1389,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -14170,7 +14220,7 @@ function PersonHistoryDialog({ open, onOpenChange, familyId, person, onRevert })
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                                lineNumber: 1366,
+                                                lineNumber: 1392,
                                                 columnNumber: 21
                                             }, this),
                                             (entry.action === 'update' || entry.action === 'delete') && entry.before && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("details", {
@@ -14181,7 +14231,7 @@ function PersonHistoryDialog({ open, onOpenChange, familyId, person, onRevert })
                                                         children: "View previous version"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                                        lineNumber: 1371,
+                                                        lineNumber: 1397,
                                                         columnNumber: 25
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("pre", {
@@ -14189,19 +14239,19 @@ function PersonHistoryDialog({ open, onOpenChange, familyId, person, onRevert })
                                                         children: JSON.stringify(entry.before, null, 2)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                                        lineNumber: 1374,
+                                                        lineNumber: 1400,
                                                         columnNumber: 25
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                                lineNumber: 1370,
+                                                lineNumber: 1396,
                                                 columnNumber: 23
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                        lineNumber: 1362,
+                                        lineNumber: 1388,
                                         columnNumber: 19
                                     }, this),
                                     (entry.action === 'update' || entry.action === 'delete') && entry.before && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ui$2f$button$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Button"], {
@@ -14214,52 +14264,53 @@ function PersonHistoryDialog({ open, onOpenChange, familyId, person, onRevert })
                                                 className: "mr-1 h-3 w-3"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                                lineNumber: 1387,
+                                                lineNumber: 1413,
                                                 columnNumber: 23
                                             }, this),
                                             "Restore"
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                        lineNumber: 1381,
+                                        lineNumber: 1407,
                                         columnNumber: 21
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                                lineNumber: 1361,
+                                lineNumber: 1387,
                                 columnNumber: 17
                             }, this)
                         }, entry.id, false, {
                             fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                            lineNumber: 1360,
+                            lineNumber: 1386,
                             columnNumber: 15
                         }, this))
                 }, void 0, false, {
                     fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-                    lineNumber: 1358,
+                    lineNumber: 1384,
                     columnNumber: 11
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-            lineNumber: 1339,
+            lineNumber: 1365,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/features/family-tree/components/FamilyTree.tsx",
-        lineNumber: 1338,
+        lineNumber: 1364,
         columnNumber: 5
     }, this);
 }
 _s2(PersonHistoryDialog, "4sTGUpvOCVQDVrjMhiZXOD4pK8w=");
-_c4 = PersonHistoryDialog;
-var _c, _c1, _c2, _c3, _c4;
-__turbopack_context__.k.register(_c, "FamilyTree");
-__turbopack_context__.k.register(_c1, "CelebrationOverlay");
-__turbopack_context__.k.register(_c2, "DetailPanel");
-__turbopack_context__.k.register(_c3, "EmptyState");
-__turbopack_context__.k.register(_c4, "PersonHistoryDialog");
+_c5 = PersonHistoryDialog;
+var _c, _c1, _c2, _c3, _c4, _c5;
+__turbopack_context__.k.register(_c, "MapPanel");
+__turbopack_context__.k.register(_c1, "FamilyTree");
+__turbopack_context__.k.register(_c2, "CelebrationOverlay");
+__turbopack_context__.k.register(_c3, "DetailPanel");
+__turbopack_context__.k.register(_c4, "EmptyState");
+__turbopack_context__.k.register(_c5, "PersonHistoryDialog");
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {
     __turbopack_context__.k.registerExports(__turbopack_context__.m, globalThis.$RefreshHelpers$);
 }
