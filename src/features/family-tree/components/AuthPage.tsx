@@ -24,6 +24,11 @@ export function AuthPage() {
     if (view === 'quick-access') return <QuickAccess auth={auth} setView={setView} />;
     return <AuthForms initialView={view} setView={setView} />;
   }
+  // If user has families, go straight to family-select (or the active family)
+  if (auth.families.length > 0 && auth.activeFamily) {
+    // The page.tsx will render FamilyTree since auth.user and auth.activeFamily are set
+    return null;
+  }
   if (auth.families.length === 0 && view !== 'family-create' && view !== 'family-join') {
     return <FamilyCreateOrJoin setView={setView} />;
   }
@@ -52,13 +57,20 @@ function QuickAccess({ auth, setView }: { auth: ReturnType<typeof useAuth>; setV
       const guestId = Math.random().toString(36).slice(2, 10);
       const guestEmail = `guest_${guestId}@familytree.local`;
       const guestPassword = `Guest_${guestId}!`;
+      // Sign up (auto-confirmed since mailer_autoconfirm=true)
       const signUpRes = await auth.signUp(guestEmail, guestPassword);
       if (signUpRes.error) {
+        // If signup fails (e.g., email exists), try signing in
         const signInRes = await auth.signIn(guestEmail, guestPassword);
         if (signInRes.error) { setError(signInRes.error); setSubmitting(false); return; }
       }
+      // Wait for auth state to propagate (user should be set now)
+      await new Promise(r => setTimeout(r, 500));
+      // Join the family with the code
       const joinRes = await auth.joinFamily(trimmed);
       if (joinRes.error) { setError(joinRes.error); setSubmitting(false); return; }
+      // The auth context will now have the family set as active,
+      // and page.tsx will render FamilyTree directly — no "Create a family" screen.
     } catch (e: any) { setError(e.message ?? 'Something went wrong'); }
     setSubmitting(false);
   };
