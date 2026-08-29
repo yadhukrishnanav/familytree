@@ -151,3 +151,7 @@ Import trace for requested module:
  GET / 200 in 604ms (compile: 170ms, render: 434ms)
 ⚠ Fast Refresh had to perform a full reload due to a runtime error.
  GET / 200 in 1204ms (compile: 137ms, render: 1067ms)
+ GET / 200 in 73ms (compile: 4ms, render: 69ms)
+ GET / 200 in 32ms (compile: 2ms, render: 30ms)
+ GET / 200 in 418ms (compile: 99ms, render: 319ms)
+⚠ Fast Refresh had to perform a full reload due to a runtime error.

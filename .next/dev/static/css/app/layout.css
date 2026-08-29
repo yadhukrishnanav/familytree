@@ -153,6 +153,7 @@
     --color-emerald-900: oklch(37.8% 0.077 168.94);
     --color-teal-50: oklch(98.4% 0.014 180.72);
     --color-teal-100: oklch(95.3% 0.051 180.801);
+    --color-teal-300: oklch(85.5% 0.138 181.071);
     --color-teal-500: oklch(70.4% 0.14 182.503);
     --color-teal-600: oklch(60% 0.118 184.704);
     --color-teal-700: oklch(51.1% 0.096 186.391);
@@ -1005,6 +1006,9 @@
   .w-28 {
     width: calc(var(--spacing) * 28);
   }
+  .w-36 {
+    width: calc(var(--spacing) * 36);
+  }
   .w-40 {
     width: calc(var(--spacing) * 40);
   }
@@ -1558,6 +1562,9 @@
   .border-slate-400 {
     border-color: var(--color-slate-400);
   }
+  .border-teal-300 {
+    border-color: var(--color-teal-300);
+  }
   .border-transparent {
     border-color: transparent;
   }
@@ -1737,6 +1744,15 @@
     @supports (color: color-mix(in lab, red, red)) {
       background-color: color-mix(in oklab, var(--color-slate-900) 20%, transparent);
     }
+  }
+  .bg-stone-50\/50 {
+    background-color: color-mix(in srgb, oklch(98.5% 0.001 106.423) 50%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      background-color: color-mix(in oklab, var(--color-stone-50) 50%, transparent);
+    }
+  }
+  .bg-teal-50 {
+    background-color: var(--color-teal-50);
   }
   .bg-teal-100 {
     background-color: var(--color-teal-100);
@@ -2640,6 +2656,9 @@
   }
   .ring-slate-300 {
     --tw-ring-color: var(--color-slate-300);
+  }
+  .ring-teal-300 {
+    --tw-ring-color: var(--color-teal-300);
   }
   .ring-white {
     --tw-ring-color: var(--color-white);
@@ -3582,6 +3601,13 @@
       }
     }
   }
+  .hover\:text-emerald-700 {
+    &:hover {
+      @media (hover: hover) {
+        color: var(--color-emerald-700);
+      }
+    }
+  }
   .hover\:text-foreground {
     &:hover {
       @media (hover: hover) {
@@ -3600,6 +3626,13 @@
     &:hover {
       @media (hover: hover) {
         color: var(--color-purple-600);
+      }
+    }
+  }
+  .hover\:text-red-500 {
+    &:hover {
+      @media (hover: hover) {
+        color: var(--color-red-500);
       }
     }
   }
