@@ -109,3 +109,317 @@ https://react.dev/link/hydration-mismatch
 [07:16:28.687] Browser ERROR   uncaughtError: ReferenceError: t is not defined
 [07:19:19.380] Server  WARN    ⚠ Fast Refresh had to perform a full reload due to a runtime error.
 [07:19:22.346] Browser ERROR   uncaughtError: ReferenceError: t is not defined
+[07:50:33.248] Server  ERROR   ⨯ ./src/features/family-tree/components/AuthPage.tsx
+Error:   x Expected '</', got 'jsx text (
+  |       )'
+     ,-[/home/z/my-project/src/features/family-tree/components/AuthPage.tsx:193:1]
+ 190 |             >
+ 191 |               <span className={lang === 'en' ? 'text-emerald-600' : 'text-slate-400'}>EN</span>
+ 192 |               <span className="text-slate-300">|</span>
+ 193 | ,->       </div>
+ 194 | `->       <div className="flex min-h-screen items-center justify-center p-4">
+ 195 |             <div className="w-full max-w-md">
+ 196 |               {/* Brand header */}
+ 197 |               <div className="mb-6 text-center">
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/features/family-tree/components/AuthPage.tsx
+./src/app/page.tsx
+[07:50:33.328] Browser ERROR   ./src/features/family-tree/components/AuthPage.tsx
+Error:   x Expected '</', got 'jsx text (
+  |       )'
+     ,-[/home/z/my-project/src/features/family-tree/components/AuthPage.tsx:193:1]
+ 190 |             >
+ 191 |               <span className={lang === 'en' ? 'text-emerald-600' : 'text-slate-400'}>EN</span>
+ 192 |               <span className="text-slate-300">|</span>
+ 193 | ,->       </div>
+ 194 | `->       <div className="flex min-h-screen items-center justify-center p-4">
+ 195 |             <div className="w-full max-w-md">
+ 196 |               {/* Brand header */}
+ 197 |               <div className="mb-6 text-center">
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/features/family-tree/components/AuthPage.tsx
+./src/app/page.tsx
+[07:50:33.328] Browser ERROR   ./src/features/family-tree/components/FamilyTree.tsx
+Error:   x Expected '</', got 'Recent'
+     ,-[/home/z/my-project/src/features/family-tree/components/FamilyTree.tsx:561:1]
+ 558 |             variant="ghost"
+ 559 |             size="sm"
+ 560 |             onClick={() => setShowActivity(true)}
+ 561 |             title=Recent activity
+     :                   ^^^^^^
+ 562 |             className="h-8 w-8 p-0"
+ 563 |           >
+ 564 |             <History className="h-4 w-4" />
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/features/family-tree/components/FamilyTree.tsx
+./src/app/page.tsx
+[07:51:08.293] Server  ERROR   ⨯ ./src/features/family-tree/components/AuthPage.tsx
+Error:   x Expected '</', got 'jsx text (
+  |       )'
+     ,-[/home/z/my-project/src/features/family-tree/components/AuthPage.tsx:193:1]
+ 190 |             >
+ 191 |               <span className={lang === 'en' ? 'text-emerald-600' : 'text-slate-400'}>EN</span>
+ 192 |               <span className="text-slate-300">|</span>
+ 193 | ,->       </div>
+ 194 | `->       <div className="flex min-h-screen items-center justify-center p-4">
+ 195 |             <div className="w-full max-w-md">
+ 196 |               {/* Brand header */}
+ 197 |               <div className="mb-6 text-center">
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/features/family-tree/components/AuthPage.tsx
+./src/app/page.tsx
+[07:51:08.297] Browser ERROR   ./src/features/family-tree/components/AuthPage.tsx
+Error:   x Expected '</', got 'jsx text (
+  |       )'
+     ,-[/home/z/my-project/src/features/family-tree/components/AuthPage.tsx:193:1]
+ 190 |             >
+ 191 |               <span className={lang === 'en' ? 'text-emerald-600' : 'text-slate-400'}>EN</span>
+ 192 |               <span className="text-slate-300">|</span>
+ 193 | ,->       </div>
+ 194 | `->       <div className="flex min-h-screen items-center justify-center p-4">
+ 195 |             <div className="w-full max-w-md">
+ 196 |               {/* Brand header */}
+ 197 |               <div className="mb-6 text-center">
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/features/family-tree/components/AuthPage.tsx
+./src/app/page.tsx
+[07:51:08.297] Browser ERROR   ./src/features/family-tree/components/FamilyTree.tsx
+Error:   x Expected '</', got 'Recent'
+     ,-[/home/z/my-project/src/features/family-tree/components/FamilyTree.tsx:561:1]
+ 558 |             variant="ghost"
+ 559 |             size="sm"
+ 560 |             onClick={() => setShowActivity(true)}
+ 561 |             title=Recent activity
+     :                   ^^^^^^
+ 562 |             className="h-8 w-8 p-0"
+ 563 |           >
+ 564 |             <History className="h-4 w-4" />
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/features/family-tree/components/FamilyTree.tsx
+./src/app/page.tsx
+[07:51:08.297] Browser ERROR   ./src/features/family-tree/components/AuthPage.tsx
+Error:   x Expected '</', got 'jsx text (
+  |       )'
+     ,-[/home/z/my-project/src/features/family-tree/components/AuthPage.tsx:193:1]
+ 190 |             >
+ 191 |               <span className={lang === 'en' ? 'text-emerald-600' : 'text-slate-400'}>EN</span>
+ 192 |               <span className="text-slate-300">|</span>
+ 193 | ,->       </div>
+ 194 | `->       <div className="flex min-h-screen items-center justify-center p-4">
+ 195 |             <div className="w-full max-w-md">
+ 196 |               {/* Brand header */}
+ 197 |               <div className="mb-6 text-center">
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/features/family-tree/components/AuthPage.tsx
+./src/app/page.tsx
+[07:51:09.212] Browser ERROR   ./src/features/family-tree/components/AuthPage.tsx
+Error:   x Expected '</', got 'jsx text (
+  |       )'
+     ,-[/home/z/my-project/src/features/family-tree/components/AuthPage.tsx:193:1]
+ 190 |             >
+ 191 |               <span className={lang === 'en' ? 'text-emerald-600' : 'text-slate-400'}>EN</span>
+ 192 |               <span className="text-slate-300">|</span>
+ 193 | ,->       </div>
+ 194 | `->       <div className="flex min-h-screen items-center justify-center p-4">
+ 195 |             <div className="w-full max-w-md">
+ 196 |               {/* Brand header */}
+ 197 |               <div className="mb-6 text-center">
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/features/family-tree/components/AuthPage.tsx
+./src/app/page.tsx
+[07:51:10.680] Server  WARN    ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[07:51:11.309] Server  WARN    ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[07:51:15.860] Browser ERROR   uncaughtError: ReferenceError: t is not defined
+[07:51:30.627] Server  ERROR   ⨯ ./src/features/family-tree/components/AuthPage.tsx
+Error:   x Expected ',', got 'className'
+     ,-[/home/z/my-project/src/features/family-tree/components/AuthPage.tsx:184:1]
+ 181 |   return (
+ 182 |     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50">
+ 183 |       </div>
+ 184 |       <div className="flex min-h-screen items-center justify-center p-4">
+     :            ^^^^^^^^^
+ 185 |         <div className="w-full max-w-md">
+ 186 |           {/* Brand header */}
+ 187 |           <div className="mb-6 text-center">
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/features/family-tree/components/AuthPage.tsx
+./src/app/page.tsx
+[07:51:31.287] Browser ERROR   ./src/features/family-tree/components/AuthPage.tsx
+Error:   x Expected ',', got 'className'
+     ,-[/home/z/my-project/src/features/family-tree/components/AuthPage.tsx:184:1]
+ 181 |   return (
+ 182 |     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50">
+ 183 |       </div>
+ 184 |       <div className="flex min-h-screen items-center justify-center p-4">
+     :            ^^^^^^^^^
+ 185 |         <div className="w-full max-w-md">
+ 186 |           {/* Brand header */}
+ 187 |           <div className="mb-6 text-center">
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/features/family-tree/components/AuthPage.tsx
+./src/app/page.tsx
+[07:51:31.287] Browser ERROR   ./src/features/family-tree/components/FamilyTree.tsx
+Error:   x Expected '</', got 'Recent'
+     ,-[/home/z/my-project/src/features/family-tree/components/FamilyTree.tsx:555:1]
+ 552 |             variant="ghost"
+ 553 |             size="sm"
+ 554 |             onClick={() => setShowActivity(true)}
+ 555 |             title=Recent activity
+     :                   ^^^^^^
+ 556 |             className="h-8 w-8 p-0"
+ 557 |           >
+ 558 |             <History className="h-4 w-4" />
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/features/family-tree/components/FamilyTree.tsx
+./src/app/page.tsx
+[07:52:04.617] Server  ERROR   ⨯ ./src/features/family-tree/components/AuthPage.tsx
+Error:   x Expected ',', got 'className'
+     ,-[/home/z/my-project/src/features/family-tree/components/AuthPage.tsx:184:1]
+ 181 |   return (
+ 182 |     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50">
+ 183 |       </div>
+ 184 |       <div className="flex min-h-screen items-center justify-center p-4">
+     :            ^^^^^^^^^
+ 185 |         <div className="w-full max-w-md">
+ 186 |           {/* Brand header */}
+ 187 |           <div className="mb-6 text-center">
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/features/family-tree/components/AuthPage.tsx
+./src/app/page.tsx
+[07:52:05.351] Browser ERROR   ./src/features/family-tree/components/AuthPage.tsx
+Error:   x Expected ',', got 'className'
+     ,-[/home/z/my-project/src/features/family-tree/components/AuthPage.tsx:184:1]
+ 181 |   return (
+ 182 |     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50">
+ 183 |       </div>
+ 184 |       <div className="flex min-h-screen items-center justify-center p-4">
+     :            ^^^^^^^^^
+ 185 |         <div className="w-full max-w-md">
+ 186 |           {/* Brand header */}
+ 187 |           <div className="mb-6 text-center">
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/features/family-tree/components/AuthPage.tsx
+./src/app/page.tsx
+[07:52:05.351] Browser ERROR   ./src/features/family-tree/components/FamilyTree.tsx
+Error:   x Expected '</', got 'Recent'
+     ,-[/home/z/my-project/src/features/family-tree/components/FamilyTree.tsx:555:1]
+ 552 |             variant="ghost"
+ 553 |             size="sm"
+ 554 |             onClick={() => setShowActivity(true)}
+ 555 |             title=Recent activity
+     :                   ^^^^^^
+ 556 |             className="h-8 w-8 p-0"
+ 557 |           >
+ 558 |             <History className="h-4 w-4" />
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/features/family-tree/components/FamilyTree.tsx
+./src/app/page.tsx
+[07:52:05.351] Browser ERROR   ./src/features/family-tree/components/AuthPage.tsx
+Error:   x Expected ',', got 'className'
+     ,-[/home/z/my-project/src/features/family-tree/components/AuthPage.tsx:184:1]
+ 181 |   return (
+ 182 |     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50">
+ 183 |       </div>
+ 184 |       <div className="flex min-h-screen items-center justify-center p-4">
+     :            ^^^^^^^^^
+ 185 |         <div className="w-full max-w-md">
+ 186 |           {/* Brand header */}
+ 187 |           <div className="mb-6 text-center">
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/features/family-tree/components/AuthPage.tsx
+./src/app/page.tsx
+[07:52:32.322] Browser ERROR   ./src/features/family-tree/components/AuthPage.tsx
+Error:   x Expected ',', got 'className'
+     ,-[/home/z/my-project/src/features/family-tree/components/AuthPage.tsx:184:1]
+ 181 |   return (
+ 182 |     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50">
+ 183 |       </div>
+ 184 |       <div className="flex min-h-screen items-center justify-center p-4">
+     :            ^^^^^^^^^
+ 185 |         <div className="w-full max-w-md">
+ 186 |           {/* Brand header */}
+ 187 |           <div className="mb-6 text-center">
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/features/family-tree/components/AuthPage.tsx
+./src/app/page.tsx
+[07:52:37.202] Browser ERROR   uncaughtError: ReferenceError: t is not defined

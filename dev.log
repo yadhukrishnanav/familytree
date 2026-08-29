@@ -65,3 +65,87 @@
  GET / 200 in 30ms (compile: 3ms, render: 27ms)
  GET / 200 in 408ms (compile: 101ms, render: 307ms)
 ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET / 200 in 46ms (compile: 4ms, render: 41ms)
+ GET / 200 in 26ms (compile: 2ms, render: 24ms)
+⨯ ./src/features/family-tree/components/AuthPage.tsx
+Error:   x Expected '</', got 'jsx text (
+  |       )'
+     ,-[/home/z/my-project/src/features/family-tree/components/AuthPage.tsx:193:1]
+ 190 |             >
+ 191 |               <span className={lang === 'en' ? 'text-emerald-600' : 'text-slate-400'}>EN</span>
+ 192 |               <span className="text-slate-300">|</span>
+ 193 | ,->       </div>
+ 194 | `->       <div className="flex min-h-screen items-center justify-center p-4">
+ 195 |             <div className="w-full max-w-md">
+ 196 |               {/* Brand header */}
+ 197 |               <div className="mb-6 text-center">
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/features/family-tree/components/AuthPage.tsx
+./src/app/page.tsx
+⨯ ./src/features/family-tree/components/AuthPage.tsx
+Error:   x Expected '</', got 'jsx text (
+  |       )'
+     ,-[/home/z/my-project/src/features/family-tree/components/AuthPage.tsx:193:1]
+ 190 |             >
+ 191 |               <span className={lang === 'en' ? 'text-emerald-600' : 'text-slate-400'}>EN</span>
+ 192 |               <span className="text-slate-300">|</span>
+ 193 | ,->       </div>
+ 194 | `->       <div className="flex min-h-screen items-center justify-center p-4">
+ 195 |             <div className="w-full max-w-md">
+ 196 |               {/* Brand header */}
+ 197 |               <div className="mb-6 text-center">
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/features/family-tree/components/AuthPage.tsx
+./src/app/page.tsx
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET / 200 in 1144ms (compile: 833ms, render: 311ms)
+⚠ Fast Refresh had to perform a full reload due to a runtime error.
+⨯ ./src/features/family-tree/components/AuthPage.tsx
+Error:   x Expected ',', got 'className'
+     ,-[/home/z/my-project/src/features/family-tree/components/AuthPage.tsx:184:1]
+ 181 |   return (
+ 182 |     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50">
+ 183 |       </div>
+ 184 |       <div className="flex min-h-screen items-center justify-center p-4">
+     :            ^^^^^^^^^
+ 185 |         <div className="w-full max-w-md">
+ 186 |           {/* Brand header */}
+ 187 |           <div className="mb-6 text-center">
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/features/family-tree/components/AuthPage.tsx
+./src/app/page.tsx
+⨯ ./src/features/family-tree/components/AuthPage.tsx
+Error:   x Expected ',', got 'className'
+     ,-[/home/z/my-project/src/features/family-tree/components/AuthPage.tsx:184:1]
+ 181 |   return (
+ 182 |     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50">
+ 183 |       </div>
+ 184 |       <div className="flex min-h-screen items-center justify-center p-4">
+     :            ^^^^^^^^^
+ 185 |         <div className="w-full max-w-md">
+ 186 |           {/* Brand header */}
+ 187 |           <div className="mb-6 text-center">
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./src/features/family-tree/components/AuthPage.tsx
+./src/app/page.tsx
+ GET / 200 in 604ms (compile: 170ms, render: 434ms)

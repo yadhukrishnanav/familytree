@@ -67,7 +67,6 @@ import { MemberManagerDialog } from './MemberManagerDialog';
 import { CSVImportDialog } from './CSVImportDialog';
 import { FederationPanel } from './FederationPanel';
 import { exportToPngFile, exportToPdfFile } from '../export';
-import { useI18n } from '../i18n';
 
 type ModalKind = 'add-person' | 'edit-person' | 'add-event' | 'edit-event' | null;
 
@@ -83,7 +82,6 @@ const MAX_SCALE = 3;
 export function FamilyTree() {
   const store = useStore();
   const auth = useAuth();
-  const { t, lang, toggleLang } = useI18n();
   const { state } = store;
 
   const [transform, setTransform] = useState<CanvasTransform>({ x: 100, y: 60, scale: 0.8 });
@@ -526,7 +524,7 @@ export function FamilyTree() {
             className="hidden items-center gap-2 rounded-full border border-emerald-200/60 bg-gradient-to-r from-emerald-50 to-teal-50 px-3 py-1.5 text-xs shadow-sm transition hover:shadow-md hover:from-emerald-100 hover:to-teal-100 sm:flex"
             title="Click to copy share code"
           >
-            <span className="text-[10px] font-semibold uppercase tracking-wider text-emerald-400">{t('toolbar.share')}</span>
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-emerald-400">Share</span>
             <code className="font-mono text-[13px] font-bold tracking-wider text-emerald-700">
               {auth.activeFamily.shareCode}
             </code>
@@ -550,19 +548,11 @@ export function FamilyTree() {
         )}
 
         <div className="flex items-center gap-0.5">
-          {/* Language toggle */}
-          <button
-            onClick={() => toggleLang()}
-            className="rounded-full border border-slate-300 bg-white/80 px-2.5 py-1 text-xs font-bold text-slate-600 transition hover:bg-white"
-            title={lang === 'en' ? 'മലയാളം' : 'English'}
-          >
-            {lang === 'en' ? 'മലയാളം' : 'EN'}
-          </button>
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setShowActivity(true)}
-            title={t('Recent activity')}
+            title="Recent activity"
             className="h-8 w-8 p-0"
           >
             <History className="h-4 w-4" />
@@ -587,17 +577,7 @@ export function FamilyTree() {
           >
             <Redo2 className="h-4 w-4" />
           </Button>
-          {/* Language toggle */}
-          <button
-            onClick={() => toggleLang()}
-            className="flex h-8 items-center gap-1 rounded-lg border border-slate-200 bg-white/80 px-2 text-xs font-bold transition hover:bg-slate-50"
-            title="Language"
-          >
-            <span className={lang === 'en' ? 'text-emerald-600' : 'text-slate-400'}>EN</span>
-            <span className="text-slate-300">|</span>
-            <span className={lang === 'ml' ? 'text-emerald-600' : 'text-slate-400'}>മലയാളം</span>
-          </button>
-        </div>
+          </div>
       </header>
 
       {/* ---- Toolbar ---- */}
@@ -608,8 +588,8 @@ export function FamilyTree() {
           className="gap-1.5 rounded-lg bg-gradient-to-r from-emerald-600 to-teal-600 px-3 shadow-md shadow-emerald-500/25 hover:from-emerald-700 hover:to-teal-700 hover:shadow-lg"
         >
           <Plus className="h-4 w-4" />
-          <span className="hidden sm:inline">{t('toolbar.addPerson')}</span>
-          <span className="sm:hidden">{t('toolbar.person')}</span>
+          <span className="hidden sm:inline">Add Person</span>
+          <span className="sm:hidden">Person</span>
         </Button>
         <Button
           size="sm"
@@ -618,7 +598,7 @@ export function FamilyTree() {
           className="gap-1.5 rounded-lg border-slate-300 bg-white/80 hover:bg-white"
         >
           <Calendar className="h-4 w-4" />
-          <span className="hidden sm:inline">{t('toolbar.event')}</span>
+          <span className="hidden sm:inline">Event</span>
         </Button>
 
         {/* Divider */}
@@ -633,7 +613,7 @@ export function FamilyTree() {
           title="Search (Ctrl/Cmd+K)"
         >
           <Search className="h-4 w-4" />
-          <span className="hidden md:inline">{t('toolbar.search')}</span>
+          <span className="hidden md:inline">Search</span>
         </Button>
 
         {/* View toggle: tree / grid */}
@@ -919,7 +899,7 @@ export function FamilyTree() {
 
       {/* Footnote */}
       <div className="border-t border-slate-100 bg-white/50 px-4 py-2.5 text-center text-[16px] font-bold text-slate-900">
-        {t('footnote')}
+        Built with &#10084; by one among us
       </div>
 
       {/* Celebration overlay (until Sep 4, 2026) */}
@@ -1237,9 +1217,9 @@ function EmptyState({ onAdd }: { onAdd: () => void }) {
         <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center rounded-3xl bg-gradient-to-br from-emerald-100 to-teal-100 shadow-lg shadow-emerald-500/10">
           <Plus className="h-10 w-10 text-emerald-600" />
         </div>
-        <h2 className="mb-2 text-2xl font-bold text-slate-800">{t('empty.title')}</h2>
+        <h2 className="mb-2 text-2xl font-bold text-slate-800">Start your family tree</h2>
         <p className="mb-6 text-sm text-slate-500">
-          {t('empty.desc')}
+          Add your first family member to begin building your tree.
         </p>
         <div className="flex flex-col gap-2 sm:flex-row sm:justify-center">
           <Button
@@ -1247,7 +1227,7 @@ function EmptyState({ onAdd }: { onAdd: () => void }) {
             className="rounded-lg bg-gradient-to-r from-emerald-600 to-teal-600 px-5 shadow-md shadow-emerald-500/25 hover:shadow-lg"
           >
             <Plus className="mr-1.5 h-4 w-4" />
-            {t('empty.addFirst')}
+            Add first person
           </Button>
         </div>
       </div>

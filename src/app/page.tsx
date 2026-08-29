@@ -1,7 +1,6 @@
 'use client';
 
 import { AuthProvider, useAuth } from '@/features/family-tree/auth';
-import { I18nProvider } from '@/features/family-tree/i18n';
 import { StoreProvider } from '@/features/family-tree/store';
 import { AuthPage } from '@/features/family-tree/components/AuthPage';
 import { FamilyTree } from '@/features/family-tree/components/FamilyTree';
@@ -39,11 +38,9 @@ function AppContent() {
 
 export default function Home() {
   return (
-    <I18nProvider>
-      <AuthProvider>
+          <AuthProvider>
         <AppContent />
       </AuthProvider>
-    </I18nProvider>
-  );
+      );
 }
 // Build trigger: Sat Aug 29 12:10:58 UTC 2026

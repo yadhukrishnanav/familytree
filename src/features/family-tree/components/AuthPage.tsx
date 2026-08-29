@@ -5,7 +5,6 @@
 
 import { useState } from 'react';
 import { useAuth } from '../auth';
-import { useI18n } from '../i18n';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -102,7 +101,6 @@ function AuthForms({
   setView: (v: View) => void;
 }) {
   const auth = useAuth();
-  const { t, lang, toggleLang } = useI18n();
   const [isSignUp, setIsSignUp] = useState(initialView === 'sign-up');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -182,18 +180,6 @@ function AuthForms({
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50">
-      {/* Language toggle — top right */}
-      <div className="absolute right-4 top-4 z-50">
-        <button
-          onClick={() => toggleLang()}
-          className="flex h-8 items-center gap-1 rounded-lg border border-slate-200 bg-white/80 px-2 text-xs font-bold shadow-sm transition hover:bg-white"
-          title="Toggle language"
-        >
-          <span className={lang === 'en' ? 'text-emerald-600' : 'text-slate-400'}>EN</span>
-          <span className="text-slate-300">|</span>
-          <span className={lang === 'ml' ? 'text-emerald-600' : 'text-slate-400'}>മലയാളം</span>
-        </button>
-      </div>
       <div className="flex min-h-screen items-center justify-center p-4">
         <div className="w-full max-w-md">
           {/* Brand header */}
@@ -201,9 +187,9 @@ function AuthForms({
             <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg">
               <TreePine className="h-7 w-7 text-white" />
             </div>
-            <h1 className="text-2xl font-bold text-slate-800">{t('app.name')}</h1>
+            <h1 className="text-2xl font-bold text-slate-800">Family Tree</h1>
             <p className="text-sm text-slate-500">
-              {t('app.tagline')}
+              Build, visualize, and share your family's story
             </p>
             {!isSupabaseConfigured && (
               <div className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-teal-100 px-3 py-1 text-xs font-medium text-teal-700">
@@ -249,7 +235,7 @@ function AuthForms({
 
             <form onSubmit={submit} className="space-y-3" noValidate>
               <div>
-                <Label htmlFor="email">{t('auth.email')}</Label>
+                <Label htmlFor="email">Email</Label>
                 <Input
                   id="email"
                   type="email"
@@ -292,7 +278,7 @@ function AuthForms({
               {!useMagicLink && (
                 <>
                   <div>
-                    <Label htmlFor="password">{t('auth.password')}</Label>
+                    <Label htmlFor="password">Password</Label>
                     <div className="relative">
                       <Input
                         id="password"
@@ -315,7 +301,7 @@ function AuthForms({
                   </div>
                   {isSignUp && (
                     <div>
-                      <Label htmlFor="confirm">{t('auth.confirmPassword')}</Label>
+                      <Label htmlFor="confirm">Confirm password</Label>
                       <div className="relative">
                         <Input
                           id="confirm"
