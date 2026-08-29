@@ -554,15 +554,15 @@ export function FamilyTree() {
           <button
             onClick={() => toggleLang()}
             className="rounded-full border border-slate-300 bg-white/80 px-2.5 py-1 text-xs font-bold text-slate-600 transition hover:bg-white"
-            title={i18n.lang === 'en' ? 'മലയാളം' : 'English'}
+            title={lang === 'en' ? 'മലയാളം' : 'English'}
           >
-            {i18n.lang === 'en' ? 'മലയാളം' : 'EN'}
+            {lang === 'en' ? 'മലയാളം' : 'EN'}
           </button>
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setShowActivity(true)}
-            title={i18n.t('Recent activity')}
+            title={t('Recent activity')}
             className="h-8 w-8 p-0"
           >
             <History className="h-4 w-4" />
