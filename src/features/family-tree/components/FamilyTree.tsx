@@ -1052,9 +1052,13 @@ function CelebrationOverlay({ onClose }: { onClose: () => void }) {
           <img src="/wedding-invite.jpg" alt="Wedding invitation" className="w-full h-auto" />
         </div>
         <div className="mb-3 text-4xl animate-bounce">💍</div>
-        <h2 className="mb-3 text-2xl font-bold text-white sm:text-3xl">
-          As we gather for <span className="bg-gradient-to-r from-amber-300 to-yellow-200 bg-clip-text text-transparent">Anu&apos;s Wedding</span>,
+        <h2 className="mb-1 text-2xl font-bold text-white sm:text-3xl">
+          As we gather for
         </h2>
+        <h2 className="mb-3 text-3xl font-bold sm:text-4xl">
+          <span className="bg-gradient-to-r from-amber-300 to-yellow-200 bg-clip-text text-transparent whitespace-nowrap">Anu&apos;s Wedding</span> 💐
+        </h2>
+        <p className="mb-1 text-base text-emerald-100 sm:text-lg">31st August 2026 · Wasava Cliff House, Kannur</p>
         <p className="mb-5 text-base text-emerald-100 sm:text-lg">let&apos;s map our roots and celebrate where we all come from. Add your branch to the family tree! 🌳</p>
         <button onClick={onClose} className="rounded-full bg-white px-8 py-3 text-base font-bold text-emerald-700 shadow-xl transition hover:scale-105 hover:bg-emerald-50">Let&apos;s begin 🌿</button>
         <p className="mt-4 text-xs text-emerald-300/60">(This message will disappear shortly)</p>

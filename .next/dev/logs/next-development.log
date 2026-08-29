@@ -427,3 +427,4 @@ Import trace for requested module:
 [07:53:13.540] Browser ERROR   uncaughtError: ReferenceError: t is not defined
 [08:00:56.227] Server  WARN    ⚠ Fast Refresh had to perform a full reload due to a runtime error.
 [08:00:59.409] Browser ERROR   uncaughtError: ReferenceError: t is not defined
+[08:05:42.350] Browser ERROR   uncaughtError: ReferenceError: t is not defined
