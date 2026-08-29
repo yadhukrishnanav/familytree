@@ -52,6 +52,7 @@ import { toast } from 'sonner';
 import type { FamilyTreeState, Person, TimelineEvent } from '../types';
 import { useStore } from '../store';
 import { useAuth } from '../auth';
+import { deletePhoto } from '../supabase';
 import { computeLayout, NODE_WIDTH, NODE_HEIGHT } from '../layout';
 import { PersonCard, MarriageBadge } from './PersonCard';
 import { PersonForm, type NewRelation } from './PersonForm';

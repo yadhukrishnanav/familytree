@@ -128,8 +128,8 @@ export function PersonForm({ initial, familyId, existingPersons, onSubmit, onCan
       </div>
 
       <div className="grid grid-cols-2 gap-3">
-        <div><Label htmlFor="firstName">First name *</Label><Input id="firstName" value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="Sivaraman" /></div>
-        <div><Label htmlFor="lastName">Last name</Label><Input id="lastName" value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder="Chettiar" /></div>
+        <div><Label htmlFor="firstName">First name *</Label><Input id="firstName" value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="Raghavan" /></div>
+        <div><Label htmlFor="lastName">Last name</Label><Input id="lastName" value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder="Nair" /></div>
       </div>
 
       <div className="grid grid-cols-2 gap-3">
@@ -139,13 +139,13 @@ export function PersonForm({ initial, familyId, existingPersons, onSubmit, onCan
 
       <div className="grid grid-cols-3 gap-3">
         <div><Label htmlFor="gender">Gender</Label><Select value={gender} onValueChange={(v) => setGender(v as Gender)}><SelectTrigger id="gender"><SelectValue /></SelectTrigger><SelectContent><SelectItem value="male">Male</SelectItem><SelectItem value="female">Female</SelectItem><SelectItem value="other">Other</SelectItem></SelectContent></Select></div>
-        <div><Label htmlFor="occupation">Occupation</Label><Input id="occupation" value={occupation} onChange={(e) => setOccupation(e.target.value)} placeholder="Trader" /></div>
-        <div><Label htmlFor="birthPlace">Birthplace</Label><Input id="birthPlace" value={birthPlace} onChange={(e) => setBirthPlace(e.target.value)} placeholder="Kannur" /></div>
+        <div><Label htmlFor="occupation">Occupation</Label><Input id="occupation" value={occupation} onChange={(e) => setOccupation(e.target.value)} placeholder="Engineer" /></div>
+        <div><Label htmlFor="birthPlace">Birthplace</Label><Input id="birthPlace" value={birthPlace} onChange={(e) => setBirthPlace(e.target.value)} placeholder="Kochi" /></div>
       </div>
 
       <div className="grid grid-cols-2 gap-3">
         <div><Label htmlFor="phone">Phone</Label><Input id="phone" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="+91 98765 43210" type="tel" /></div>
-        <div><Label htmlFor="email">Email</Label><Input id="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="sivaraman@example.com" type="email" /></div>
+        <div><Label htmlFor="email">Email</Label><Input id="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="raghavan@example.com" type="email" /></div>
       </div>
 
       <div>
