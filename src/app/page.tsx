@@ -46,3 +46,4 @@ export default function Home() {
     </I18nProvider>
   );
 }
+// Build trigger: Sat Aug 29 12:10:58 UTC 2026
