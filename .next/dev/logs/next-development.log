@@ -434,3 +434,5 @@ Import trace for requested module:
 [09:21:34.377] Browser ERROR   uncaughtError: ReferenceError: t is not defined
 [09:21:45.865] Browser ERROR   Can't perform a React state update on a component that hasn't mounted yet. This indicates that you have a side-effect in your render function that asynchronously tries to update the component. Move this work to useEffect instead.
 [09:21:49.998] Browser ERROR   uncaughtError: ReferenceError: t is not defined
+[09:24:43.180] Browser ERROR   uncaughtError: ChunkLoadError: Loading chunk app/page failed.
+(timeout: https://preview-chat-0af61295-d4ba-4817-a5aa-dab7f52a34bf.space-z.ai/_next/static/chunks/app/page.js)

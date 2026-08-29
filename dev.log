@@ -175,3 +175,6 @@ Import trace for requested module:
  GET /_next/_next/static/chunks/node_modules_%40supabase_eea02bf6._.js 404 in 2.1s (compile: 1885ms, render: 180ms)
  GET /_next/_next/static/chunks/src_app_page_tsx_406f3020._.js 404 in 35ms (compile: 6ms, render: 29ms)
  GET / 200 in 169ms (compile: 28ms, render: 142ms)
+ GET / 200 in 90ms (compile: 4ms, render: 86ms)
+ GET / 200 in 39ms (compile: 3ms, render: 36ms)
+ GET / 200 in 35ms (compile: 3ms, render: 32ms)
