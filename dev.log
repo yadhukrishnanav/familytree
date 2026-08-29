@@ -51,3 +51,9 @@
 ⚠ Fast Refresh had to perform a full reload due to a runtime error.
  GET / 200 in 342ms (compile: 48ms, render: 294ms)
 ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET / 200 in 42ms (compile: 4ms, render: 38ms)
+ GET / 200 in 31ms (compile: 2ms, render: 28ms)
+ GET / 200 in 38ms (compile: 4ms, render: 33ms)
+ GET / 200 in 404ms (compile: 102ms, render: 302ms)
+ GET / 200 in 444ms (compile: 163ms, render: 280ms)
+ GET / 200 in 194ms (compile: 52ms, render: 142ms)

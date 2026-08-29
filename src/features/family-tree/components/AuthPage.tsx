@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import {
-  Users, Plus, LogIn, LogOut, TreePine, Copy, Check, Sparkles, AlertCircle, Mail,
+  Users, Plus, LogIn, LogOut, TreePine, Copy, Check, Sparkles, AlertCircle, Mail, Eye, EyeOff,
 } from 'lucide-react';
 import { toast } from 'sonner';
 import { isSupabaseConfigured } from '../supabase';
@@ -112,6 +112,8 @@ function AuthForms({
   const [info, setInfo] = useState<string | null>(null);
   // Magic link (OTP) mode
   const [useMagicLink, setUseMagicLink] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
   const [otpCode, setOtpCode] = useState('');
 
@@ -291,25 +293,47 @@ function AuthForms({
                 <>
                   <div>
                     <Label htmlFor="password">{t('auth.password')}</Label>
-                    <Input
-                      id="password"
-                      type="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      placeholder="••••••••"
-                      autoComplete={isSignUp ? 'new-password' : 'current-password'}
-                    />
+                    <div className="relative">
+                      <Input
+                        id="password"
+                        type={showPassword ? 'text' : 'password'}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        placeholder="••••••••"
+                        autoComplete={isSignUp ? 'new-password' : 'current-password'}
+                        className="pr-10"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                        tabIndex={-1}
+                      >
+                        {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                      </button>
+                    </div>
                   </div>
                   {isSignUp && (
                     <div>
                       <Label htmlFor="confirm">{t('auth.confirmPassword')}</Label>
-                      <Input
-                        id="confirm"
-                        type="password"
-                        value={confirm}
-                        onChange={(e) => setConfirm(e.target.value)}
-                        placeholder="Re-enter password"
-                      />
+                      <div className="relative">
+                        <Input
+                          id="confirm"
+                          type={showConfirm ? 'text' : 'password'}
+                          value={confirm}
+                          onChange={(e) => setConfirm(e.target.value)}
+                          placeholder="Re-enter password"
+                          className="pr-10"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowConfirm(!showConfirm)}
+                          className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                          tabIndex={-1}
+                        >
+                          {showConfirm ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                        </button>
+                      </div>
                     </div>
                   )}
                 </>
