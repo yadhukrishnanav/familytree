@@ -121,7 +121,10 @@ export function FamilyTree() {
   const [showFamilySwitcher, setShowFamilySwitcher] = useState(false);
   const WEDDING_DATE = new Date('2026-09-05T00:00:00');
   const [showCelebration, setShowCelebration] = useState(() => new Date() < WEDDING_DATE);
-  const [viewMode, setViewMode] = useState<'tree' | 'grid' | 'map'>('tree');
+  const [viewMode, setViewMode] = useState<'tree' | 'grid'>('tree');
+  // Birthplace map is now a slide-in sidebar (toggled separately from viewMode),
+  // so the tree canvas stays visible behind it.
+  const [showMap, setShowMap] = useState(false);
 
   const canvasRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null); // for export
@@ -667,7 +670,7 @@ export function FamilyTree() {
           <span className="hidden md:inline">Search</span>
         </Button>
 
-        {/* View toggle: tree / grid / map */}
+        {/* View toggle: tree / grid */}
         <div className="flex rounded-lg border border-slate-300 bg-white/80 p-0.5">
           <button
             onClick={() => setViewMode('tree')}
@@ -683,13 +686,6 @@ export function FamilyTree() {
           >
             <LayoutGrid className="h-3.5 w-3.5" />
           </button>
-          <button
-            onClick={() => setViewMode('map')}
-            className={`flex h-7 w-7 items-center justify-center rounded-md text-xs transition ${viewMode === 'map' ? 'bg-slate-200 text-slate-700' : 'text-slate-500 hover:bg-slate-50'}`}
-            title="Birthplace map view"
-          >
-            <MapIcon className="h-3.5 w-3.5" />
-          </button>
         </div>
 
         {/* Birthdays */}
@@ -701,6 +697,17 @@ export function FamilyTree() {
           title="Birthdays"
         >
           <Cake className="h-4 w-4 text-slate-500" />
+        </Button>
+
+        {/* Birthplace map sidebar */}
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={() => setShowMap((v) => !v)}
+          className={`gap-1.5 rounded-lg border-slate-300 bg-white/80 hover:bg-white ${showMap ? 'ring-2 ring-slate-300' : ''}`}
+          title="Family birthplace map"
+        >
+          <MapIcon className="h-4 w-4 text-slate-500" />
         </Button>
 
         {/* Chat */}
@@ -763,14 +770,7 @@ export function FamilyTree() {
 
       {/* ---- Canvas (main area) ---- */}
       <div className="relative flex-1 overflow-hidden bg-slate-50">
-      {viewMode === 'map' ? (
-        <MapPanel
-          persons={state.persons}
-          selectedId={selectedId}
-          onSelectPerson={(id) => { setSelectedId(id); setViewMode('tree'); }}
-          onClose={() => setViewMode('tree')}
-        />
-      ) : viewMode === 'grid' ? (
+      {viewMode === 'grid' ? (
         <PhotoGridView
           persons={state.persons}
           onSelectPerson={(id) => { setSelectedId(id); setViewMode('tree'); }}
@@ -1089,6 +1089,22 @@ export function FamilyTree() {
             setShowBirthdays(false);
             setViewMode('tree');
           }}
+        />
+      )}
+
+      {/* Birthplace map sidebar — slide-in panel showing every family member's
+          birthPlace as a pin on OpenStreetMap (Nominatim geocoding, cached). */}
+      {showMap && (
+        <MapPanel
+          persons={state.persons}
+          selectedId={selectedId}
+          onSelectPerson={(id) => {
+            setSelectedId(id);
+            // Keep the sidebar open so the user can hop between pins;
+            // if they're in grid view, snap back to tree so the card is visible.
+            if (viewMode === 'grid') setViewMode('tree');
+          }}
+          onClose={() => setShowMap(false)}
         />
       )}
 

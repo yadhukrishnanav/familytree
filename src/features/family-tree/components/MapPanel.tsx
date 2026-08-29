@@ -94,6 +94,11 @@ interface Props {
 function FitBounds({ points }: { points: Array<[number, number]> }) {
   const map = useMap();
   useEffect(() => {
+    // Leaflet computes tile layout from the container's size at mount time.
+    // When the map mounts inside a freshly-toggled sidebar, the container may
+    // still be 0×0 — calling invalidateSize() forces a recompute so tiles
+    // actually render instead of leaving a grey box.
+    map.invalidateSize();
     if (points.length === 0) return;
     if (points.length === 1) {
       map.setView(points[0], 6, { animate: true });
@@ -102,6 +107,17 @@ function FitBounds({ points }: { points: Array<[number, number]> }) {
     const bounds = L.latLngBounds(points);
     map.fitBounds(bounds, { padding: [40, 40] });
   }, [points, map]);
+  return null;
+}
+
+// Re-call invalidateSize shortly after mount — handles the case where the
+// sidebar's CSS transition hasn't fully completed when FitBounds runs.
+function InvalidateSizeOnMount() {
+  const map = useMap();
+  useEffect(() => {
+    const t = setTimeout(() => map.invalidateSize(), 250);
+    return () => clearTimeout(t);
+  }, [map]);
   return null;
 }
 
@@ -173,78 +189,99 @@ export function MapPanel({ persons, selectedId, onSelectPerson, onClose }: Props
   const defaultZoom = 6;
 
   return (
-    <div className="absolute inset-0 z-30 bg-slate-50">
+    <div className="absolute right-3 top-3 z-50 flex max-h-[calc(100vh-1.5rem)] w-[min(380px,calc(100vw-1.5rem))] flex-col overflow-hidden rounded-2xl bg-white/95 shadow-2xl ring-1 ring-slate-200/80 backdrop-blur-xl">
       {/* Header bar */}
-      <div className="absolute left-3 top-3 z-[1000] flex items-center gap-2 rounded-lg border border-slate-200 bg-white/95 px-3 py-1.5 shadow-md backdrop-blur">
-        <MapPin className="h-3.5 w-3.5 text-slate-500" />
-        <span className="text-xs font-semibold text-slate-700">Family Birthplaces</span>
-        <span className="text-xs text-slate-400">
+      <div className="flex items-center gap-2 border-b border-slate-100 px-3 py-2">
+        <MapPin className="h-4 w-4 text-slate-500" />
+        <span className="text-sm font-semibold text-slate-700">Family Birthplaces</span>
+        <span className="ml-auto text-[11px] text-slate-400">
           {pins.length} / {distinctPlaces.length} located
         </span>
         {loading && <Loader2 className="h-3 w-3 animate-spin text-slate-400" />}
+        {onClose && (
+          <button
+            onClick={onClose}
+            className="ml-1 rounded-md p-1 text-slate-400 transition hover:bg-slate-100 hover:text-slate-600"
+            title="Close map"
+            aria-label="Close map"
+          >
+            <X className="h-3.5 w-3.5" />
+          </button>
+        )}
       </div>
 
-      {/* Close button */}
-      {onClose && (
-        <button
-          onClick={onClose}
-          className="absolute right-3 top-3 z-[1000] flex h-8 w-8 items-center justify-center rounded-lg border border-slate-200 bg-white/95 shadow-md backdrop-blur transition hover:bg-slate-50"
-          title="Back to tree"
+      {/* Map body — fills the panel below the header. ~60vh tall on desktop. */}
+      <div className="relative h-[55vh] min-h-[280px] w-full">
+        <MapContainer
+          center={defaultCenter}
+          zoom={defaultZoom}
+          scrollWheelZoom
+          className="absolute inset-0 h-full w-full"
         >
-          <X className="h-4 w-4 text-slate-500" />
-        </button>
-      )}
-
-      <MapContainer
-        center={defaultCenter}
-        zoom={defaultZoom}
-        scrollWheelZoom
-        className="absolute inset-0 h-full w-full"
-      >
-        <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        />
-        <FitBounds points={points} />
-        {pins.map(({ person, loc }) => (
-          <Marker
-            key={person.id}
-            position={[loc.lat, loc.lon]}
-            eventHandlers={{
-              click: () => onSelectPerson?.(person.id),
-            }}
-          >
-            <Popup>
-              <div className="min-w-[180px]">
-                <div className="text-sm font-semibold text-slate-800">
-                  {person.firstName} {person.lastName ?? ''}
-                </div>
-                {person.birthYear != null && (
-                  <div className="text-xs text-slate-500">
-                    Born {person.birthYear}
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <FitBounds points={points} />
+          <InvalidateSizeOnMount />
+          {pins.map(({ person, loc }) => (
+            <Marker
+              key={person.id}
+              position={[loc.lat, loc.lon]}
+              eventHandlers={{
+                click: () => onSelectPerson?.(person.id),
+              }}
+            >
+              <Popup>
+                <div className="min-w-[180px]">
+                  <div className="text-sm font-semibold text-slate-800">
+                    {person.firstName} {person.lastName ?? ''}
                   </div>
-                )}
-                <div className="mt-1 text-xs text-slate-600">{person.birthPlace}</div>
-                <div className="mt-1 text-[10px] text-slate-400">{loc.displayName}</div>
-              </div>
-            </Popup>
-          </Marker>
-        ))}
-      </MapContainer>
+                  {person.birthYear != null && (
+                    <div className="text-xs text-slate-500">
+                      Born {person.birthYear}
+                    </div>
+                  )}
+                  <div className="mt-1 text-xs text-slate-600">{person.birthPlace}</div>
+                  <div className="mt-1 text-[10px] text-slate-400">{loc.displayName}</div>
+                </div>
+              </Popup>
+            </Marker>
+          ))}
+        </MapContainer>
 
-      {/* Empty state */}
-      {!loading && pins.length === 0 && distinctPlaces.length === 0 && (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <div className="max-w-sm rounded-xl border border-slate-200 bg-white/95 p-6 text-center shadow-lg">
-            <MapPin className="mx-auto h-8 w-8 text-slate-300" />
-            <h3 className="mt-2 text-sm font-semibold text-slate-700">No birthplaces yet</h3>
-            <p className="mt-1 text-xs text-slate-500">
-              Add a birthplace to each person (e.g. &ldquo;Kannur&rdquo;,
-              &ldquo;Kochi&rdquo;) and they&apos;ll show up as pins on this map.
-            </p>
+        {/* Empty state — overlaid on the map area */}
+        {!loading && pins.length === 0 && distinctPlaces.length === 0 && (
+          <div className="absolute inset-0 flex items-center justify-center bg-slate-50/80 p-4">
+            <div className="max-w-xs rounded-xl border border-slate-200 bg-white/95 p-5 text-center shadow-lg">
+              <MapPin className="mx-auto h-7 w-7 text-slate-300" />
+              <h3 className="mt-2 text-sm font-semibold text-slate-700">No birthplaces yet</h3>
+              <p className="mt-1 text-xs text-slate-500">
+                Add a birthplace to each person (e.g. &ldquo;Kannur&rdquo;,
+                &ldquo;Kochi&rdquo;) and they&apos;ll show up as pins on this map.
+              </p>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
+
+      {/* Footer caption — explains what the map shows */}
+      <div className="border-t border-slate-100 px-3 py-2 text-[11px] leading-relaxed text-slate-500">
+        {pins.length > 0 ? (
+          <span>
+            Tap any pin to jump to that person in the tree. Locations are
+            looked up via OpenStreetMap&apos;s Nominatim service and cached
+            locally — the first lookup per place name may take a moment.
+          </span>
+        ) : loading ? (
+          <span>Looking up birthplace coordinates…</span>
+        ) : (
+          <span>
+            Tip: fill in the <strong>Birthplace</strong> field when adding or
+            editing a person to see them on this map.
+          </span>
+        )}
+      </div>
 
       {/* Selected pin highlight (focus the selected person's marker) */}
       {selectedId && pins.find((p) => p.person.id === selectedId) && (
