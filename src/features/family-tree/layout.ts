@@ -89,9 +89,12 @@ export function computeLayout(
     const partner1X = coupleLeftX;
     const partner2X = unit.partner2Id ? coupleLeftX + NODE_WIDTH + SPOUSE_GAP : null;
 
-    // Person nodes
+    // Person nodes — IDs are unique per unit-appearance so that the SAME person
+    // can be rendered at multiple positions when they're a partner in more than
+    // one family unit (remarriage). React keys stay unique because we embed the
+    // unitId in the node id.
     nodes.push({
-      id: `node-${unit.partner1Id}`,
+      id: `node-${unit.id}-${unit.partner1Id}`,
       x: partner1X,
       y: topY,
       type: 'person',
@@ -100,7 +103,7 @@ export function computeLayout(
     });
     if (partner2X !== null && unit.partner2Id) {
       nodes.push({
-        id: `node-${unit.partner2Id}`,
+        id: `node-${unit.id}-${unit.partner2Id}`,
         x: partner2X,
         y: topY,
         type: 'person',
@@ -189,7 +192,8 @@ export function computeLayout(
       if (cw.childUnitId) {
         positionUnit(cw.childUnitId, childCenterX, topY + NODE_HEIGHT + GENERATION_GAP, generation + 1);
       } else {
-        // Standalone child (no own family unit)
+        // Standalone child (no own family unit) — use child's own id (not in any
+        // unit as a partner, so the bare id is unique here).
         nodes.push({
           id: `node-${cw.childId}`,
           x: childCenterX - NODE_WIDTH / 2,
@@ -225,7 +229,7 @@ export function computeLayout(
     const isoY = maxY + GENERATION_GAP;
     for (const p of isolated) {
       nodes.push({
-        id: `node-${p.id}`,
+        id: `node-iso-${p.id}`,
         x: cursorX,
         y: isoY,
         type: 'person',
@@ -238,20 +242,13 @@ export function computeLayout(
     maxY = Math.max(maxY, isoY + NODE_HEIGHT);
   }
 
-  // Deduplicate nodes by personId — the layout algorithm may add the same person
-  // multiple times if they're a partner in more than one family unit (remarriage,
-  // accidental duplicate links, etc.). Keep only the first occurrence so React
-  // doesn't warn about duplicate keys.
-  const seenPersonIds = new Set<string>();
-  const dedupedNodes = nodes.filter((n) => {
-    if (!n.personId) return true;
-    if (seenPersonIds.has(n.personId)) return false;
-    seenPersonIds.add(n.personId);
-    return true;
-  });
+  // NOTE: We no longer deduplicate nodes by personId. A person who is a partner
+  // in more than one family unit (remarriage) now renders at BOTH positions on
+  // the canvas, which is the standard genealogy visualization. The node IDs are
+  // unique per-appearance (via the unitId), so React doesn't warn about dup keys.
 
   return {
-    nodes: dedupedNodes,
+    nodes,
     connections,
     width: Math.max(maxX, 0),
     height: Math.max(maxY, 0),

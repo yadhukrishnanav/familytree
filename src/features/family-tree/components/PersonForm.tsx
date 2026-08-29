@@ -5,14 +5,16 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Upload, X, User, Heart, GitBranch } from 'lucide-react';
+import { Upload, X, User, Heart, GitBranch, Users } from 'lucide-react';
 import type { Gender, Person } from '../types';
 import { uploadPhoto, deletePhoto } from '../supabase';
+import { pickAvatarColors } from '../data';
 
 export type NewRelation =
   | { kind: 'spouse'; targetPersonId: string; marriageYear?: number }
   | { kind: 'child'; targetPersonId: string }
-  | { kind: 'parent'; targetPersonId: string };
+  | { kind: 'parent'; targetPersonId: string }
+  | { kind: 'sibling'; targetPersonId: string };
 
 interface Props {
   initial?: Person;
@@ -52,7 +54,7 @@ export function PersonForm({ initial, familyId, existingPersons, onSubmit, onCan
   const [photoDirty, setPhotoDirty] = useState(false);
   const [uploadingPhoto, setUploadingPhoto] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [relationKind, setRelationKind] = useState<'none' | 'spouse' | 'child' | 'parent'>('none');
+  const [relationKind, setRelationKind] = useState<'none' | 'spouse' | 'child' | 'parent' | 'sibling'>('none');
   const [relationTargetId, setRelationTargetId] = useState('');
   const [relationMarriageYear, setRelationMarriageYear] = useState('');
 
@@ -87,7 +89,9 @@ export function PersonForm({ initial, familyId, existingPersons, onSubmit, onCan
       id: initial?.id ?? crypto.randomUUID(),
       firstName: firstName.trim(), lastName: lastName.trim() || undefined,
       birthYear: by, deathYear: dy, gender,
-      avatarColors: ['#10b981', '#14b8a6'] as [string, string],
+      // Pick a varied palette (indigo/blue/amber/etc.) based on gender + random seed.
+      // Previously hardcoded emerald (#10b981 / #14b8a6) which leaked green accents everywhere.
+      avatarColors: initial?.avatarColors ?? pickAvatarColors(gender, Math.floor(Math.random() * 8)),
       occupation: occupation.trim() || undefined, birthPlace: birthPlace.trim() || undefined,
       photoUrl: photoPreview,
       phone: phone.trim() || undefined, email: email.trim() || undefined,
@@ -107,6 +111,7 @@ export function PersonForm({ initial, familyId, existingPersons, onSubmit, onCan
         relation = { kind: 'spouse', targetPersonId: relationTargetId, marriageYear: my };
       } else if (relationKind === 'child') { relation = { kind: 'child', targetPersonId: relationTargetId }; }
       else if (relationKind === 'parent') { relation = { kind: 'parent', targetPersonId: relationTargetId }; }
+      else if (relationKind === 'sibling') { relation = { kind: 'sibling', targetPersonId: relationTargetId }; }
     }
     await onSubmit(person, photoDirty, initial?.photoUrl, relation);
   };
@@ -164,19 +169,21 @@ export function PersonForm({ initial, familyId, existingPersons, onSubmit, onCan
       {showRelationSection && (
         <div className="rounded-lg border border-slate-200 bg-stone-50/50 p-3">
           <Label className="mb-2 block text-xs font-semibold uppercase tracking-wider text-slate-500">Link to family</Label>
-          <div className="grid grid-cols-4 gap-1.5">
+          <div className="grid grid-cols-5 gap-1.5">
             <button type="button" onClick={() => { setRelationKind('none'); setRelationTargetId(''); setRelationMarriageYear(''); }} className={`flex flex-col items-center justify-center gap-1 rounded-md border px-2 py-2 text-[11px] font-medium transition ${relationKind === 'none' ? 'border-slate-400 bg-white text-slate-700 ring-1 ring-slate-300' : 'border-slate-200 bg-white/60 text-slate-500 hover:bg-white'}`}><User className="h-3.5 w-3.5" />Standalone</button>
             <button type="button" onClick={() => setRelationKind('spouse')} className={`flex flex-col items-center justify-center gap-1 rounded-md border px-2 py-2 text-[11px] font-medium transition ${relationKind === 'spouse' ? 'border-emerald-300 bg-emerald-50 text-emerald-700 ring-1 ring-emerald-300' : 'border-slate-200 bg-white/60 text-slate-500 hover:bg-white'}`}><Heart className="h-3.5 w-3.5" />Spouse of</button>
             <button type="button" onClick={() => setRelationKind('child')} className={`flex flex-col items-center justify-center gap-1 rounded-md border px-2 py-2 text-[11px] font-medium transition ${relationKind === 'child' ? 'border-emerald-300 bg-emerald-50 text-emerald-700 ring-1 ring-emerald-300' : 'border-slate-200 bg-white/60 text-slate-500 hover:bg-white'}`}><GitBranch className="h-3.5 w-3.5" />Child of</button>
+            <button type="button" onClick={() => setRelationKind('sibling')} className={`flex flex-col items-center justify-center gap-1 rounded-md border px-2 py-2 text-[11px] font-medium transition ${relationKind === 'sibling' ? 'border-teal-300 bg-teal-50 text-teal-700 ring-1 ring-teal-300' : 'border-slate-200 bg-white/60 text-slate-500 hover:bg-white'}`}><Users className="h-3.5 w-3.5" />Sibling of</button>
             <button type="button" onClick={() => setRelationKind('parent')} className={`flex flex-col items-center justify-center gap-1 rounded-md border px-2 py-2 text-[11px] font-medium transition ${relationKind === 'parent' ? 'border-teal-300 bg-teal-50 text-teal-700 ring-1 ring-teal-300' : 'border-slate-200 bg-white/60 text-slate-500 hover:bg-white'}`}><GitBranch className="h-3.5 w-3.5 rotate-180" />Parent of</button>
           </div>
           {relationKind !== 'none' && (
             <div className="mt-3 space-y-2">
               <div>
-                <Label htmlFor="relationTarget" className="text-xs text-slate-600">{relationKind === 'spouse' ? 'Marry which person?' : relationKind === 'child' ? 'Who is the parent?' : 'Who is the child?'}</Label>
+                <Label htmlFor="relationTarget" className="text-xs text-slate-600">{relationKind === 'spouse' ? 'Marry which person?' : relationKind === 'child' ? 'Who is the parent?' : relationKind === 'sibling' ? 'Who is the sibling?' : 'Who is the child?'}</Label>
                 <Select value={relationTargetId} onValueChange={setRelationTargetId}><SelectTrigger id="relationTarget" className="bg-white"><SelectValue placeholder="Select a person…" /></SelectTrigger><SelectContent>{sortedExisting.map((p) => <SelectItem key={p.id} value={p.id}>{p.firstName} {p.lastName ?? ''}{p.birthYear ? ` (${p.birthYear})` : ''}</SelectItem>)}</SelectContent></Select>
               </div>
               {relationKind === 'spouse' && <div><Label htmlFor="relationMarriageYear" className="text-xs text-red-600">Marriage year *</Label><Input id="relationMarriageYear" type="number" value={relationMarriageYear} onChange={(e) => setRelationMarriageYear(e.target.value)} placeholder="1995" min={0} max={9999} className="bg-white" /></div>}
+              {relationKind === 'sibling' && <p className="text-[11px] text-slate-500">Sibling will share the same parents as the selected person and appear at the same generation level.</p>}
             </div>
           )}
         </div>

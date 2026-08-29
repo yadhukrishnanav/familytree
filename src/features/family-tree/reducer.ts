@@ -196,6 +196,26 @@ export function reducer(state: FamilyTreeState, action: Action): FamilyTreeState
       });
       return { ...state, familyUnits };
     }
+    case 'ADD_SIBLING': {
+      // Attach siblingId to the same parent unit that already has targetId as a child.
+      // If target has no parent unit (e.g. they're standalone / top-level), this is a no-op
+      // and the caller is responsible for handling that case (typically via a toast).
+      let attached = false;
+      const familyUnits = state.familyUnits.map((u) => {
+        if (!u.childrenIds.includes(action.targetId)) return u;
+        if (u.childrenIds.includes(action.siblingId)) {
+          attached = true;
+          return u;
+        }
+        attached = true;
+        return { ...u, childrenIds: [...u.childrenIds, action.siblingId] };
+      });
+      if (!attached) {
+        // No parent unit found — leave state unchanged. Caller should warn the user.
+        return state;
+      }
+      return { ...state, familyUnits };
+    }
     case 'ADD_EVENT': {
       return {
         ...state,

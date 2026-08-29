@@ -163,8 +163,10 @@ export function PersonCard({ person, x, y, selected, generation, onClick }: Prop
               <div
                 className="inline-flex w-fit items-center rounded-full px-1.5 py-0.5 text-[10px] font-semibold"
                 style={{
-                  background: isDeceased ? 'rgba(100, 116, 139, 0.12)' : 'rgba(16, 185, 129, 0.12)',
-                  color: isDeceased ? '#475569' : '#059669',
+                  // Always slate — no emerald accent on living persons (per user request).
+                  // Deceased uses slightly darker slate for distinction.
+                  background: isDeceased ? 'rgba(100, 116, 139, 0.14)' : 'rgba(148, 163, 184, 0.18)',
+                  color: isDeceased ? '#475569' : '#64748b',
                 }}
               >
                 {lifespan}

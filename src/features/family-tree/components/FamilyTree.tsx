@@ -386,6 +386,26 @@ export function FamilyTree() {
           toast.success('Person added', {
             description: `${person.firstName} ${person.lastName ?? ''} added as parent`,
           });
+        } else if (relation.kind === 'sibling') {
+          // New person is a SIBLING of targetPersonId — share the same parent unit.
+          const parentUnit = state.familyUnits.find(
+            (u) => u.childrenIds.includes(relation.targetPersonId),
+          );
+          if (parentUnit) {
+            store.dispatch({
+              type: 'ADD_SIBLING',
+              targetId: relation.targetPersonId,
+              siblingId: person.id,
+            });
+            toast.success('Person added', {
+              description: `${person.firstName} ${person.lastName ?? ''} added as sibling`,
+            });
+          } else {
+            // Target has no parent unit yet — sibling can't be linked.
+            toast('Person added (standalone)', {
+              description: `We couldn't find parents for ${state.persons[relation.targetPersonId]?.firstName ?? 'the target'}. Add a parent first to keep siblings at the same generation level.`,
+            });
+          }
         }
       } else {
         toast.success('Person added', { description: `${person.firstName} ${person.lastName ?? ''}` });
@@ -759,6 +779,38 @@ export function FamilyTree() {
                 height: layout.height + 100,
               }}
             >
+              {/* Subtle horizontal generation guide lines.
+                  One per distinct generation Y, drawn behind everything else.
+                  Helps the eye see "everyone on this row is the same generation". */}
+              <svg
+                className="absolute left-0 top-0 pointer-events-none"
+                width={layout.width + 100}
+                height={layout.height + 100}
+                aria-hidden
+              >
+                {(() => {
+                  // Collect distinct Y positions of node tops, sorted.
+                  const ys = Array.from(
+                    new Set(layout.nodes.map((n) => n.y).filter((y) => typeof y === 'number')),
+                  ).sort((a, b) => a - b);
+                  return ys.map((y, i) => (
+                    <g key={`gen-line-${i}`}>
+                      {/* Faint label band at left edge */}
+                      <line
+                        x1={0}
+                        y1={y - 8}
+                        x2={layout.width + 100}
+                        y2={y - 8}
+                        stroke="rgba(148, 163, 184, 0.18)"
+                        strokeWidth={1}
+                        strokeDasharray="2 6"
+                        strokeLinecap="round"
+                      />
+                    </g>
+                  ));
+                })()}
+              </svg>
+
               {/* SVG for connections */}
               <svg
                 className="absolute left-0 top-0 pointer-events-none"
@@ -1127,8 +1179,10 @@ function DetailPanel({
               <div
                 className="mt-0.5 inline-flex items-center gap-1 rounded-full px-1.5 py-0.5 text-[10px] font-semibold"
                 style={{
-                  background: person.deathYear != null ? 'rgba(100,116,139,0.12)' : 'rgba(16,185,129,0.12)',
-                  color: person.deathYear != null ? '#475569' : '#059669',
+                  // Always slate — no emerald accent on living persons (per user request).
+                  // Deceased uses slightly darker slate for distinction.
+                  background: person.deathYear != null ? 'rgba(100,116,139,0.14)' : 'rgba(148,163,184,0.18)',
+                  color: person.deathYear != null ? '#475569' : '#64748b',
                 }}
               >
                 {person.birthYear ?? '?'} – {person.deathYear ?? 'present'}

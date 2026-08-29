@@ -97,6 +97,7 @@ export type Action =
   | { type: 'DELETE_PERSON'; personId: string }
   | { type: 'ADD_SPOUSE'; unit: FamilyUnit }
   | { type: 'ADD_CHILD'; parentId: string; childId: string }
+  | { type: 'ADD_SIBLING'; targetId: string; siblingId: string }
   | { type: 'ADD_EVENT'; event: TimelineEvent }
   | { type: 'UPDATE_EVENT'; event: TimelineEvent }
   | { type: 'DELETE_EVENT'; eventId: string }
