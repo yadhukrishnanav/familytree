@@ -15,13 +15,14 @@ import {
 import { toast } from 'sonner';
 import { isSupabaseConfigured } from '../supabase';
 
-type View = 'sign-in' | 'sign-up' | 'family-select' | 'family-create' | 'family-join';
+type View = 'sign-in' | 'sign-up' | 'family-select' | 'family-create' | 'family-join' | 'quick-access';
 
 export function AuthPage() {
   const auth = useAuth();
   const [view, setView] = useState<View>(auth.user ? 'family-select' : 'sign-in');
 
   if (!auth.user) {
+    if (view === 'quick-access') return <QuickAccess auth={auth} setView={setView} />;
     return <AuthForms initialView={view} setView={setView} />;
   }
   if (auth.families.length === 0 && view !== 'family-create' && view !== 'family-join') {
@@ -34,6 +35,62 @@ export function AuthPage() {
     return <JoinFamily setView={setView} />;
   }
   return <FamilySelect setView={setView} />;
+}
+
+// ---------- Quick Access (family code only, for elders) ----------
+function QuickAccess({ auth, setView }: { auth: ReturnType<typeof useAuth>; setView: (v: View) => void }) {
+  const [code, setCode] = useState('');
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleQuickAccess = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError(null);
+    const trimmed = code.trim().toUpperCase();
+    if (!trimmed) { setError('Enter your family code'); return; }
+    setSubmitting(true);
+    try {
+      const guestId = Math.random().toString(36).slice(2, 10);
+      const guestEmail = `guest_${guestId}@familytree.local`;
+      const guestPassword = `Guest_${guestId}!`;
+      const signUpRes = await auth.signUp(guestEmail, guestPassword);
+      if (signUpRes.error) {
+        const signInRes = await auth.signIn(guestEmail, guestPassword);
+        if (signInRes.error) { setError(signInRes.error); setSubmitting(false); return; }
+      }
+      const joinRes = await auth.joinFamily(trimmed);
+      if (joinRes.error) { setError(joinRes.error); setSubmitting(false); return; }
+    } catch (e: any) { setError(e.message ?? 'Something went wrong'); }
+    setSubmitting(false);
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50">
+      <div className="flex min-h-screen items-center justify-center p-4">
+        <div className="w-full max-w-md">
+          <div className="mb-6 text-center">
+            <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg">
+              <TreePine className="h-7 w-7 text-white" />
+            </div>
+            <h1 className="text-2xl font-bold text-slate-800">Family Tree</h1>
+            <p className="text-sm text-slate-500 mt-1">Enter your family code to get started</p>
+          </div>
+          <div className="rounded-2xl bg-white/80 p-6 shadow-xl backdrop-blur-md ring-1 ring-slate-200">
+            <form onSubmit={handleQuickAccess} className="space-y-4" noValidate>
+              <div>
+                <Label htmlFor="familyCode">Family code</Label>
+                <Input id="familyCode" value={code} onChange={(e) => setCode(e.target.value.toUpperCase())} placeholder="AB12CD" className="font-mono text-center text-lg font-bold tracking-[0.3em] uppercase" maxLength={8} autoFocus required />
+                <p className="mt-1.5 text-xs text-slate-400">Ask your family member for the 6-character code.</p>
+              </div>
+              {error && <div className="flex items-start gap-2 rounded-md bg-red-50 px-3 py-2 text-sm text-red-700"><AlertCircle className="mt-0.5 h-4 w-4 shrink-0" /><span>{error}</span></div>}
+              <Button type="submit" disabled={submitting} className="w-full bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-700 hover:to-teal-600">{submitting ? 'Joining…' : 'Enter Family Tree'}</Button>
+            </form>
+          </div>
+          <button onClick={() => { setView('sign-in'); setError(null); }} className="mt-4 w-full text-center text-xs text-slate-500 hover:text-emerald-600">← Sign in with email instead</button>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 // ---------- Sign in / Sign up ----------
@@ -153,6 +210,15 @@ function AuthForms({
               </div>
             )}
           </div>
+
+          {/* Quick family code access — prominent, above sign-in */}
+          {!otpSent && !useMagicLink && (
+            <div className="mb-4 mt-4 rounded-2xl border-2 border-emerald-200 bg-emerald-50/50 p-5 text-center">
+              <p className="mb-3 text-base font-semibold text-emerald-700">Have a family code?</p>
+              <button type="button" onClick={() => { setView('quick-access'); setError(null); }} className="w-full rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 px-4 py-3 text-lg font-bold text-white shadow-md transition hover:from-emerald-700 hover:to-teal-600 hover:shadow-lg">🔑 Enter Family Code</button>
+              <p className="mt-2 text-xs text-slate-400">Simplest way to join — no email needed</p>
+            </div>
+          )}
 
           <div className="rounded-2xl bg-white/80 p-6 shadow-xl backdrop-blur-md ring-1 ring-slate-200">
             {/* Sign-in / Sign-up toggle — hidden in magic link mode */}
@@ -286,8 +352,8 @@ function AuthForms({
               </button>
             )}
           </div>
-          <p className="mt-4 text-center text-xs text-slate-400">
-            By continuing you agree this is a demo app for family tree visualization.
+          <p className="mt-4 text-center text-[12px] font-medium text-slate-800">
+            Built with &#10084; by one among us
           </p>
         </div>
       </div>
@@ -341,6 +407,9 @@ function FamilyCreateOrJoin({ setView }: { setView: (v: View) => void }) {
           >
             Sign out
           </button>
+          <p className="mt-4 text-center text-[12px] font-medium text-slate-800">
+            Built with &#10084; by one among us
+          </p>
         </div>
       </div>
     </div>
