@@ -1,3 +1,9 @@
 [00:00:01.759] Server  LOG     ✓ Ready in 1537ms
 [00:00:04.821] Server  LOG     ○ Compiling / ...
 [01:48:49.987] Browser ERROR   uncaughtError: ReferenceError: t is not defined
+[01:58:45.000] Browser ERROR   uncaughtError: ReferenceError: t is not defined
+[02:02:59.647] Server  WARN    ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+[02:03:03.143] Browser ERROR   uncaughtError: ReferenceError: t is not defined
+[02:04:11.894] Browser ERROR   uncaughtError: ReferenceError: t is not defined
+[02:04:24.248] Browser ERROR   uncaughtError: ReferenceError: t is not defined
+[02:05:00.073] Browser ERROR   uncaughtError: ReferenceError: t is not defined

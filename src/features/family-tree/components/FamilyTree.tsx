@@ -83,7 +83,7 @@ const MAX_SCALE = 3;
 export function FamilyTree() {
   const store = useStore();
   const auth = useAuth();
-  const i18n = useI18n();
+  const { t, lang, toggleLang } = useI18n();
   const { state } = store;
 
   const [transform, setTransform] = useState<CanvasTransform>({ x: 100, y: 60, scale: 0.8 });
@@ -552,11 +552,11 @@ export function FamilyTree() {
         <div className="flex items-center gap-0.5">
           {/* Language toggle */}
           <button
-            onClick={() => i18n.toggleLang()}
+            onClick={() => toggleLang()}
             className="rounded-full border border-slate-300 bg-white/80 px-2.5 py-1 text-xs font-bold text-slate-600 transition hover:bg-white"
-            title={i18n.i18n.lang === 'en' ? 'മലയാളം' : 'English'}
+            title={i18n.lang === 'en' ? 'മലയാളം' : 'English'}
           >
-            {i18n.i18n.lang === 'en' ? 'മലയാളം' : 'EN'}
+            {i18n.lang === 'en' ? 'മലയാളം' : 'EN'}
           </button>
           <Button
             variant="ghost"
@@ -589,13 +589,13 @@ export function FamilyTree() {
           </Button>
           {/* Language toggle */}
           <button
-            onClick={() => i18n.toggleLang()}
+            onClick={() => toggleLang()}
             className="flex h-8 items-center gap-1 rounded-lg border border-slate-200 bg-white/80 px-2 text-xs font-bold transition hover:bg-slate-50"
             title="Language"
           >
-            <span className={i18n.lang === 'en' ? 'text-emerald-600' : 'text-slate-400'}>EN</span>
+            <span className={lang === 'en' ? 'text-emerald-600' : 'text-slate-400'}>EN</span>
             <span className="text-slate-300">|</span>
-            <span className={i18n.lang === 'ml' ? 'text-emerald-600' : 'text-slate-400'}>മലയാളം</span>
+            <span className={lang === 'ml' ? 'text-emerald-600' : 'text-slate-400'}>മലയാളം</span>
           </button>
         </div>
       </header>

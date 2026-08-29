@@ -45,7 +45,7 @@ function AuthForms({
   setView: (v: View) => void;
 }) {
   const auth = useAuth();
-  const i18n = useI18n();
+  const { t, lang, toggleLang } = useI18n();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
@@ -125,13 +125,13 @@ function AuthForms({
       {/* Language toggle — top right */}
       <div className="absolute right-4 top-4 z-50">
         <button
-          onClick={() => i18n.toggleLang()}
+          onClick={() => toggleLang()}
           className="flex h-8 items-center gap-1 rounded-lg border border-slate-200 bg-white/80 px-2 text-xs font-bold shadow-sm transition hover:bg-white"
           title="Toggle language"
         >
-          <span className={i18n.lang === 'en' ? 'text-emerald-600' : 'text-slate-400'}>EN</span>
+          <span className={lang === 'en' ? 'text-emerald-600' : 'text-slate-400'}>EN</span>
           <span className="text-slate-300">|</span>
-          <span className={i18n.lang === 'ml' ? 'text-emerald-600' : 'text-slate-400'}>മലയാളം</span>
+          <span className={lang === 'ml' ? 'text-emerald-600' : 'text-slate-400'}>മലയാളം</span>
         </button>
       </div>
       <div className="flex min-h-screen items-center justify-center p-4">
