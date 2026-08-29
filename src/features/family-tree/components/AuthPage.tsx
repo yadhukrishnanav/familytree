@@ -46,6 +46,7 @@ function AuthForms({
 }) {
   const auth = useAuth();
   const { t, lang, toggleLang } = useI18n();
+  const [isSignUp, setIsSignUp] = useState(initialView === 'sign-up');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
