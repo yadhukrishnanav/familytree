@@ -229,3 +229,101 @@ Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-
 
 Import trace for requested module:
 ./node_modules/@swc/helpers/esm/_interop_require_default.js
+[00:13:11.879] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[00:13:11.879] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/index.js
+[00:13:11.879] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/next-devtools/userspace/app/errors/stitched-error.js
+[00:13:11.879] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[00:13:11.879] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_default.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_default.cjs'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/cjs/_interop_require_default.cjs
+[00:13:11.879] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_default.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_default.cjs'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/cjs/_interop_require_default.cjs
+./node_modules/next/dist/pages/_error.js
+[00:13:11.879] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs
+./node_modules/next/dist/shared/lib/router/utils/format-url.js
+./node_modules/next/dist/server/route-modules/pages/pages-handler.js
+[00:13:11.879] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs
+./node_modules/next/dist/shared/lib/head.js
+./node_modules/next/dist/pages/_error.js
+[00:13:12.589] Server  ERROR   ⨯ ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[00:13:28.490] Server  ERROR   ⨯ ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[00:13:59.842] Server  ERROR   ⨯ ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[00:15:08.842] Server  ERROR   ⨯ ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[00:15:26.783] Server  ERROR   ⨯ ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[00:15:53.051] Server  ERROR   ⨯ ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[00:16:03.381] Server  ERROR   ⨯ ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[00:16:23.707] Server  ERROR   ⨯ ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[00:16:31.162] Server  ERROR   ⨯ ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[00:16:51.597] Server  ERROR   ⨯ ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
