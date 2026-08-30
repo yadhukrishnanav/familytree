@@ -224,6 +224,11 @@ export function MapPanel({ persons, selectedId, onSelectPerson, onClose }: Props
           />
           <FitBounds points={points} />
           <InvalidateSizeOnMount />
+          {/* Selected pin highlight (fly to the selected person's marker).
+              MUST live inside <MapContainer> because it calls useMap().
+              Previously this was rendered outside MapContainer and crashed
+              with 'No context provided: useLeafletContext()' on pin click. */}
+          <SelectedFlyTo selectedId={selectedId} pins={pins} />
           {pins.map(({ person, loc }) => (
             <Marker
               key={person.id}
@@ -282,25 +287,26 @@ export function MapPanel({ persons, selectedId, onSelectPerson, onClose }: Props
           </span>
         )}
       </div>
-
-      {/* Selected pin highlight (focus the selected person's marker) */}
-      {selectedId && pins.find((p) => p.person.id === selectedId) && (
-        <SelectedFlyTo
-          key={selectedId}
-          target={[
-            pins.find((p) => p.person.id === selectedId)!.loc.lat,
-            pins.find((p) => p.person.id === selectedId)!.loc.lon,
-          ]}
-        />
-      )}
     </div>
   );
 }
 
-function SelectedFlyTo({ target }: { target: [number, number] }) {
+// Fly to the selected person's marker when selectedId changes.
+// MUST be a child of <MapContainer> because it calls useMap().
+function SelectedFlyTo({
+  selectedId,
+  pins,
+}: {
+  selectedId?: string | null;
+  pins: Array<{ person: Person; loc: Geocoded }>;
+}) {
   const map = useMap();
+  const targetPin = selectedId
+    ? pins.find((p) => p.person.id === selectedId)
+    : undefined;
   useEffect(() => {
-    map.flyTo(target, 8, { duration: 0.8 });
-  }, [map, target]);
+    if (!targetPin) return;
+    map.flyTo([targetPin.loc.lat, targetPin.loc.lon], 8, { duration: 0.8 });
+  }, [map, targetPin]);
   return null;
 }
