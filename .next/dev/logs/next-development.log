@@ -1,1 +1,231 @@
-[00:00:00.922] Server  LOG     ✓ Ready in 699ms
+[00:00:01.594] Server  LOG     ✓ Ready in 1307ms
+[00:00:10.862] Server  LOG     ○ Compiling / ...
+[00:00:17.212] Server  ERROR   ⨯ ./src/features/family-tree/components/MapPanel.tsx:12:1
+Module not found: Can't resolve 'react-leaflet'
+  10 |
+  11 | import { useEffect, useMemo, useRef, useState } from 'react';
+> 12 | import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+     | ^
+  13 | import L from 'leaflet';
+  14 | import 'leaflet/dist/leaflet.css';
+  15 |
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./src/features/family-tree/components/FamilyTree.tsx
+./src/app/page.tsx
+[00:00:18.796] Server  ERROR   ⨯ ./src/features/family-tree/components/MapPanel.tsx:12:1
+Module not found: Can't resolve 'react-leaflet'
+  10 |
+  11 | import { useEffect, useMemo, useRef, useState } from 'react';
+> 12 | import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+     | ^
+  13 | import L from 'leaflet';
+  14 | import 'leaflet/dist/leaflet.css';
+  15 |
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./src/features/family-tree/components/FamilyTree.tsx
+./src/app/page.tsx
+[00:00:26.248] Server  ERROR   ⨯ ./src/features/family-tree/components/MapPanel.tsx:12:1
+Module not found: Can't resolve 'react-leaflet'
+  10 |
+  11 | import { useEffect, useMemo, useRef, useState } from 'react';
+> 12 | import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+     | ^
+  13 | import L from 'leaflet';
+  14 | import 'leaflet/dist/leaflet.css';
+  15 |
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./src/features/family-tree/components/FamilyTree.tsx
+./src/app/page.tsx
+[00:00:31.510] Browser ERROR   uncaughtError: Error: Module not found: Can't resolve 'react-leaflet'
+  10 |
+  11 | import { useEffect, useMemo, useRef, useState } from 'react';
+> 12 | import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+     | ^
+  13 | import L from 'leaflet';
+  14 | import 'leaflet/dist/leaflet.css';
+  15 |
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./src/features/family-tree/components/FamilyTree.tsx
+./src/app/page.tsx
+[00:00:31.866] Browser ERROR   ./src/features/family-tree/components/MapPanel.tsx:12:1
+Module not found: Can't resolve 'react-leaflet'
+  10 |
+  11 | import { useEffect, useMemo, useRef, useState } from 'react';
+> 12 | import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+     | ^
+  13 | import L from 'leaflet';
+  14 | import 'leaflet/dist/leaflet.css';
+  15 |
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./src/features/family-tree/components/FamilyTree.tsx
+./src/app/page.tsx
+[00:00:31.866] Browser ERROR   ./src/features/family-tree/components/MapPanel.tsx:13:1
+Module not found: Can't resolve 'leaflet'
+  11 | import { useEffect, useMemo, useRef, useState } from 'react';
+  12 | import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+> 13 | import L from 'leaflet';
+     | ^
+  14 | import 'leaflet/dist/leaflet.css';
+  15 |
+  16 | import type { Person } from '../types';
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./src/features/family-tree/components/FamilyTree.tsx
+./src/app/page.tsx
+[00:00:31.866] Browser ERROR   ./src/features/family-tree/components/MapPanel.tsx:14:1
+Module not found: Can't resolve 'leaflet/dist/leaflet.css'
+  12 | import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+  13 | import L from 'leaflet';
+> 14 | import 'leaflet/dist/leaflet.css';
+     | ^
+  15 |
+  16 | import type { Person } from '../types';
+  17 | import { MapPin, X, Loader2 } from 'lucide-react';
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./src/features/family-tree/components/FamilyTree.tsx
+./src/app/page.tsx
+[00:00:36.678] Browser ERROR   ./src/features/family-tree/components/MapPanel.tsx:12:1
+Module not found: Can't resolve 'react-leaflet'
+  10 |
+  11 | import { useEffect, useMemo, useRef, useState } from 'react';
+> 12 | import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+     | ^
+  13 | import L from 'leaflet';
+  14 | import 'leaflet/dist/leaflet.css';
+  15 |
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./src/features/family-tree/components/FamilyTree.tsx
+./src/app/page.tsx
+[00:00:36.678] Browser ERROR   ./src/features/family-tree/components/MapPanel.tsx:13:1
+Module not found: Can't resolve 'leaflet'
+  11 | import { useEffect, useMemo, useRef, useState } from 'react';
+  12 | import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+> 13 | import L from 'leaflet';
+     | ^
+  14 | import 'leaflet/dist/leaflet.css';
+  15 |
+  16 | import type { Person } from '../types';
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./src/features/family-tree/components/FamilyTree.tsx
+./src/app/page.tsx
+[00:00:36.678] Browser ERROR   ./src/features/family-tree/components/MapPanel.tsx:14:1
+Module not found: Can't resolve 'leaflet/dist/leaflet.css'
+  12 | import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+  13 | import L from 'leaflet';
+> 14 | import 'leaflet/dist/leaflet.css';
+     | ^
+  15 |
+  16 | import type { Person } from '../types';
+  17 | import { MapPin, X, Loader2 } from 'lucide-react';
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./src/features/family-tree/components/FamilyTree.tsx
+./src/app/page.tsx
+[00:00:36.678] Browser ERROR   ./src/features/family-tree/components/MapPanel.tsx:12:1
+Module not found: Can't resolve 'react-leaflet'
+  10 |
+  11 | import { useEffect, useMemo, useRef, useState } from 'react';
+> 12 | import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+     | ^
+  13 | import L from 'leaflet';
+  14 | import 'leaflet/dist/leaflet.css';
+  15 |
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./src/features/family-tree/components/FamilyTree.tsx
+./src/app/page.tsx
+[00:00:36.678] Browser ERROR   ./src/features/family-tree/components/MapPanel.tsx:13:1
+Module not found: Can't resolve 'leaflet'
+  11 | import { useEffect, useMemo, useRef, useState } from 'react';
+  12 | import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+> 13 | import L from 'leaflet';
+     | ^
+  14 | import 'leaflet/dist/leaflet.css';
+  15 |
+  16 | import type { Person } from '../types';
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./src/features/family-tree/components/FamilyTree.tsx
+./src/app/page.tsx
+[00:00:36.678] Browser ERROR   ./src/features/family-tree/components/MapPanel.tsx:14:1
+Module not found: Can't resolve 'leaflet/dist/leaflet.css'
+  12 | import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+  13 | import L from 'leaflet';
+> 14 | import 'leaflet/dist/leaflet.css';
+     | ^
+  15 |
+  16 | import type { Person } from '../types';
+  17 | import { MapPin, X, Loader2 } from 'lucide-react';
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./src/features/family-tree/components/FamilyTree.tsx
+./src/app/page.tsx
+[00:00:37.515] Server  ERROR   ⨯ ./src/features/family-tree/components/MapPanel.tsx:12:1
+Module not found: Can't resolve 'react-leaflet'
+  10 |
+  11 | import { useEffect, useMemo, useRef, useState } from 'react';
+> 12 | import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+     | ^
+  13 | import L from 'leaflet';
+  14 | import 'leaflet/dist/leaflet.css';
+  15 |
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./src/features/family-tree/components/FamilyTree.tsx
+./src/app/page.tsx
+[00:00:44.108] Server  ERROR   ⨯ ./src/features/family-tree/components/MapPanel.tsx:12:1
+Module not found: Can't resolve 'react-leaflet'
+  10 |
+  11 | import { useEffect, useMemo, useRef, useState } from 'react';
+> 12 | import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
+     | ^
+  13 | import L from 'leaflet';
+  14 | import 'leaflet/dist/leaflet.css';
+  15 |
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./src/features/family-tree/components/FamilyTree.tsx
+./src/app/page.tsx
+[00:01:02.315] Server  ERROR   ⨯ ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
