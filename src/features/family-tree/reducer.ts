@@ -2,6 +2,7 @@
 // Handles ADD/UPDATE/DELETE for persons, units, events, plus undo/redo and sample/clear.
 
 import type { Action, FamilyTreeState, FamilyUnit, Person, TimelineEvent } from './types';
+import { NIL_UUID } from './types';
 import { SAMPLE_DATA } from './data';
 
 export const initialState: FamilyTreeState = {
@@ -142,6 +143,14 @@ export function reducer(state: FamilyTreeState, action: Action): FamilyTreeState
         });
       }
 
+      // Dissolve sibling groups (partner1Id === NIL_UUID) that no longer have
+      // at least 2 siblings. A single "sibling" isn't a group — drop the unit
+      // entirely so the remaining person falls back to standalone rendering.
+      const prunedFamilyUnits = familyUnits.filter((u) => {
+        if (u.partner1Id !== NIL_UUID) return true; // regular unit — keep
+        return u.childrenIds.length >= 2; // sibling group — keep only if 2+ siblings
+      });
+
       // Remove auto events for this person + remove from manual event personIds
       const timelineEvents = state.timelineEvents
         .filter((e) => {
@@ -165,7 +174,7 @@ export function reducer(state: FamilyTreeState, action: Action): FamilyTreeState
         }))
         .filter((e) => e.personIds.length > 0 || !e.id.startsWith('auto_'));
 
-      return { ...state, persons, familyUnits, timelineEvents };
+      return { ...state, persons, familyUnits: prunedFamilyUnits, timelineEvents };
     }
     case 'ADD_SPOUSE': {
       const familyUnits = [...state.familyUnits, action.unit];
@@ -197,9 +206,16 @@ export function reducer(state: FamilyTreeState, action: Action): FamilyTreeState
       return { ...state, familyUnits };
     }
     case 'ADD_SIBLING': {
-      // Attach siblingId to the same parent unit that already has targetId as a child.
-      // If target has no parent unit (e.g. they're standalone / top-level), this is a no-op
-      // and the caller is responsible for handling that case (typically via a toast).
+      // Attach siblingId to whichever unit already has targetId in its childrenIds.
+      // This covers two cases:
+      //   1. Target has a real parent unit (normal parents) → sibling joins as
+      //      another child of those parents.
+      //   2. Target is in a "sibling group" (partner1Id === NIL_UUID) → sibling
+      //      joins that group.
+      // If neither applies (target is standalone, no unit at all), create a
+      // NEW sibling group containing both target and sibling. This keeps them
+      // at the same generation level even when their parents haven't been
+      // added yet — the user's explicit request.
       let attached = false;
       const familyUnits = state.familyUnits.map((u) => {
         if (!u.childrenIds.includes(action.targetId)) return u;
@@ -211,9 +227,37 @@ export function reducer(state: FamilyTreeState, action: Action): FamilyTreeState
         return { ...u, childrenIds: [...u.childrenIds, action.siblingId] };
       });
       if (!attached) {
-        // No parent unit found — leave state unchanged. Caller should warn the user.
-        return state;
+        // No existing parent unit AND no existing sibling group for target.
+        // Create a new sibling group containing both target and sibling.
+        // partner1Id = NIL_UUID signals "no parents" to the layout.
+        const newGroup: FamilyUnit = {
+          id: crypto.randomUUID(),
+          partner1Id: NIL_UUID,
+          partner2Id: undefined,
+          childrenIds: [action.targetId, action.siblingId],
+        };
+        return { ...state, familyUnits: [...state.familyUnits, newGroup] };
       }
+      return { ...state, familyUnits };
+    }
+    case 'PARENT_SIBLING_GROUP': {
+      // User added a parent to someone who was in a sibling group. Promote
+      // ALL the siblings to children of the new parent, and dissolve the
+      // sibling group. This prevents the siblings from being rendered
+      // twice (once in the sibling group, once under the new parent).
+      const siblingGroup = state.familyUnits.find((u) => u.id === action.siblingGroupId);
+      if (!siblingGroup || siblingGroup.partner1Id !== NIL_UUID) {
+        return state; // not a sibling group — no-op
+      }
+      const newUnit: FamilyUnit = {
+        id: crypto.randomUUID(),
+        partner1Id: action.newParentId,
+        partner2Id: undefined,
+        childrenIds: [...siblingGroup.childrenIds],
+      };
+      const familyUnits = state.familyUnits
+        .filter((u) => u.id !== action.siblingGroupId)
+        .concat(newUnit);
       return { ...state, familyUnits };
     }
     case 'ADD_EVENT': {

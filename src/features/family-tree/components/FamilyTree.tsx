@@ -53,6 +53,7 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import type { FamilyTreeState, Person, TimelineEvent } from '../types';
+import { NIL_UUID } from '../types';
 import { useStore } from '../store';
 import { useAuth } from '../auth';
 import { deletePhoto } from '../supabase';
@@ -359,41 +360,25 @@ export function FamilyTree() {
           });
         } else if (relation.kind === 'parent') {
           // New person is PARENT of targetPersonId.
-          // Similar to above — find the target's existing unit (they're a child in it),
-          // and either attach the new parent, or create a new unit with the new person as partner1
-          // and the target as their child.
           const targetUnit = state.familyUnits.find(
             (u) => u.childrenIds.includes(relation.targetPersonId),
           );
-          if (targetUnit) {
-            // Target already has a parent unit — add the new person as the second partner if empty,
-            // otherwise just attach as a new spouse-less parent (creates a new unit)
-            if (!targetUnit.partner2Id) {
-              // Fill the empty partner slot — but that requires UPDATE on the unit, which we don't have.
-              // Workaround: create a new unit with the new person as partner1 + the target as child.
-              store.dispatch({
-                type: 'ADD_SPOUSE',
-                unit: {
-                  id: crypto.randomUUID(),
-                  partner1Id: person.id,
-                  partner2Id: undefined,
-                  childrenIds: [relation.targetPersonId],
-                },
-              });
-            } else {
-              // Both partner slots full — create a new unit with just the new parent
-              store.dispatch({
-                type: 'ADD_SPOUSE',
-                unit: {
-                  id: crypto.randomUUID(),
-                  partner1Id: person.id,
-                  partner2Id: undefined,
-                  childrenIds: [relation.targetPersonId],
-                },
-              });
-            }
-          } else {
-            // No existing parent unit for target — create one
+
+          // Special case: target is in a SIBLING GROUP (partner1Id === NIL_UUID).
+          // Promote ALL siblings to children of the new parent and dissolve the
+          // sibling group, so the siblings don't render twice.
+          if (targetUnit && targetUnit.partner1Id === NIL_UUID) {
+            store.dispatch({
+              type: 'PARENT_SIBLING_GROUP',
+              newParentId: person.id,
+              siblingGroupId: targetUnit.id,
+            });
+            toast.success('Person added', {
+              description: `${person.firstName} ${person.lastName ?? ''} added as parent of ${targetUnit.childrenIds.length} sibling${targetUnit.childrenIds.length === 1 ? '' : 's'}`,
+            });
+          } else if (targetUnit) {
+            // Target already has a real parent unit — create a new unit with
+            // the new parent. (Existing behavior.)
             store.dispatch({
               type: 'ADD_SPOUSE',
               unit: {
@@ -403,30 +388,40 @@ export function FamilyTree() {
                 childrenIds: [relation.targetPersonId],
               },
             });
-          }
-          toast.success('Person added', {
-            description: `${person.firstName} ${person.lastName ?? ''} added as parent`,
-          });
-        } else if (relation.kind === 'sibling') {
-          // New person is a SIBLING of targetPersonId — share the same parent unit.
-          const parentUnit = state.familyUnits.find(
-            (u) => u.childrenIds.includes(relation.targetPersonId),
-          );
-          if (parentUnit) {
-            store.dispatch({
-              type: 'ADD_SIBLING',
-              targetId: relation.targetPersonId,
-              siblingId: person.id,
-            });
             toast.success('Person added', {
-              description: `${person.firstName} ${person.lastName ?? ''} added as sibling`,
+              description: `${person.firstName} ${person.lastName ?? ''} added as parent`,
             });
           } else {
-            // Target has no parent unit yet — sibling can't be linked.
-            toast('Person added (standalone)', {
-              description: `We couldn't find parents for ${state.persons[relation.targetPersonId]?.firstName ?? 'the target'}. Add a parent first to keep siblings at the same generation level.`,
+            // No existing parent unit for target — create one.
+            store.dispatch({
+              type: 'ADD_SPOUSE',
+              unit: {
+                id: crypto.randomUUID(),
+                partner1Id: person.id,
+                partner2Id: undefined,
+                childrenIds: [relation.targetPersonId],
+              },
+            });
+            toast.success('Person added', {
+              description: `${person.firstName} ${person.lastName ?? ''} added as parent`,
             });
           }
+        } else if (relation.kind === 'sibling') {
+          // New person is a SIBLING of targetPersonId.
+          // The reducer handles three cases:
+          //   1. Target has a parent unit → sibling joins as another child.
+          //   2. Target is already in a sibling group → sibling joins that group.
+          //   3. Target is standalone (no unit at all) → reducer creates a NEW
+          //      sibling group containing both target and sibling. This keeps
+          //      them at the same generation level even without parents added.
+          store.dispatch({
+            type: 'ADD_SIBLING',
+            targetId: relation.targetPersonId,
+            siblingId: person.id,
+          });
+          toast.success('Person added', {
+            description: `${person.firstName} ${person.lastName ?? ''} added as sibling`,
+          });
         }
       } else {
         toast.success('Person added', { description: `${person.firstName} ${person.lastName ?? ''}` });

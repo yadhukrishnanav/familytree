@@ -2,6 +2,7 @@
 // Positions persons/couples on a grid with parents above their children.
 
 import type { FamilyUnit, LayoutConnection, LayoutNode, LayoutResult, Person } from './types';
+import { NIL_UUID } from './types';
 
 export const NODE_WIDTH = 220;
 export const NODE_HEIGHT = 110;
@@ -30,8 +31,10 @@ export function computeLayout(
     for (const c of u.childrenIds) childToParentUnit.set(c, u.id);
   }
 
-  // Root units = units where neither partner is a child of another unit
+  // Root units = units where neither partner is a child of another unit.
+  // Sibling groups (partner1Id === NIL_UUID) are always root units.
   const rootUnits = familyUnits.filter((u) => {
+    if (u.partner1Id === NIL_UUID) return true; // sibling group — always root
     const p1Child = childToParentUnit.has(u.partner1Id);
     const p2Child = u.partner2Id ? childToParentUnit.has(u.partner2Id) : false;
     return !p1Child && !p2Child;
@@ -44,9 +47,14 @@ export function computeLayout(
     const unit = familyUnits.find((u) => u.id === unitId);
     if (!unit) return 0;
 
-    const coupleWidth = unit.partner2Id
-      ? NODE_WIDTH * 2 + SPOUSE_GAP
-      : NODE_WIDTH;
+    // Sibling group: no partner nodes, just siblings (in childrenIds) laid
+    // out side-by-side. coupleWidth = 0 (no partners to render).
+    const isSiblingGroup = unit.partner1Id === NIL_UUID;
+    const coupleWidth = isSiblingGroup
+      ? 0
+      : unit.partner2Id
+          ? NODE_WIDTH * 2 + SPOUSE_GAP
+          : NODE_WIDTH;
 
     if (unit.childrenIds.length === 0) {
       subtreeWidthCache.set(unitId, coupleWidth);
@@ -61,7 +69,9 @@ export function computeLayout(
       return sum + w + SIBLING_GAP;
     }, -SIBLING_GAP);
 
-    const width = Math.max(coupleWidth, childrenTotal);
+    // For sibling groups, there's no couple to take the max with — the width
+    // is purely the children (siblings) total.
+    const width = isSiblingGroup ? childrenTotal : Math.max(coupleWidth, childrenTotal);
     subtreeWidthCache.set(unitId, width);
     return width;
   }
@@ -80,6 +90,77 @@ export function computeLayout(
     const unit = familyUnits.find((u) => u.id === unitId);
     if (!unit) return;
 
+    // ---- Sibling group (partner1Id === NIL_UUID) ----
+    // No parents to render. The "children" of this unit are the siblings
+    // themselves, laid out side-by-side at the SAME Y (same generation).
+    // A thin horizontal connector between adjacent siblings signals they're
+    // a sibling group even when their parents haven't been added yet.
+    if (unit.partner1Id === NIL_UUID) {
+      if (unit.childrenIds.length === 0) {
+        // Empty sibling group — shouldn't normally happen, but be safe.
+        return;
+      }
+
+      // Compute each sibling's subtree width (they may have their own
+      // spouse + descendants below them).
+      const siblingWidths = unit.childrenIds.map((childId) => {
+        const childUnit = familyUnits.find(
+          (u) => u.partner1Id === childId || u.partner2Id === childId,
+        );
+        return {
+          childId,
+          width: childUnit ? computeSubtreeWidth(childUnit.id) : NODE_WIDTH,
+          childUnitId: childUnit?.id,
+        };
+      });
+
+      const totalWidth =
+        siblingWidths.reduce((sum, c) => sum + c.width, 0) +
+        SIBLING_GAP * (siblingWidths.length - 1);
+
+      let siblingCursorX = centerX - totalWidth / 2;
+      const connectorY = topY + NODE_HEIGHT / 2;
+      let prevRightEdge: number | null = null;
+
+      for (const sw of siblingWidths) {
+        const siblingCenterX = siblingCursorX + sw.width / 2;
+
+        // Thin horizontal connector between adjacent siblings — signals
+        // "we're siblings" without a full parent-drop-down junction.
+        if (prevRightEdge !== null) {
+          connections.push({
+            type: 'junction',
+            fromX: prevRightEdge,
+            fromY: connectorY,
+            toX: siblingCenterX - NODE_WIDTH / 2,
+            toY: connectorY,
+          });
+        }
+
+        if (sw.childUnitId) {
+          // Sibling has their own family unit (spouse + maybe kids).
+          // Position it at the SAME Y and generation — siblings stay level.
+          positionUnit(sw.childUnitId, siblingCenterX, topY, generation);
+        } else {
+          // Standalone sibling.
+          nodes.push({
+            id: `node-sg-${unit.id}-${sw.childId}`,
+            x: siblingCenterX - NODE_WIDTH / 2,
+            y: topY,
+            type: 'person',
+            personId: sw.childId,
+            generation,
+          });
+          maxX = Math.max(maxX, siblingCenterX + NODE_WIDTH / 2);
+          maxY = Math.max(maxY, topY + NODE_HEIGHT);
+        }
+        prevRightEdge = siblingCenterX + NODE_WIDTH / 2;
+        siblingCursorX += sw.width + SIBLING_GAP;
+      }
+      return;
+    }
+
+    // ---- Regular couple / single-parent unit ----
     const coupleWidth = unit.partner2Id
       ? NODE_WIDTH * 2 + SPOUSE_GAP
       : NODE_WIDTH;
