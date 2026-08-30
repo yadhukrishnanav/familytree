@@ -270,4 +270,4 @@ export function reducer(state: FamilyTreeState, action: Action): FamilyTreeState
   }
 }
 
-export { AUTO_BIRTH, AUTO_DEATH, AUTO_MARRIAGE, sortedPair };
+export { AUTO_BIRTH, AUTO_DEATH, AUTO_MARRIAGE, sortedPair, syncPersonAutoEvents, syncMarriageAutoEvent };

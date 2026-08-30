@@ -180,13 +180,16 @@ export function computeLayout(
 
     for (const cw of childWidths) {
       const childCenterX = childCursorX + cw.width / 2;
-      // Junction-to-child vertical
+      // Junction-to-child vertical — extend all the way to the CHILD CARD TOP
+      // (was stopping NODE_HEIGHT/2 above the child, leaving the line floating
+      // in mid-air). Now the connector goes parent-card-bottom → junction →
+      // child-card-top, fully card-to-card.
       connections.push({
         type: 'parent-child',
         fromX: childCenterX,
         fromY: junctionY,
         toX: childCenterX,
-        toY: junctionY + GENERATION_GAP / 2 - NODE_HEIGHT / 2,
+        toY: topY + NODE_HEIGHT + GENERATION_GAP, // child card top
       });
 
       if (cw.childUnitId) {

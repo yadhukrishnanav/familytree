@@ -79,30 +79,6 @@ export function PersonCard({ person, x, y, selected, generation, onClick }: Prop
           }}
         />
 
-        {/* Top color accent bar (subtle gender hint replaces stripe) */}
-        <div
-          className="absolute left-0 right-0 top-0 h-1"
-          style={{
-            background: gradient,
-            opacity: isDeceased ? 0.55 : 1,
-          }}
-          aria-hidden
-        />
-
-        {/* Generation badge (top-left, INSIDE card to avoid overflow clipping) */}
-        {generation != null && (
-          <div
-            className="pointer-events-none absolute left-2 top-2 z-20 flex items-center gap-1 rounded-md px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-white shadow-md"
-            style={{
-              background: `linear-gradient(135deg, ${person.avatarColors[0]}, ${person.avatarColors[1]})`,
-            }}
-            title={`Generation ${generation + 1}`}
-          >
-            <span className="opacity-80">Gen</span>
-            <span>{generation + 1}</span>
-          </div>
-        )}
-
         {/* Card content */}
         <div className="flex h-full items-center gap-3 px-3 pt-2">
           {/* Avatar */}

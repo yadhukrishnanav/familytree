@@ -843,15 +843,17 @@ export function FamilyTree() {
                   ).sort((a, b) => a - b);
                   return ys.map((y, i) => (
                     <g key={`gen-line-${i}`}>
-                      {/* Faint label band at left edge */}
+                      {/* Horizontal guide line at the vertical CENTER of the cards
+                          on this row — gives a clear "everyone on this row is the
+                          same generation" cue without being too loud. */}
                       <line
                         x1={0}
-                        y1={y - 8}
+                        y1={y + NODE_HEIGHT / 2}
                         x2={layout.width + 100}
-                        y2={y - 8}
-                        stroke="rgba(148, 163, 184, 0.18)"
+                        y2={y + NODE_HEIGHT / 2}
+                        stroke="rgba(148, 163, 184, 0.35)"
                         strokeWidth={1}
-                        strokeDasharray="2 6"
+                        strokeDasharray="3 5"
                         strokeLinecap="round"
                       />
                     </g>

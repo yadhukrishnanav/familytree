@@ -29,6 +29,7 @@ import {
   type RealtimeChange,
 } from './sync';
 import { deriveActivityFromAction, logActivity } from './activity';
+import { syncPersonAutoEvents, syncMarriageAutoEvent } from './reducer';
 
 interface StoreContextValue {
   state: FamilyTreeState;
@@ -43,6 +44,38 @@ interface StoreContextValue {
 }
 
 const StoreContext = createContext<StoreContextValue | null>(null);
+
+// ---- Auto-event regeneration helper ----
+// Auto events (auto_birth_X, auto_death_X, auto_marriage_X_Y) are DERIVED from
+// person + family-unit data. They have string IDs that don't fit the
+// timeline_events table's `id uuid` column, so we never persist them to Supabase.
+// On every load (local or remote), we drop any stale auto events from the
+// loaded state and regenerate fresh ones from the current persons + units.
+// This keeps the timeline in sync with person data without ever relying on
+// the DB to store derived rows.
+function regenerateAutoEvents(state: FamilyTreeState): FamilyTreeState {
+  // Start with only the manual events (drop any stale auto events that might
+  // have been persisted in an older localStorage snapshot).
+  let events = state.timelineEvents.filter((e) => !e.id.startsWith('auto_'));
+
+  // Regenerate birth + death auto events for every person.
+  for (const person of Object.values(state.persons)) {
+    events = syncPersonAutoEvents(events, person);
+  }
+
+  // Regenerate marriage auto events for every couple.
+  for (const unit of state.familyUnits) {
+    if (unit.partner2Id && unit.marriageYear != null) {
+      const p1 = state.persons[unit.partner1Id];
+      const p2 = state.persons[unit.partner2Id];
+      if (p1 && p2) {
+        events = syncMarriageAutoEvent(events, p1, p2, unit.marriageYear);
+      }
+    }
+  }
+
+  return { ...state, timelineEvents: events };
+}
 
 // ---- localStorage helpers ----
 const LS_PREFIX = 'family-tree-data-';
@@ -100,16 +133,17 @@ export function StoreProvider({
       // 1. Try localStorage for instant paint
       const local = loadLocal(familyId);
       if (local && mounted) {
-        rawDispatch({ type: 'LOAD_STATE', state: local });
+        rawDispatch({ type: 'LOAD_STATE', state: regenerateAutoEvents(local) });
       }
       // 2. Try Supabase
       if (isSupabaseConfigured) {
         try {
           const remote = await loadTreeFromSupabase(familyId);
           if (mounted) {
-            rawDispatch({ type: 'LOAD_STATE', state: remote });
-            saveLocal(familyId, remote);
-            lastSavedState.current = JSON.stringify(remote);
+            const withAutoEvents = regenerateAutoEvents(remote);
+            rawDispatch({ type: 'LOAD_STATE', state: withAutoEvents });
+            saveLocal(familyId, withAutoEvents);
+            lastSavedState.current = JSON.stringify(withAutoEvents);
           }
         } catch (e) {
           console.warn('Supabase load failed; using local fallback', e);
@@ -128,7 +162,10 @@ export function StoreProvider({
     const unsub = subscribeToTreeChanges(familyId, (change: RealtimeChange) => {
       skipNextSync.current = true;
       setHistory((h) => ({ past: [], future: [] })); // remote changes invalidate history
-      rawDispatch({ type: 'LOAD_STATE', state: applyRealtimeChange(stateRef.current, change) });
+      const next = applyRealtimeChange(stateRef.current, change);
+      // Realtime changes bring raw rows from Supabase (which doesn't store
+      // auto events) — regenerate them so the timeline stays in sync.
+      rawDispatch({ type: 'LOAD_STATE', state: regenerateAutoEvents(next) });
     });
     return () => {
       unsub?.();

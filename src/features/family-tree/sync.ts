@@ -172,16 +172,22 @@ export async function saveTreeToSupabase(
     if (error) throw error;
   }
 
-  // Timeline events
+  // Timeline events — skip auto events (id starts with 'auto_').
+  // Auto events (auto_birth_X, auto_death_X, auto_marriage_X_Y) are DERIVED from
+  // person/family-unit data. The timeline_events table's `id` column is `uuid`,
+  // so string IDs like 'auto_birth_abc123' are rejected by Postgres on upsert.
+  // We persist only manually-created events here; auto events are regenerated
+  // client-side from person data after load (see store.tsx → regenerateAutoEvents).
+  const manualEvents = state.timelineEvents.filter((e) => !e.id.startsWith('auto_'));
   const existingEventsRes = await client
     .from('timeline_events')
     .select('id')
     .eq('family_id', familyId);
   if (existingEventsRes.error) throw existingEventsRes.error;
   const existingEventIds = new Set((existingEventsRes.data as { id: string }[])?.map((r) => r.id) ?? []);
-  const newEventIds = new Set(state.timelineEvents.map((e) => e.id));
+  const newEventIds = new Set(manualEvents.map((e) => e.id));
 
-  const eventsToUpsert = state.timelineEvents.map((e) => ({
+  const eventsToUpsert = manualEvents.map((e) => ({
     ...eventToRow(e, familyId),
     family_id: familyId,
   }));
