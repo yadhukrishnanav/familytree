@@ -188,8 +188,7 @@ export function Timeline({
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
-        className="relative h-[210px] overflow-x-auto overflow-y-hidden"
-        style={{ touchAction: 'pan-x' }}
+        className="ft-timeline-scroll relative h-[210px] overflow-x-auto overflow-y-hidden"
       >
         {sorted.length === 0 ? (
           <div className="flex h-full items-center justify-center text-sm text-slate-400">
@@ -199,8 +198,7 @@ export function Timeline({
           <div className="relative h-full" style={{ width: totalWidth, minWidth: '100%' }}>
             {/* Axis line */}
             <div
-              className="absolute left-0 right-0 h-0.5 bg-slate-300"
-              style={{ top: '50%' }}
+              className="ft-timeline-axis absolute left-0 right-0 h-0.5 bg-slate-300"
             />
             {/* Decade ticks */}
             {decadeTicks.map((y) => (

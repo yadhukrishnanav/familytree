@@ -63,21 +63,16 @@ export function PersonCard({ person, x, y, selected, generation, onClick }: Prop
 
       {/* Card body */}
       <div
-        className="relative h-full w-full overflow-hidden rounded-2xl bg-white/95 backdrop-blur-md transition-all duration-200"
-        style={{
-          boxShadow: selected
-            ? '0 0 0 2px ' + person.avatarColors[0] + ', 0 12px 28px -6px rgba(15, 23, 42, 0.25)'
-            : '0 1px 2px rgba(15, 23, 42, 0.06), 0 4px 12px -2px rgba(15, 23, 42, 0.08)',
-          border: '1px solid rgba(226, 232, 240, 0.8)',
-        }}
+        className={`relative h-full w-full overflow-hidden rounded-2xl bg-white/95 backdrop-blur-md transition-all duration-200 ft-card-body ${selected ? 'ft-card-body--selected' : ''}`}
+        style={
+          selected
+            ? { boxShadow: '0 0 0 2px ' + person.avatarColors[0] + ', 0 12px 28px -6px rgba(15, 23, 42, 0.25)' }
+            : undefined
+        }
       >
         {/* Hover lift overlay */}
         <div
-          className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-200 group-hover:opacity-100"
-          style={{
-            background: 'linear-gradient(135deg, rgba(255,255,255,0.4), rgba(255,255,255,0))',
-            mixBlendMode: 'overlay',
-          }}
+          className="ft-card-hover-overlay pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-200 group-hover:opacity-100"
         />
 
         {/* Card content */}
@@ -160,12 +155,7 @@ export function PersonCard({ person, x, y, selected, generation, onClick }: Prop
 
         {/* Deceased ribbon at bottom */}
         {isDeceased && (
-          <div
-            className="absolute bottom-0 left-0 right-0 flex items-center justify-center gap-1 py-0.5 text-[9px] font-medium uppercase tracking-wider text-slate-500"
-            style={{
-              background: 'linear-gradient(to right, transparent, rgba(100, 116, 139, 0.08), transparent)',
-            }}
-          >
+          <div className="ft-deceased-ribbon absolute bottom-0 left-0 right-0 flex items-center justify-center gap-1 py-0.5 text-[9px] font-medium uppercase tracking-wider text-slate-500">
             <span className="opacity-70">✦</span> In memoriam <span className="opacity-70">✦</span>
           </div>
         )}

@@ -24,9 +24,6 @@ import {
   Plus,
   Calendar,
   MoreVertical,
-  ZoomIn,
-  ZoomOut,
-  Maximize,
   Download,
   FileText,
   Trash2,
@@ -58,7 +55,7 @@ import { useStore } from '../store';
 import { useAuth } from '../auth';
 import { deletePhoto } from '../supabase';
 import { computeLayout, NODE_WIDTH, NODE_HEIGHT } from '../layout';
-import { WEDDING } from '../constants';
+import { WEDDING, CANVAS } from '../constants';
 import { PersonCard, MarriageBadge } from './PersonCard';
 import { PersonForm, type NewRelation } from './PersonForm';
 import { EventForm } from './EventForm';
@@ -74,6 +71,8 @@ import { EmptyState } from './EmptyState';
 import { CelebrationOverlay } from './CelebrationOverlay';
 import { DetailPanel } from './DetailPanel';
 import { PersonHistoryDialog } from './PersonHistoryDialog';
+import { ZoomControls } from './ZoomControls';
+import { usePanZoom } from '../hooks/usePanZoom';
 
 // Leaflet touches `window` at import time, so the map MUST be loaded client-side only.
 const MapPanel = dynamic(() => import('./MapPanel').then((m) => m.MapPanel), {
@@ -91,21 +90,11 @@ import { exportToPngFile, exportToPdfFile } from '../export';
 
 type ModalKind = 'add-person' | 'edit-person' | 'add-event' | 'edit-event' | null;
 
-interface CanvasTransform {
-  x: number;
-  y: number;
-  scale: number;
-}
-
-const MIN_SCALE = 0.2;
-const MAX_SCALE = 3;
-
 export function FamilyTree() {
   const store = useStore();
   const auth = useAuth();
   const { state } = store;
 
-  const [transform, setTransform] = useState<CanvasTransform>({ x: 100, y: 60, scale: 0.8 });
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [modal, setModal] = useState<ModalKind>(null);
   const [editingPerson, setEditingPerson] = useState<Person | null>(null);
@@ -132,16 +121,21 @@ export function FamilyTree() {
   // so the tree canvas stays visible behind it.
   const [showMap, setShowMap] = useState(false);
 
-  const canvasRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null); // for export
-  const isPanning = useRef(false);
-  const panStart = useRef<{ x: number; y: number; tx: number; ty: number } | null>(null);
-  const pinchRef = useRef<{ distance: number; scale: number } | null>(null);
 
   const layout = useMemo(
     () => computeLayout(state.persons, state.familyUnits),
     [state.persons, state.familyUnits],
   );
+
+  // Pan/zoom state + handlers (wheel, mouse pan, touch pan, pinch zoom, zoom buttons).
+  // Encapsulated in a hook so FamilyTree.tsx stays focused on rendering.
+  const {
+    transform, setTransform, canvasRef,
+    onWheel, onMouseDown, onMouseMove, onMouseUp,
+    onTouchStart, onTouchMove, onTouchEnd,
+    zoomIn, zoomOut, zoomReset,
+  } = usePanZoom(layout.width, layout.height);
 
   const selectedPerson = selectedId ? state.persons[selectedId] ?? null : null;
 
@@ -151,140 +145,14 @@ export function FamilyTree() {
     const cw = canvasRef.current.clientWidth;
     const ch = canvasRef.current.clientHeight;
     const targetScale = Math.min(cw / (layout.width + 200), ch / (layout.height + 200), 1);
-    const scale = Math.max(MIN_SCALE, targetScale);
+    const scale = Math.max(CANVAS.MIN_SCALE, targetScale);
     setTransform({
       x: (cw - layout.width * scale) / 2,
       y: 40,
       scale,
     });
-     
-  }, [Object.keys(state.persons).length, state.familyUnits.length]);
+  }, [Object.keys(state.persons).length, state.familyUnits.length]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // ---- Wheel zoom (towards cursor) ----
-  const onWheel = useCallback((e: React.WheelEvent) => {
-    e.preventDefault();
-    if (!canvasRef.current) return;
-    const rect = canvasRef.current.getBoundingClientRect();
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-
-    setTransform((t) => {
-      const delta = -e.deltaY / 600;
-      const newScale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, t.scale * (1 + delta)));
-      // Keep cursor point stable: world coords under cursor before = after
-      const wx = (mouseX - t.x) / t.scale;
-      const wy = (mouseY - t.y) / t.scale;
-      return {
-        scale: newScale,
-        x: mouseX - wx * newScale,
-        y: mouseY - wy * newScale,
-      };
-    });
-  }, []);
-
-  // ---- Mouse pan ----
-  const onMouseDown = useCallback((e: React.MouseEvent) => {
-    // Only pan on empty canvas (not on a person card)
-    if ((e.target as HTMLElement).closest('[data-person-card]')) return;
-    if (e.button !== 0) return;
-    isPanning.current = true;
-    panStart.current = { x: e.clientX, y: e.clientY, tx: transform.x, ty: transform.y };
-    (e.target as HTMLElement).style.cursor = 'grabbing';
-  }, [transform.x, transform.y]);
-
-  const onMouseMove = useCallback((e: React.MouseEvent) => {
-    if (!isPanning.current || !panStart.current) return;
-    const dx = e.clientX - panStart.current.x;
-    const dy = e.clientY - panStart.current.y;
-    setTransform((t) => ({ ...t, x: panStart.current!.tx + dx, y: panStart.current!.ty + dy }));
-  }, []);
-
-  const onMouseUp = useCallback(() => {
-    isPanning.current = false;
-    panStart.current = null;
-    if (canvasRef.current) canvasRef.current.style.cursor = 'grab';
-  }, []);
-
-  // ---- Touch pan + pinch zoom (mobile) ----
-  const onTouchStart = useCallback((e: React.TouchEvent) => {
-    if ((e.target as HTMLElement).closest('[data-person-card]')) return;
-    if (e.touches.length === 1) {
-      isPanning.current = true;
-      const t = e.touches[0];
-      panStart.current = { x: t.clientX, y: t.clientY, tx: transform.x, ty: transform.y };
-    } else if (e.touches.length === 2) {
-      const dx = e.touches[0].clientX - e.touches[1].clientX;
-      const dy = e.touches[0].clientY - e.touches[1].clientY;
-      pinchRef.current = { distance: Math.hypot(dx, dy), scale: transform.scale };
-      isPanning.current = false;
-    }
-  }, [transform.x, transform.y, transform.scale]);
-
-  const onTouchMove = useCallback((e: React.TouchEvent) => {
-    if (e.touches.length === 1 && isPanning.current && panStart.current) {
-      const t = e.touches[0];
-      const dx = t.clientX - panStart.current.x;
-      const dy = t.clientY - panStart.current.y;
-      setTransform((tr) => ({ ...tr, x: panStart.current!.tx + dx, y: panStart.current!.ty + dy }));
-    } else if (e.touches.length === 2 && pinchRef.current) {
-      e.preventDefault();
-      const dx = e.touches[0].clientX - e.touches[1].clientX;
-      const dy = e.touches[0].clientY - e.touches[1].clientY;
-      const dist = Math.hypot(dx, dy);
-      const ratio = dist / pinchRef.current.distance;
-      const newScale = Math.max(MIN_SCALE, Math.min(MAX_SCALE, pinchRef.current.scale * ratio));
-      // Zoom around midpoint
-      const midX = (e.touches[0].clientX + e.touches[1].clientX) / 2;
-      const midY = (e.touches[0].clientY + e.touches[1].clientY) / 2;
-      setTransform((t) => {
-        const rect = canvasRef.current?.getBoundingClientRect();
-        if (!rect) return t;
-        const cx = midX - rect.left;
-        const cy = midY - rect.top;
-        const wx = (cx - t.x) / t.scale;
-        const wy = (cy - t.y) / t.scale;
-        return { scale: newScale, x: cx - wx * newScale, y: cy - wy * newScale };
-      });
-    }
-  }, []);
-
-  const onTouchEnd = useCallback(() => {
-    isPanning.current = false;
-    panStart.current = null;
-    pinchRef.current = null;
-  }, []);
-
-  // ---- Zoom buttons ----
-  const zoomIn = useCallback(() => {
-    setTransform((t) => {
-      const newScale = Math.min(MAX_SCALE, t.scale * 1.2);
-      const cx = (canvasRef.current?.clientWidth ?? 800) / 2;
-      const cy = (canvasRef.current?.clientHeight ?? 600) / 2;
-      const wx = (cx - t.x) / t.scale;
-      const wy = (cy - t.y) / t.scale;
-      return { scale: newScale, x: cx - wx * newScale, y: cy - wy * newScale };
-    });
-  }, []);
-  const zoomOut = useCallback(() => {
-    setTransform((t) => {
-      const newScale = Math.max(MIN_SCALE, t.scale / 1.2);
-      const cx = (canvasRef.current?.clientWidth ?? 800) / 2;
-      const cy = (canvasRef.current?.clientHeight ?? 600) / 2;
-      const wx = (cx - t.x) / t.scale;
-      const wy = (cy - t.y) / t.scale;
-      return { scale: newScale, x: cx - wx * newScale, y: cy - wy * newScale };
-    });
-  }, []);
-  const zoomReset = useCallback(() => {
-    if (!canvasRef.current || layout.width === 0) {
-      setTransform({ x: 100, y: 60, scale: 0.8 });
-      return;
-    }
-    const cw = canvasRef.current.clientWidth;
-    const ch = canvasRef.current.clientHeight;
-    const scale = Math.max(MIN_SCALE, Math.min(cw / (layout.width + 200), ch / (layout.height + 200), 1));
-    setTransform({ x: (cw - layout.width * scale) / 2, y: 40, scale });
-  }, [layout.width, layout.height]);
 
   // ---- Share code copy ----
   const copyShareCode = useCallback(async () => {
@@ -959,21 +827,12 @@ export function FamilyTree() {
         )}
 
         {/* Zoom controls (above timeline if visible) */}
-        <div className="absolute right-3 bottom-3 z-40 flex flex-col gap-0.5 rounded-xl bg-white/80 p-1 shadow-lg ring-1 ring-slate-200/80 backdrop-blur-md">
-          <Button size="sm" variant="ghost" onClick={zoomIn} aria-label="Zoom in" className="h-8 w-8 p-0 hover:bg-slate-100">
-            <ZoomIn className="h-4 w-4" />
-          </Button>
-          <div className="py-0.5 text-center text-[10px] font-mono font-semibold text-slate-500">
-            {Math.round(transform.scale * 100)}%
-          </div>
-          <Button size="sm" variant="ghost" onClick={zoomOut} aria-label="Zoom out" className="h-8 w-8 p-0 hover:bg-slate-100">
-            <ZoomOut className="h-4 w-4" />
-          </Button>
-          <div className="my-0.5 h-px bg-slate-200" />
-          <Button size="sm" variant="ghost" onClick={zoomReset} aria-label="Reset zoom" className="h-8 w-8 p-0 hover:bg-slate-100">
-            <Maximize className="h-4 w-4" />
-          </Button>
-        </div>
+        <ZoomControls
+          scale={transform.scale}
+          onZoomIn={zoomIn}
+          onZoomOut={zoomOut}
+          onZoomReset={zoomReset}
+        />
 
         {/* Detail panel (right) */}
         {selectedPerson && (

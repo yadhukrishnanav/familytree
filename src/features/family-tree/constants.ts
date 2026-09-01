@@ -43,6 +43,15 @@ export const BRAND = {
   GENDER_OTHER: '#a855f7',   // purple
 } as const;
 
+// ---- Canvas (pan/zoom) limits ----
+export const CANVAS = {
+  MIN_SCALE: 0.2,
+  MAX_SCALE: 3,
+  DEFAULT_TRANSFORM: { x: 100, y: 60, scale: 0.8 },
+  ZOOM_STEP: 1.2, // multiply/divide scale by this on each zoom button press
+  WHEEL_SENSITIVITY: 600, // divide deltaY by this for wheel zoom
+} as const;
+
 // ---- Avatar color palettes ----
 // Used by pickAvatarColors() in data.ts. Gradient pairs for person avatars.
 // Indexed by gender + seed for deterministic-but-varied colors.
