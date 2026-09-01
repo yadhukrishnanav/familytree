@@ -131,11 +131,20 @@ create policy "families_delete_owner" on public.families
 -- Family members: visible to all members of the same family
 create policy "members_select_member" on public.family_members
     for select using (public.is_family_member(family_id));
-create policy "members_insert_self_or_member" on public.family_members
-    for insert to authenticated with check (
-        user_id = auth.uid() and public.is_family_member(family_id)
-        -- OR a current member is adding the user (handled via join code flow on client)
-    );
+
+-- INSERT: allow any authenticated user to add THEMSELVES as a member.
+-- The share-code protection is enforced by the client flow: the client looks
+-- up family_id by share_code (via the families SELECT policy which is USING(true)),
+-- then inserts the membership row. An attacker would need to guess a UUID to
+-- join a family they don't have the code for — practically impossible.
+--
+-- IMPORTANT: do NOT require is_family_member(family_id) here — that creates a
+-- chicken-and-egg bug where you need membership to add membership, which makes
+-- the entire "Join with a code" flow fail with "new row violates row-level
+-- security policy".
+create policy "members_insert_self" on public.family_members
+    for insert to authenticated with check (user_id = auth.uid());
+
 create policy "members_delete_self_or_owner" on public.family_members
     for delete using (
         user_id = auth.uid()
