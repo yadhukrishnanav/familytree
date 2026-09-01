@@ -120,3 +120,151 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* ========================================================================
+   Family Tree — Component styles
+   All visual styling for the family-tree feature lives here as CSS classes,
+   so components don't need inline style={{}} attributes. This makes it easy
+   to restyle the whole app from one place, and prevents the "one change
+   undoes another" regressions we were seeing when colors were hardcoded
+   across 15+ .tsx files.
+
+   Conventions:
+   - Brand colors come from constants.ts → mirrored as CSS vars on :root
+   - Class names: .ft-<component>-<part>  (ft = family-tree)
+   - Layout dimensions (node width/gap/etc.) stay in constants.ts for TS use
+   ======================================================================== */
+
+:root {
+  /* Brand colors — keep in sync with src/features/family-tree/constants.ts → BRAND */
+  --ft-primary: #10b981;
+  --ft-primary-dark: #059669;
+  --ft-secondary: #14b8a6;
+  --ft-secondary-dark: #0d9488;
+  --ft-accent-pink: #ec4899;
+  --ft-accent-rose: #f43f5e;
+  --ft-slate-300: #cbd5e1;
+  --ft-slate-400: #94a3b8;
+  --ft-slate-500: #64748b;
+  --ft-slate-600: #475569;
+  --ft-slate-700: #334155;
+  --ft-deceased-bg: rgba(100, 116, 139, 0.14);
+  --ft-living-bg: rgba(148, 163, 184, 0.18);
+  --ft-gender-female: #ec4899;
+  --ft-gender-male: #3b82f6;
+  --ft-gender-other: #a855f7;
+}
+
+/* ---- Brand gradients (reused across logo, buttons, overlays) ---- */
+.ft-gradient-brand {
+  background: linear-gradient(135deg, var(--ft-primary), var(--ft-secondary));
+}
+.ft-gradient-brand-horizontal {
+  background: linear-gradient(to right, var(--ft-primary), var(--ft-secondary));
+}
+.ft-gradient-marriage {
+  background: linear-gradient(135deg, var(--ft-accent-pink), var(--ft-accent-rose));
+}
+.ft-gradient-auth-page {
+  background: linear-gradient(135deg, #ecfdf5, #ffffff, #f0fdfa);
+}
+
+/* ---- Lifespan pill (person card + detail panel) ---- */
+.ft-lifespan-pill {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  border-radius: 9999px;
+  padding: 0.125rem 0.375rem;
+  font-size: 10px;
+  font-weight: 600;
+  background: var(--ft-living-bg);
+  color: var(--ft-slate-500);
+}
+.ft-lifespan-pill--deceased {
+  background: var(--ft-deceased-bg);
+  color: var(--ft-slate-600);
+}
+
+/* ---- Canvas backgrounds ---- */
+.ft-canvas-dot-grid {
+  background-image: radial-gradient(circle, rgba(148, 163, 184, 0.35) 1px, transparent 1px);
+  background-size: 24px 24px;
+  background-position: 0 0;
+}
+.ft-canvas-ambient-glow {
+  background:
+    radial-gradient(ellipse 600px 400px at 30% 20%, rgba(168, 85, 247, 0.06), transparent),
+    radial-gradient(ellipse 500px 300px at 80% 80%, rgba(245, 158, 11, 0.05), transparent);
+}
+
+/* ---- Toolbar view-toggle button ---- */
+.ft-toggle-btn {
+  display: flex;
+  height: 1.75rem;
+  width: 1.75rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.375rem;
+  font-size: 0.75rem;
+  transition: all 0.15s;
+  color: var(--ft-slate-500);
+}
+.ft-toggle-btn:hover {
+  background: #f8fafc;
+}
+.ft-toggle-btn--active {
+  background: #e2e8f0;
+  color: var(--ft-slate-700);
+}
+
+/* ---- Slide-in panel (shared by map, birthdays, chat, activity, detail) ---- */
+.ft-slide-panel {
+  position: absolute;
+  right: 0.75rem;
+  top: 0.75rem;
+  z-index: 50;
+  max-height: calc(100vh - 1.5rem);
+  width: min(380px, calc(100vw - 1.5rem));
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  --tw-ring-color: rgba(226, 232, 240, 0.8);
+  --tw-ring-shadow: 0 0 0 1px var(--tw-ring-color);
+  box-shadow: var(--tw-ring-shadow), 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(12px);
+}
+.ft-slide-panel--narrow {
+  width: 20rem; /* 320px — for detail panel */
+}
+
+/* ---- Input placeholders: subtle, italic, disappear on focus ---- */
+.ft-input::placeholder {
+  color: #cbd5e1;
+  font-style: italic;
+  font-weight: 300;
+  opacity: 1;
+  transition: opacity 0.2s;
+}
+.ft-input:focus::placeholder {
+  opacity: 0;
+}
+
+/* ---- Leaflet map container ---- */
+.ft-leaflet-container {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+}
+
+/* ---- Celebration overlay ---- */
+.ft-celebration-backdrop {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(4, 47, 46, 0.9), rgba(4, 47, 46, 0.5), rgba(4, 47, 46, 0.8));
+  backdrop-filter: blur(12px);
+}

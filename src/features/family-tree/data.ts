@@ -1,29 +1,10 @@
 // Family Tree — Sample data for demo / seeding
 
 import type { FamilyTreeState, Person, FamilyUnit, TimelineEvent } from './types';
+import { MALE_PALETTES, FEMALE_PALETTES } from './constants';
 
-// Avatar color palettes (gradient pairs)
-export const MALE_PALETTES: [string, string][] = [
-  ['#6366f1', '#8b5cf6'],
-  ['#0ea5e9', '#2563eb'],
-  ['#10b981', '#059669'],
-  ['#f59e0b', '#d97706'],
-  ['#ef4444', '#b91c1c'],
-  ['#14b8a6', '#0891b2'],
-  ['#8b5cf6', '#6d28d9'],
-  ['#64748b', '#334155'],
-];
-
-export const FEMALE_PALETTES: [string, string][] = [
-  ['#ec4899', '#db2777'],
-  ['#f43f5e', '#e11d48'],
-  ['#a855f7', '#9333ea'],
-  ['#8b5cf6', '#7c3aed'],
-  ['#06b6d4', '#0891b2'],
-  ['#84cc16', '#65a30d'],
-  ['#f97316', '#ea580c'],
-  ['#eab308', '#ca8a04'],
-];
+// Re-export palettes for backward compat (other files import from data.ts)
+export { MALE_PALETTES, FEMALE_PALETTES };
 
 export function pickAvatarColors(gender: string, seed: number): [string, string] {
   const palettes = gender === 'female' ? FEMALE_PALETTES : MALE_PALETTES;

@@ -7,6 +7,7 @@
 import type { Person } from '../types';
 import { NODE_HEIGHT, NODE_WIDTH } from '../layout';
 import { MapPin, Briefcase } from 'lucide-react';
+import { BRAND } from '../constants';
 
 interface Props {
   person: Person;
@@ -114,10 +115,10 @@ export function PersonCard({ person, x, y, selected, generation, onClick }: Prop
               style={{
                 background:
                   person.gender === 'female'
-                    ? '#ec4899'
+                    ? BRAND.GENDER_FEMALE
                     : person.gender === 'male'
-                      ? '#3b82f6'
-                      : '#a855f7',
+                      ? BRAND.GENDER_MALE
+                      : BRAND.GENDER_OTHER,
               }}
               title={person.gender}
             />
@@ -137,13 +138,7 @@ export function PersonCard({ person, x, y, selected, generation, onClick }: Prop
             </div>
             {lifespan && (
               <div
-                className="inline-flex w-fit items-center rounded-full px-1.5 py-0.5 text-[10px] font-semibold"
-                style={{
-                  // Always slate — no emerald accent on living persons (per user request).
-                  // Deceased uses slightly darker slate for distinction.
-                  background: isDeceased ? 'rgba(100, 116, 139, 0.14)' : 'rgba(148, 163, 184, 0.18)',
-                  color: isDeceased ? '#475569' : '#64748b',
-                }}
+                className={`ft-lifespan-pill mt-0.5 ${isDeceased ? 'ft-lifespan-pill--deceased' : ''}`}
               >
                 {lifespan}
               </div>
@@ -186,10 +181,7 @@ export function MarriageBadge({ x, y, year }: { x: number; y: number; year?: num
       style={{ left: x - 16, top: y - 16, width: 32, zIndex: 20 }}
     >
       <div
-        className="flex h-7 w-7 items-center justify-center rounded-full shadow-md ring-2 ring-white"
-        style={{
-          background: 'linear-gradient(135deg, #ec4899, #f43f5e)',
-        }}
+        className="flex h-7 w-7 items-center justify-center rounded-full shadow-md ring-2 ring-white ft-gradient-marriage"
       >
         <svg width="14" height="14" viewBox="0 0 24 24" fill="white">
           <path d="M12 21s-7-4.35-9.5-8.5C.5 9 2 5 5.5 5c2 0 3.5 1.5 4.5 3 1-1.5 2.5-3 4.5-3C18 5 19.5 9 17.5 12.5 15 16.65 12 21 12 21z" />

@@ -327,3 +327,24 @@ Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-
 
 Import trace for requested module:
 ./node_modules/@swc/helpers/esm/_interop_require_default.js
+[00:06:01.005] Server  ERROR   ⨯ ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[00:06:05.848] Server  ERROR   ⨯ ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[00:06:06.039] Server  ERROR   ⨯ ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js

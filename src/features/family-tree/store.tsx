@@ -30,6 +30,7 @@ import {
 } from './sync';
 import { deriveActivityFromAction, logActivity } from './activity';
 import { syncPersonAutoEvents, syncMarriageAutoEvent } from './reducer';
+import { STORAGE_KEYS, TIMING } from './constants';
 
 interface StoreContextValue {
   state: FamilyTreeState;
@@ -78,7 +79,7 @@ function regenerateAutoEvents(state: FamilyTreeState): FamilyTreeState {
 }
 
 // ---- localStorage helpers ----
-const LS_PREFIX = 'family-tree-data-';
+const LS_PREFIX = STORAGE_KEYS.TREE_DATA_PREFIX;
 function loadLocal(familyId: string): FamilyTreeState | null {
   try {
     const raw = localStorage.getItem(LS_PREFIX + familyId);
@@ -203,7 +204,7 @@ export function StoreProvider({
       } finally {
         setSyncing(false);
       }
-    }, 800);
+    }, TIMING.SUPABASE_SYNC_DEBOUNCE);
     return () => {
       if (debounceTimer.current) clearTimeout(debounceTimer.current);
     };

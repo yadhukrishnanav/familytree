@@ -7,6 +7,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 import type { ReactNode } from 'react';
 import { getSupabase, isSupabaseConfigured } from './supabase';
 import type { FamilyInfo } from './types';
+import { STORAGE_KEYS, TIMING } from './constants';
 
 interface DemoUser {
   id: string;
@@ -34,10 +35,10 @@ export interface AuthContextValue {
 const AuthContext = createContext<AuthContextValue | null>(null);
 
 // ---- Demo-mode helpers (localStorage) ----
-const DEMO_USERS_KEY = 'family-tree-demo-users';
-const DEMO_SESSION_KEY = 'family-tree-demo-session';
-const DEMO_FAMILIES_KEY = 'family-tree-demo-families';
-const DEMO_MEMBERS_KEY = 'family-tree-demo-members';
+const DEMO_USERS_KEY = STORAGE_KEYS.DEMO_USERS;
+const DEMO_SESSION_KEY = STORAGE_KEYS.DEMO_SESSION;
+const DEMO_FAMILIES_KEY = STORAGE_KEYS.DEMO_FAMILIES;
+const DEMO_MEMBERS_KEY = STORAGE_KEYS.DEMO_MEMBERS;
 
 interface DemoUserRecord extends DemoUser {
   passwordHash: string; // simple hash; demo only

@@ -15,14 +15,22 @@ import 'leaflet/dist/leaflet.css';
 
 import type { Person } from '../types';
 import { MapPin, X, Loader2 } from 'lucide-react';
+import {
+  EXTERNAL,
+  STORAGE_KEYS,
+  TIMING,
+  DEFAULT_MAP_CENTER,
+  DEFAULT_MAP_ZOOM,
+  LEAFLET_MARKER_ICON_URLS,
+} from '../constants';
 
 // Fix the default Leaflet marker icon paths (Next.js/webpack mangles them).
 // We use a CDN-hosted version of the standard OSM pin so we don't have to
 // deal with `import markerIcon from 'leaflet/dist/images/marker-icon.png'`.
 const DEFAULT_ICON = L.icon({
-  iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
-  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+  iconUrl: LEAFLET_MARKER_ICON_URLS.ICON,
+  iconRetinaUrl: LEAFLET_MARKER_ICON_URLS.ICON_2X,
+  shadowUrl: LEAFLET_MARKER_ICON_URLS.SHADOW,
   iconSize: [25, 41],
   iconAnchor: [12, 41],
   popupAnchor: [1, -34],
@@ -36,7 +44,7 @@ interface Geocoded {
   displayName: string;
 }
 
-const CACHE_KEY = 'familytree.geocode.cache.v1';
+const CACHE_KEY = STORAGE_KEYS.GEOCODE_CACHE;
 
 function readCache(): Record<string, Geocoded> {
   try {
@@ -57,7 +65,7 @@ function writeCache(cache: Record<string, Geocoded>) {
 
 async function geocode(place: string): Promise<Geocoded | null> {
   const url =
-    'https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' +
+    EXTERNAL.NOMINATIM_SEARCH + '?format=json&limit=1&q=' +
     encodeURIComponent(place);
   try {
     const res = await fetch(url, {
@@ -115,7 +123,7 @@ function FitBounds({ points }: { points: Array<[number, number]> }) {
 function InvalidateSizeOnMount() {
   const map = useMap();
   useEffect(() => {
-    const t = setTimeout(() => map.invalidateSize(), 250);
+    const t = setTimeout(() => map.invalidateSize(), TIMING.INVALIDATE_SIZE_DELAY);
     return () => clearTimeout(t);
   }, [map]);
   return null;
@@ -159,7 +167,7 @@ export function MapPanel({ persons, selectedId, onSelectPerson, onClose }: Props
         // Spread state update so the user sees pins drop in progressively.
         setGeocoded({ ...updated });
         // Sleep 1.1s between requests to respect Nominatim's rate limit.
-        await new Promise((r) => setTimeout(r, 1100));
+        await new Promise((r) => setTimeout(r, TIMING.NOMINATIM_RATE_LIMIT));
       }
       writeCache(updated);
       if (mountedRef.current) setLoading(false);
@@ -185,8 +193,8 @@ export function MapPanel({ persons, selectedId, onSelectPerson, onClose }: Props
   const points = pins.map((p) => [p.loc.lat, p.loc.lon] as [number, number]);
 
   // Default center: Kerala, India (roughly where the wedding is).
-  const defaultCenter: [number, number] = [11.8744, 75.3704];
-  const defaultZoom = 6;
+  const defaultCenter: [number, number] = DEFAULT_MAP_CENTER;
+  const defaultZoom = DEFAULT_MAP_ZOOM;
 
   return (
     <div className="absolute right-3 top-3 z-50 flex max-h-[calc(100vh-1.5rem)] w-[min(380px,calc(100vw-1.5rem))] flex-col overflow-hidden rounded-2xl bg-white/95 shadow-2xl ring-1 ring-slate-200/80 backdrop-blur-xl">
@@ -220,7 +228,7 @@ export function MapPanel({ persons, selectedId, onSelectPerson, onClose }: Props
         >
           <TileLayer
             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            url={EXTERNAL.OSM_TILES}
           />
           <FitBounds points={points} />
           <InvalidateSizeOnMount />

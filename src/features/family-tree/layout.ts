@@ -3,12 +3,15 @@
 
 import type { FamilyUnit, LayoutConnection, LayoutNode, LayoutResult, Person } from './types';
 import { NIL_UUID } from './types';
+import { LAYOUT } from './constants';
 
-export const NODE_WIDTH = 220;
-export const NODE_HEIGHT = 110;
-export const SPOUSE_GAP = 40; // gap between partners in a couple
-export const SIBLING_GAP = 50; // gap between sibling subtrees
-export const GENERATION_GAP = 160; // vertical gap between generations
+// Re-export dimensions for components that need them (PersonCard, FamilyTree, etc.)
+// The actual values live in constants.ts → LAYOUT so there's one source of truth.
+export const NODE_WIDTH = LAYOUT.NODE_WIDTH;
+export const NODE_HEIGHT = LAYOUT.NODE_HEIGHT;
+export const SPOUSE_GAP = LAYOUT.SPOUSE_GAP;
+export const SIBLING_GAP = LAYOUT.SIBLING_GAP;
+export const GENERATION_GAP = LAYOUT.GENERATION_GAP;
 
 interface SubtreeInfo {
   width: number;

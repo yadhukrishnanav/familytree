@@ -23,27 +23,9 @@ export interface FamilyUnit {
   marriageYear?: number;
 }
 
-/**
- * Sentinel UUID used as `partner1Id` for "sibling groups" — FamilyUnits that
- * have no parents, only siblings (stored in `childrenIds`).
- *
- * Why this exists: when a user adds person B as "Sibling of A" but A has no
- * parents in the tree yet, we still want A and B to render at the same
- * generation level and be visually linked. We create a sibling-group unit
- * (partner1Id = NIL_UUID, partner2Id = undefined, childrenIds = [A, B]) and
- * the layout renders the children side-by-side at the same Y, with no parent
- * nodes and no marriage line.
- *
- * Using the nil UUID instead of empty string keeps the value compatible with
- * the `family_units.partner1_id uuid not null` column in Postgres — no schema
- * migration required.
- */
-export const NIL_UUID = '00000000-0000-0000-0000-000000000000';
-
-/** True if this unit is a sibling group (no parents, just siblings). */
-export function isSiblingGroup(unit: FamilyUnit): boolean {
-  return unit.partner1Id === NIL_UUID;
-}
+// NIL_UUID and isSiblingGroup live in constants.ts (single source of truth).
+// Re-exported here for backward compat — many files import from types.ts.
+export { NIL_UUID, isSiblingGroup } from './constants';
 
 export type TimelineIcon =
   | 'birth'

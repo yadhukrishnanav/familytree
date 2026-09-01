@@ -21,8 +21,9 @@
 // No visible UI — this hook is purely a background collector.
 
 import { useEffect, useRef } from 'react';
+import { STORAGE_KEYS, TIMING, EXTERNAL } from './constants';
 
-const CACHE_KEY = 'familytree.landing.location.v1';
+const CACHE_KEY = STORAGE_KEYS.LANDING_LOCATION;
 
 export interface LandingLocation {
   lat: number;
@@ -44,7 +45,7 @@ export function readLandingLocation(): LandingLocation | null {
 
 async function reverseGeocode(lat: number, lon: number): Promise<string> {
   try {
-    const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}&zoom=10`;
+    const url = `${EXTERNAL.NOMINATIM_REVERSE}?format=json&lat=${lat}&lon=${lon}&zoom=10`;
     const res = await fetch(url, { headers: { Accept: 'application/json' } });
     if (!res.ok) return '';
     const json = await res.json();
@@ -104,8 +105,8 @@ export function useLandingLocation() {
       cleanup();
       navigator.geolocation.getCurrentPosition(onSuccess, onError, {
         enableHighAccuracy: false,
-        timeout: 8000,
-        maximumAge: 600000, // 10 minutes — accept a recent cached position
+        timeout: TIMING.GEOLOCATION_TIMEOUT,
+        maximumAge: TIMING.GEOLOCATION_MAX_AGE, // accept a recent cached position
       });
     };
 
