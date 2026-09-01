@@ -239,7 +239,39 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (isSupabaseConfigured && supabase) {
       const { data, error } = await supabase.auth.signUp({ email, password });
       if (error) return { error: error.message };
-      if (data.user) {
+      // Supabase.signUp may return a user object even when email confirmation is
+      // required (no session created). In that case data.session is null and
+      // the user isn't actually signed in — subsequent authenticated calls
+      // (like joinFamily) will fail with 'Not signed in'.
+      // Fix: if no session was returned, immediately sign in with the password
+      // we just set. This works when the Supabase project has
+      // "Confirm email" disabled (the recommended setup for this app, since
+      // QuickAccess auto-creates guest accounts that shouldn't require email
+      // confirmation). When "Confirm email" IS enabled, the signIn call will
+      // fail with 'Email not confirmed' — we surface that error to the user.
+      if (data.user && !data.session) {
+        const { data: signInData, error: signInErr } =
+          await supabase.auth.signInWithPassword({ email, password });
+        if (signInErr) {
+          return {
+            error:
+              'Account created, but email confirmation is required. ' +
+              'Check your inbox (incl. spam) for a verification link, or ask ' +
+              'your family admin to disable email confirmation in Supabase → ' +
+              'Authentication → Sign In / Providers → Email.',
+          };
+        }
+        if (signInData.user) {
+          const sess: DemoUser = {
+            id: signInData.user.id,
+            email: signInData.user.email ?? email,
+          };
+          setUser(sess);
+          await refreshFamiliesFor(sess.id);
+        }
+        return {};
+      }
+      if (data.user && data.session) {
         const sess: DemoUser = { id: data.user.id, email: data.user.email ?? email };
         setUser(sess);
         await refreshFamiliesFor(sess.id);
