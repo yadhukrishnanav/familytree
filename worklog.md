@@ -231,3 +231,36 @@ Stage Summary:
 - Kerala names: placeholders updated.
 - Lint: 0 errors, 0 warnings. Dev server: running on port 3000.
 - Detailed improvement suggestions provided for future iterations.
+
+---
+Task ID: 5
+Agent: sub-agent (general-purpose)
+Task: Split the 682-line `src/features/family-tree/components/AuthPage.tsx` into 6 separate component files under a new `auth/` subdirectory for maintainability. Keep the top-level `AuthPage` component (view router) in place.
+
+Work Log:
+- Read `/home/z/my-project/worklog.md` (Tasks 1–4) to understand the project history, then read the full `AuthPage.tsx` (682 lines) to map out each of the 6 inline components and their dependencies.
+- Created directory `src/features/family-tree/components/auth/`.
+- Created `auth/types.ts` (10 lines) holding the shared `View` type union. Placing it here (rather than in `AuthPage.tsx`) avoids a circular import: each extracted component imports `View` from `./types`, and `AuthPage.tsx` imports it from `./auth/types`.
+- Extracted each of the 6 components verbatim — no logic, JSX, or Tailwind class changes — into its own file with only the imports it actually uses:
+  - `auth/QuickAccess.tsx` (74 lines) — `useState`, `useAuth` (for prop type + `auth.signUp/signIn/joinFamily` calls), `Button`, `Input`, `Label`, lucide `TreePine`, `AlertCircle`, `View`. Kept the `auth` prop signature `auth: ReturnType<typeof useAuth>` intact.
+  - `auth/AuthForms.tsx` (290 lines) — `useState`, `useAuth`, `isSupabaseConfigured` (from `../../supabase`), `Button`, `Input`, `Label`, lucide `TreePine`, `Sparkles`, `AlertCircle`, `Mail`, `Eye`, `EyeOff`, `View`. Largest component; covers sign-in / sign-up toggle, magic-link OTP flow, password show/hide, demo-mode badge, "Have a family code?" CTA, and "Built with ❤" footer.
+  - `auth/FamilyCreateOrJoin.tsx` (62 lines) — `useAuth`, lucide `TreePine`, `Plus`, `LogIn`, `View`. Welcome screen with two tiles + sign-out.
+  - `auth/CreateFamily.tsx` (61 lines) — `useState`, `useAuth`, `Button`, `Input`, `Label`, `View`. Single-field family-create form with Back/Create buttons.
+  - `auth/JoinFamily.tsx` (65 lines) — `useState`, `useAuth`, `Button`, `Input`, `Label`, `View`. Share-code entry form.
+  - `auth/FamilySelect.tsx` (129 lines) — `useState`, `useAuth`, `Button`, lucide `Users`, `Plus`, `LogIn`, `LogOut`, `Copy`, `Check`, `toast` from sonner, `View`. Family cards with role badge (admin/owner/editor colors), share-code copy-to-clipboard with toast, active-family switcher, and create/join dashed tiles.
+- Rewrote `AuthPage.tsx` down to 62 lines: kept the `'use client'` directive, the `useAuth`/`useLandingLocation` imports, the main `AuthPage` component with all its view-routing branches and comments, removed the 6 inline component definitions, and added 6 imports from `./auth/*`. Also re-exported `View` (`export type { View } from './auth/types'`) for any external consumer that may have imported it from AuthPage.
+- Import-path notes:
+  - `useAuth` and `isSupabaseConfigured` live at `src/features/family-tree/auth.tsx` and `supabase.ts` respectively → from `components/auth/` these resolve to `../../auth` and `../../supabase` (as the task instructed).
+  - shadcn UI primitives (`Button`/`Input`/`Label`) resolve via the `@/*` → `./src/*` tsconfig path alias, so they're unaffected by the file move.
+  - `View` is imported from `./types` inside the `auth/` files.
+
+Verification:
+- `npx tsc --noEmit --skipLibCheck`: zero errors in app code. The 4 errors printed are all in `examples/` and `skills/` directories (pre-existing, unrelated — `socket.io-client` missing, `images` typo in image-edit skill, etc.), which the task told me to grep out. Exit code 1 was solely from those pre-existing issues.
+- `npx eslint src/features/family-tree/components/AuthPage.tsx src/features/family-tree/components/auth/`: 0 errors, 0 warnings.
+
+Stage Summary:
+- 7 new files created under `src/features/family-tree/components/auth/`: `types.ts`, `QuickAccess.tsx`, `AuthForms.tsx`, `FamilyCreateOrJoin.tsx`, `CreateFamily.tsx`, `JoinFamily.tsx`, `FamilySelect.tsx`.
+- `AuthPage.tsx` shrunk from 682 lines → 62 lines (just the router + imports + re-export).
+- Total across the 8 files: 753 lines (the small overhead is the per-file import headers + the new `types.ts` file).
+- Zero behavior/styling changes — only code moved between files; the `View` type was lifted into a shared `types.ts` to avoid circular imports.
+- TypeScript: clean. ESLint: clean.

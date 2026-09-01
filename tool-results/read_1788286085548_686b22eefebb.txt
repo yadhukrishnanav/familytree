@@ -1,0 +1,683 @@
+     1→     1→'use client';
+     2→     2→
+     3→     3→// Family Tree — Auth page
+     4→     4→// Five views: sign-in, sign-up, family-select, family-create, family-join
+     5→     5→
+     6→     6→import { useState } from 'react';
+     7→     7→import { useAuth } from '../auth';
+     8→     8→import { Button } from '@/components/ui/button';
+     9→     9→import { Input } from '@/components/ui/input';
+    10→    10→import { Label } from '@/components/ui/label';
+    11→    11→import {
+    12→    12→  Users, Plus, LogIn, LogOut, TreePine, Copy, Check, Sparkles, AlertCircle, Mail, Eye, EyeOff,
+    13→    13→} from 'lucide-react';
+    14→    14→import { toast } from 'sonner';
+    15→    15→import { isSupabaseConfigured } from '../supabase';
+    16→    16→import { useLandingLocation } from '../useLandingLocation';
+    17→    17→
+    18→    18→type View = 'sign-in' | 'sign-up' | 'family-select' | 'family-create' | 'family-join' | 'quick-access';
+    19→    19→
+    20→    20→export function AuthPage() {
+    21→    21→  const auth = useAuth();
+    22→    22→  const [view, setView] = useState<View>(auth.user ? 'family-select' : 'sign-in');
+    23→    23→
+    24→    24→  // Silently ask for geolocation permission at landing. The browser shows its
+    25→    25→  // native prompt (no app-level banner). Result is cached in localStorage so
+    26→    26→  // PersonForm can later pre-fill the birthplace field. No visible UI.
+    27→    27→  useLandingLocation();
+    28→    28→
+    29→    29→  // QuickAccess is a one-shot flow: user enters code -> we auto-create a guest
+    30→    30→  // account -> we join the family. While this flow is mid-flight (after signUp
+    31→    31→  // sets auth.user but before joinFamily sets activeFamily), we MUST keep
+    32→    32→  // showing the QuickAccess screen — otherwise AuthPage would re-render and
+    33→    33→  // route the now-signed-in user to the "Create a family / Join with a code"
+    34→    34→  // intermediary screen, defeating the whole point of Quick Access.
+    35→    35→  if (view === 'quick-access' && !auth.activeFamily) {
+    36→    36→    return <QuickAccess auth={auth} setView={setView} />;
+    37→    37→  }
+    38→    38→
+    39→    39→  if (!auth.user) {
+    40→    40→    return <AuthForms initialView={view} setView={setView} />;
+    41→    41→  }
+    42→    42→  // If user has families, go straight to family-select (or the active family)
+    43→    43→  if (auth.families.length > 0 && auth.activeFamily) {
+    44→    44→    // The page.tsx will render FamilyTree since auth.user and auth.activeFamily are set
+    45→    45→    return null;
+    46→    46→  }
+    47→    47→  if (auth.families.length === 0 && view !== 'family-create' && view !== 'family-join') {
+    48→    48→    return <FamilyCreateOrJoin setView={setView} />;
+    49→    49→  }
+    50→    50→  if (view === 'family-create') {
+    51→    51→    return <CreateFamily setView={setView} />;
+    52→    52→  }
+    53→    53→  if (view === 'family-join') {
+    54→    54→    return <JoinFamily setView={setView} />;
+    55→    55→  }
+    56→    56→  return <FamilySelect setView={setView} />;
+    57→    57→}
+    58→    58→
+    59→    59→// ---------- Quick Access (family code only, for elders) ----------
+    60→    60→function QuickAccess({ auth, setView }: { auth: ReturnType<typeof useAuth>; setView: (v: View) => void }) {
+    61→    61→  const [code, setCode] = useState('');
+    62→    62→  const [submitting, setSubmitting] = useState(false);
+    63→    63→  const [error, setError] = useState<string | null>(null);
+    64→    64→
+    65→    65→  const handleQuickAccess = async (e: React.FormEvent) => {
+    66→    66→    e.preventDefault();
+    67→    67→    setError(null);
+    68→    68→    const trimmed = code.trim().toUpperCase();
+    69→    69→    if (!trimmed) { setError('Enter your family code'); return; }
+    70→    70→    setSubmitting(true);
+    71→    71→    try {
+    72→    72→      const guestId = Math.random().toString(36).slice(2, 10);
+    73→    73→      const guestEmail = `guest_${guestId}@familytree.local`;
+    74→    74→      const guestPassword = `Guest_${guestId}!`;
+    75→    75→      // Sign up (auto-confirmed since mailer_autoconfirm=true)
+    76→    76→      const signUpRes = await auth.signUp(guestEmail, guestPassword);
+    77→    77→      if (signUpRes.error) {
+    78→    78→        // If signup fails (e.g., email exists), try signing in
+    79→    79→        const signInRes = await auth.signIn(guestEmail, guestPassword);
+    80→    80→        if (signInRes.error) { setError(signInRes.error); setSubmitting(false); return; }
+    81→    81→      }
+    82→    82→      // Wait for auth state to propagate (user should be set now)
+    83→    83→      await new Promise(r => setTimeout(r, 500));
+    84→    84→      // Join the family with the code
+    85→    85→      const joinRes = await auth.joinFamily(trimmed);
+    86→    86→      if (joinRes.error) { setError(joinRes.error); setSubmitting(false); return; }
+    87→    87→      // The auth context will now have the family set as active,
+    88→    88→      // and page.tsx will render FamilyTree directly — no "Create a family" screen.
+    89→    89→    } catch (e: any) { setError(e.message ?? 'Something went wrong'); }
+    90→    90→    setSubmitting(false);
+    91→    91→  };
+    92→    92→
+    93→    93→  return (
+    94→    94→    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50">
+    95→    95→      <div className="flex min-h-screen items-center justify-center p-4">
+    96→    96→        <div className="w-full max-w-md">
+    97→    97→          <div className="mb-6 text-center">
+    98→    98→            <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg">
+    99→    99→              <TreePine className="h-7 w-7 text-white" />
+   100→   100→            </div>
+   101→   101→            <h1 className="text-2xl font-bold text-slate-800">Family Tree</h1>
+   102→   102→            <p className="text-sm text-slate-500 mt-1">Enter your family code to get started</p>
+   103→   103→          </div>
+   104→   104→          <div className="rounded-2xl bg-white/80 p-6 shadow-xl backdrop-blur-md ring-1 ring-slate-200">
+   105→   105→            <form onSubmit={handleQuickAccess} className="space-y-4" noValidate>
+   106→   106→              <div>
+   107→   107→                <Label htmlFor="familyCode">Family code</Label>
+   108→   108→                <Input id="familyCode" value={code} onChange={(e) => setCode(e.target.value.toUpperCase())} placeholder="AB12CD" className="font-mono text-center text-lg font-bold tracking-[0.3em] uppercase" maxLength={8} autoFocus required />
+   109→   109→                <p className="mt-1.5 text-xs text-slate-400">Ask your family member for the 6-character code.</p>
+   110→   110→              </div>
+   111→   111→              {error && <div className="flex items-start gap-2 rounded-md bg-red-50 px-3 py-2 text-sm text-red-700"><AlertCircle className="mt-0.5 h-4 w-4 shrink-0" /><span>{error}</span></div>}
+   112→   112→              <Button type="submit" disabled={submitting} className="w-full bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-700 hover:to-teal-600">{submitting ? 'Joining…' : 'Enter Family Tree'}</Button>
+   113→   113→            </form>
+   114→   114→          </div>
+   115→   115→          <button onClick={() => { setView('sign-in'); setError(null); }} className="mt-4 w-full text-center text-xs text-slate-500 hover:text-emerald-600">← Sign in with email instead</button>
+   116→   116→        </div>
+   117→   117→      </div>
+   118→   118→    </div>
+   119→   119→  );
+   120→   120→}
+   121→   121→
+   122→   122→// ---------- Sign in / Sign up ----------
+   123→   123→function AuthForms({
+   124→   124→  initialView,
+   125→   125→  setView,
+   126→   126→}: {
+   127→   127→  initialView: View;
+   128→   128→  setView: (v: View) => void;
+   129→   129→}) {
+   130→   130→  const auth = useAuth();
+   131→   131→  const [isSignUp, setIsSignUp] = useState(initialView === 'sign-up');
+   132→   132→  const [email, setEmail] = useState('');
+   133→   133→  const [password, setPassword] = useState('');
+   134→   134→  const [confirm, setConfirm] = useState('');
+   135→   135→  const [submitting, setSubmitting] = useState(false);
+   136→   136→  const [error, setError] = useState<string | null>(null);
+   137→   137→  const [info, setInfo] = useState<string | null>(null);
+   138→   138→  // Magic link (OTP) mode
+   139→   139→  const [useMagicLink, setUseMagicLink] = useState(false);
+   140→   140→  const [showPassword, setShowPassword] = useState(false);
+   141→   141→  const [showConfirm, setShowConfirm] = useState(false);
+   142→   142→  const [otpSent, setOtpSent] = useState(false);
+   143→   143→  const [otpCode, setOtpCode] = useState('');
+   144→   144→
+   145→   145→  const submit = async (e: React.FormEvent) => {
+   146→   146→    e.preventDefault();
+   147→   147→    setError(null);
+   148→   148→    setInfo(null);
+   149→   149→    if (!email.trim()) {
+   150→   150→      setError('Email is required');
+   151→   151→      return;
+   152→   152→    }
+   153→   153→    // Magic link flow
+   154→   154→    if (useMagicLink) {
+   155→   155→      if (!otpSent) {
+   156→   156→        // Step 1: send OTP
+   157→   157→        setSubmitting(true);
+   158→   158→        const res = await auth.signInWithOtp(email.trim());
+   159→   159→        setSubmitting(false);
+   160→   160→        if (res.error) {
+   161→   161→          setError(res.error);
+   162→   162→        } else {
+   163→   163→          setOtpSent(true);
+   164→   164→          setInfo(`We sent a 6-digit code to ${email.trim()}. Check your inbox and enter it below.`);
+   165→   165→        }
+   166→   166→        return;
+   167→   167→      }
+   168→   168→      // Step 2: verify OTP
+   169→   169→      if (!otpCode.trim()) {
+   170→   170→        setError('Enter the 6-digit code from your email');
+   171→   171→        return;
+   172→   172→      }
+   173→   173→      setSubmitting(true);
+   174→   174→      const res = await auth.verifyOtp(email.trim(), otpCode.trim());
+   175→   175→      setSubmitting(false);
+   176→   176→      if (res.error) {
+   177→   177→        setError(res.error);
+   178→   178→      } else {
+   179→   179→        setInfo('Signed in! Loading your families…');
+   180→   180→      }
+   181→   181→      return;
+   182→   182→    }
+   183→   183→    // Password flow
+   184→   184→    if (!password) {
+   185→   185→      setError('Password is required');
+   186→   186→      return;
+   187→   187→    }
+   188→   188→    if (isSignUp && password !== confirm) {
+   189→   189→      setError('Passwords do not match');
+   190→   190→      return;
+   191→   191→    }
+   192→   192→    if (isSignUp && password.length < 6) {
+   193→   193→      setError('Password must be at least 6 characters');
+   194→   194→      return;
+   195→   195→    }
+   196→   196→    setSubmitting(true);
+   197→   197→    const res = isSignUp
+   198→   198→      ? await auth.signUp(email.trim(), password)
+   199→   199→      : await auth.signIn(email.trim(), password);
+   200→   200→    setSubmitting(false);
+   201→   201→    if (res.error) {
+   202→   202→      setError(res.error);
+   203→   203→    } else {
+   204→   204→      setView('family-select');
+   205→   205→    }
+   206→   206→  };
+   207→   207→
+   208→   208→  return (
+   209→   209→    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50">
+   210→   210→      <div className="flex min-h-screen items-center justify-center p-4">
+   211→   211→        <div className="w-full max-w-md">
+   212→   212→          {/* Brand header */}
+   213→   213→          <div className="mb-6 text-center">
+   214→   214→            <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg">
+   215→   215→              <TreePine className="h-7 w-7 text-white" />
+   216→   216→            </div>
+   217→   217→            <h1 className="text-2xl font-bold text-slate-800">Family Tree</h1>
+   218→   218→            <p className="text-sm text-slate-500">
+   219→   219→              Build, visualize, and share your family's story
+   220→   220→            </p>
+   221→   221→            {!isSupabaseConfigured && (
+   222→   222→              <div className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-teal-100 px-3 py-1 text-xs font-medium text-teal-700">
+   223→   223→                <Sparkles className="h-3 w-3" />
+   224→   224→                Demo mode — sign in with any email to explore
+   225→   225→              </div>
+   226→   226→            )}
+   227→   227→          </div>
+   228→   228→
+   229→   229→          {/* Quick family code access — prominent, above sign-in */}
+   230→   230→          {!otpSent && !useMagicLink && (
+   231→   231→            <div className="mb-4 mt-4 rounded-2xl border-2 border-emerald-200 bg-emerald-50/50 p-5 text-center">
+   232→   232→              <p className="mb-3 text-base font-semibold text-emerald-700">Have a family code?</p>
+   233→   233→              <button type="button" onClick={() => { setView('quick-access'); setError(null); }} className="w-full rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 px-4 py-3 text-lg font-bold text-white shadow-md transition hover:from-emerald-700 hover:to-teal-600 hover:shadow-lg">🔑 Enter Family Code</button>
+   234→   234→              <p className="mt-2 text-xs text-slate-400">Simplest way to join — no email needed</p>
+   235→   235→            </div>
+   236→   236→          )}
+   237→   237→
+   238→   238→          <div className="rounded-2xl bg-white/80 p-6 shadow-xl backdrop-blur-md ring-1 ring-slate-200">
+   239→   239→            {/* Sign-in / Sign-up toggle — hidden in magic link mode */}
+   240→   240→            {!useMagicLink && (
+   241→   241→              <div className="mb-4 flex rounded-lg bg-slate-100 p-1">
+   242→   242→                <button
+   243→   243→                  type="button"
+   244→   244→                  onClick={() => { setIsSignUp(false); setError(null); }}
+   245→   245→                  className={`flex-1 rounded-md px-3 py-1.5 text-sm font-medium transition ${
+   246→   246→                    !isSignUp ? 'bg-white shadow text-emerald-700' : 'text-slate-600'
+   247→   247→                  }`}
+   248→   248→                >
+   249→   249→                  Sign in
+   250→   250→                </button>
+   251→   251→                <button
+   252→   252→                  type="button"
+   253→   253→                  onClick={() => { setIsSignUp(true); setError(null); }}
+   254→   254→                  className={`flex-1 rounded-md px-3 py-1.5 text-sm font-medium transition ${
+   255→   255→                    isSignUp ? 'bg-white shadow text-emerald-700' : 'text-slate-600'
+   256→   256→                  }`}
+   257→   257→                >
+   258→   258→                  Create account
+   259→   259→                </button>
+   260→   260→              </div>
+   261→   261→            )}
+   262→   262→
+   263→   263→            <form onSubmit={submit} className="space-y-3" noValidate>
+   264→   264→              <div>
+   265→   265→                <Label htmlFor="email">Email</Label>
+   266→   266→                <Input
+   267→   267→                  id="email"
+   268→   268→                  type="email"
+   269→   269→                  value={email}
+   270→   270→                  onChange={(e) => setEmail(e.target.value)}
+   271→   271→                  placeholder="you@example.com"
+   272→   272→                  autoComplete="email"
+   273→   273→                  disabled={otpSent}
+   274→   274→                  required
+   275→   275→                />
+   276→   276→              </div>
+   277→   277→
+   278→   278→              {/* Magic link OTP code input (shown after sending) */}
+   279→   279→              {useMagicLink && otpSent && (
+   280→   280→                <div>
+   281→   281→                  <Label htmlFor="otp">6-digit code</Label>
+   282→   282→                  <Input
+   283→   283→                    id="otp"
+   284→   284→                    type="text"
+   285→   285→                    inputMode="numeric"
+   286→   286→                    pattern="[0-9]*"
+   287→   287→                    maxLength={6}
+   288→   288→                    value={otpCode}
+   289→   289→                    onChange={(e) => setOtpCode(e.target.value.replace(/\D/g, ''))}
+   290→   290→                    placeholder="123456"
+   291→   291→                    className="text-center text-lg font-bold tracking-[0.5em]"
+   292→   292→                    autoFocus
+   293→   293→                  />
+   294→   294→                  <button
+   295→   295→                    type="button"
+   296→   296→                    onClick={() => { setOtpSent(false); setOtpCode(''); setInfo(null); setError(null); }}
+   297→   297→                    className="mt-1 text-xs text-slate-500 hover:text-slate-700"
+   298→   298→                  >
+   299→   299→                    ← Use a different email
+   300→   300→                  </button>
+   301→   301→                </div>
+   302→   302→              )}
+   303→   303→
+   304→   304→              {/* Password fields — hidden in magic link mode */}
+   305→   305→              {!useMagicLink && (
+   306→   306→                <>
+   307→   307→                  <div>
+   308→   308→                    <Label htmlFor="password">Password</Label>
+   309→   309→                    <div className="relative">
+   310→   310→                      <Input
+   311→   311→                        id="password"
+   312→   312→                        type={showPassword ? 'text' : 'password'}
+   313→   313→                        value={password}
+   314→   314→                        onChange={(e) => setPassword(e.target.value)}
+   315→   315→                        placeholder="••••••••"
+   316→   316→                        autoComplete={isSignUp ? 'new-password' : 'current-password'}
+   317→   317→                        className="pr-10"
+   318→   318→                      />
+   319→   319→                      <button
+   320→   320→                        type="button"
+   321→   321→                        onClick={() => setShowPassword(!showPassword)}
+   322→   322→                        className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+   323→   323→                        tabIndex={-1}
+   324→   324→                      >
+   325→   325→                        {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+   326→   326→                      </button>
+   327→   327→                    </div>
+   328→   328→                  </div>
+   329→   329→                  {isSignUp && (
+   330→   330→                    <div>
+   331→   331→                      <Label htmlFor="confirm">Confirm password</Label>
+   332→   332→                      <div className="relative">
+   333→   333→                        <Input
+   334→   334→                          id="confirm"
+   335→   335→                          type={showConfirm ? 'text' : 'password'}
+   336→   336→                          value={confirm}
+   337→   337→                          onChange={(e) => setConfirm(e.target.value)}
+   338→   338→                          placeholder="Re-enter password"
+   339→   339→                          className="pr-10"
+   340→   340→                        />
+   341→   341→                        <button
+   342→   342→                          type="button"
+   343→   343→                          onClick={() => setShowConfirm(!showConfirm)}
+   344→   344→                          className="absolute right-2 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+   345→   345→                          tabIndex={-1}
+   346→   346→                        >
+   347→   347→                          {showConfirm ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+   348→   348→                        </button>
+   349→   349→                      </div>
+   350→   350→                    </div>
+   351→   351→                  )}
+   352→   352→                </>
+   353→   353→              )}
+   354→   354→
+   355→   355→              {/* Info message (OTP sent) */}
+   356→   356→              {info && !error && (
+   357→   357→                <div className="flex items-start gap-2 rounded-md bg-emerald-50 px-3 py-2 text-sm text-emerald-700">
+   358→   358→                  <Mail className="mt-0.5 h-4 w-4 shrink-0" />
+   359→   359→                  <span>{info}</span>
+   360→   360→                </div>
+   361→   361→              )}
+   362→   362→
+   363→   363→              {error && (
+   364→   364→                <div className="flex items-start gap-2 rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">
+   365→   365→                  <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+   366→   366→                  <span>{error}</span>
+   367→   367→                </div>
+   368→   368→              )}
+   369→   369→
+   370→   370→              <Button type="submit" disabled={submitting} className="w-full bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-700 hover:to-teal-600">
+   371→   371→                {submitting
+   372→   372→                  ? 'Please wait...'
+   373→   373→                  : useMagicLink
+   374→   374→                    ? otpSent ? 'Verify code' : 'Send code'
+   375→   375→                    : isSignUp ? 'Create account' : 'Sign in'}
+   376→   376→              </Button>
+   377→   377→            </form>
+   378→   378→
+   379→   379→            {/* Toggle between password and magic link */}
+   380→   380→            {!otpSent && (
+   381→   381→              <button
+   382→   382→                type="button"
+   383→   383→                onClick={() => { setUseMagicLink(!useMagicLink); setError(null); setInfo(null); }}
+   384→   384→                className="mt-3 w-full text-center text-xs text-slate-500 hover:text-emerald-600"
+   385→   385→              >
+   386→   386→                {useMagicLink
+   387→   387→                  ? '← Sign in with password instead'
+   388→   388→                  : '✉️ Sign in with email link (no password needed)'}
+   389→   389→              </button>
+   390→   390→            )}
+   391→   391→          </div>
+   392→   392→          <p className="mt-4 text-center text-[12px] font-medium text-slate-800">
+   393→   393→            Built with &#10084; by one among us
+   394→   394→          </p>
+   395→   395→        </div>
+   396→   396→      </div>
+   397→   397→    </div>
+   398→   398→  );
+   399→   399→}
+   400→   400→
+   401→   401→// ---------- Family create or join (when user has no families yet) ----------
+   402→   402→function FamilyCreateOrJoin({ setView }: { setView: (v: View) => void }) {
+   403→   403→  const auth = useAuth();
+   404→   404→  return (
+   405→   405→    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50">
+   406→   406→      <div className="flex min-h-screen items-center justify-center p-4">
+   407→   407→        <div className="w-full max-w-md text-center">
+   408→   408→          <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg">
+   409→   409→            <TreePine className="h-7 w-7 text-white" />
+   410→   410→          </div>
+   411→   411→          <h2 className="mb-2 text-2xl font-bold text-slate-800">Welcome, {auth.user?.email}!</h2>
+   412→   412→          <p className="mb-6 text-sm text-slate-500">
+   413→   413→            Create a new family tree, or join an existing one with a share code.
+   414→   414→          </p>
+   415→   415→          <div className="space-y-3">
+   416→   416→            <button
+   417→   417→              onClick={() => setView('family-create')}
+   418→   418→              className="flex w-full items-center gap-3 rounded-xl bg-white p-4 text-left shadow ring-1 ring-slate-200 hover:shadow-md"
+   419→   419→            >
+   420→   420→              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-100 text-emerald-600">
+   421→   421→                <Plus className="h-5 w-5" />
+   422→   422→              </div>
+   423→   423→              <div>
+   424→   424→                <div className="font-semibold text-slate-800">Create a family</div>
+   425→   425→                <div className="text-xs text-slate-500">Start a new tree from scratch</div>
+   426→   426→              </div>
+   427→   427→            </button>
+   428→   428→            <button
+   429→   429→              onClick={() => setView('family-join')}
+   430→   430→              className="flex w-full items-center gap-3 rounded-xl bg-white p-4 text-left shadow ring-1 ring-slate-200 hover:shadow-md"
+   431→   431→            >
+   432→   432→              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-teal-100 text-teal-600">
+   433→   433→                <LogIn className="h-5 w-5" />
+   434→   434→              </div>
+   435→   435→              <div>
+   436→   436→                <div className="font-semibold text-slate-800">Join with a code</div>
+   437→   437→                <div className="text-xs text-slate-500">Enter a share code from a family member</div>
+   438→   438→              </div>
+   439→   439→            </button>
+   440→   440→          </div>
+   441→   441→          <button
+   442→   442→            onClick={() => auth.signOut()}
+   443→   443→            className="mt-6 text-xs text-slate-400 hover:text-slate-600"
+   444→   444→          >
+   445→   445→            Sign out
+   446→   446→          </button>
+   447→   447→          <p className="mt-4 text-center text-[12px] font-medium text-slate-800">
+   448→   448→            Built with &#10084; by one among us
+   449→   449→          </p>
+   450→   450→        </div>
+   451→   451→      </div>
+   452→   452→    </div>
+   453→   453→  );
+   454→   454→}
+   455→   455→
+   456→   456→// ---------- Create family ----------
+   457→   457→function CreateFamily({ setView }: { setView: (v: View) => void }) {
+   458→   458→  const auth = useAuth();
+   459→   459→  const [name, setName] = useState('');
+   460→   460→  const [submitting, setSubmitting] = useState(false);
+   461→   461→  const [error, setError] = useState<string | null>(null);
+   462→   462→
+   463→   463→  const submit = async (e: React.FormEvent) => {
+   464→   464→    e.preventDefault();
+   465→   465→    setError(null);
+   466→   466→    setSubmitting(true);
+   467→   467→    const res = await auth.createFamily(name);
+   468→   468→    setSubmitting(false);
+   469→   469→    if (res.error) setError(res.error);
+   470→   470→    else setView('family-select');
+   471→   471→  };
+   472→   472→
+   473→   473→  return (
+   474→   474→    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50">
+   475→   475→      <div className="flex min-h-screen items-center justify-center p-4">
+   476→   476→        <div className="w-full max-w-md rounded-2xl bg-white/80 p-6 shadow-xl backdrop-blur-md ring-1 ring-slate-200">
+   477→   477→          <h2 className="mb-4 text-xl font-bold text-slate-800">Create a family</h2>
+   478→   478→          <form onSubmit={submit} className="space-y-3">
+   479→   479→            <div>
+   480→   480→              <Label htmlFor="familyName">Family name</Label>
+   481→   481→              <Input
+   482→   482→                id="familyName"
+   483→   483→                value={name}
+   484→   484→                onChange={(e) => setName(e.target.value)}
+   485→   485→                placeholder="The Sharma Family"
+   486→   486→                autoFocus
+   487→   487→                required
+   488→   488→              />
+   489→   489→            </div>
+   490→   490→            {error && (
+   491→   491→              <div className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div>
+   492→   492→            )}
+   493→   493→            <div className="flex justify-end gap-2 pt-2">
+   494→   494→              <Button type="button" variant="outline" onClick={() => setView('family-select')}>
+   495→   495→                Back
+   496→   496→              </Button>
+   497→   497→              <Button type="submit" disabled={submitting}>
+   498→   498→                {submitting ? 'Creating...' : 'Create family'}
+   499→   499→              </Button>
+   500→   500→            </div>
+   501→   501→          </form>
+   502→   502→        </div>
+   503→   503→      </div>
+   504→   504→    </div>
+   505→   505→  );
+   506→   506→}
+   507→   507→
+   508→   508→// ---------- Join family ----------
+   509→   509→function JoinFamily({ setView }: { setView: (v: View) => void }) {
+   510→   510→  const auth = useAuth();
+   511→   511→  const [code, setCode] = useState('');
+   512→   512→  const [submitting, setSubmitting] = useState(false);
+   513→   513→  const [error, setError] = useState<string | null>(null);
+   514→   514→
+   515→   515→  const submit = async (e: React.FormEvent) => {
+   516→   516→    e.preventDefault();
+   517→   517→    setError(null);
+   518→   518→    setSubmitting(true);
+   519→   519→    const res = await auth.joinFamily(code);
+   520→   520→    setSubmitting(false);
+   521→   521→    if (res.error) setError(res.error);
+   522→   522→    else setView('family-select');
+   523→   523→  };
+   524→   524→
+   525→   525→  return (
+   526→   526→    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50">
+   527→   527→      <div className="flex min-h-screen items-center justify-center p-4">
+   528→   528→        <div className="w-full max-w-md rounded-2xl bg-white/80 p-6 shadow-xl backdrop-blur-md ring-1 ring-slate-200">
+   529→   529→          <h2 className="mb-4 text-xl font-bold text-slate-800">Join a family</h2>
+   530→   530→          <form onSubmit={submit} className="space-y-3">
+   531→   531→            <div>
+   532→   532→              <Label htmlFor="shareCode">Share code</Label>
+   533→   533→              <Input
+   534→   534→                id="shareCode"
+   535→   535→                value={code}
+   536→   536→                onChange={(e) => setCode(e.target.value.toUpperCase())}
+   537→   537→                placeholder="AB12CD"
+   538→   538→                className="font-mono uppercase"
+   539→   539→                autoFocus
+   540→   540→                required
+   541→   541→              />
+   542→   542→              <p className="mt-1 text-xs text-slate-500">
+   543→   543→                Ask a family member for the 6-character code shown in their header.
+   544→   544→              </p>
+   545→   545→            </div>
+   546→   546→            {error && (
+   547→   547→              <div className="rounded-md bg-red-50 px-3 py-2 text-sm text-red-700">{error}</div>
+   548→   548→            )}
+   549→   549→            <div className="flex justify-end gap-2 pt-2">
+   550→   550→              <Button type="button" variant="outline" onClick={() => setView('family-select')}>
+   551→   551→                Back
+   552→   552→              </Button>
+   553→   553→              <Button type="submit" disabled={submitting}>
+   554→   554→                {submitting ? 'Joining...' : 'Join family'}
+   555→   555→              </Button>
+   556→   556→            </div>
+   557→   557→          </form>
+   558→   558→        </div>
+   559→   559→      </div>
+   560→   560→    </div>
+   561→   561→  );
+   562→   562→}
+   563→   563→
+   564→   564→// ---------- Family select ----------
+   565→   565→function FamilySelect({ setView }: { setView: (v: View) => void }) {
+   566→   566→  const auth = useAuth();
+   567→   567→  const [copiedId, setCopiedId] = useState<string | null>(null);
+   568→   568→
+   569→   569→  const copyShareCode = async (familyId: string, code: string) => {
+   570→   570→    try {
+   571→   571→      await navigator.clipboard.writeText(code);
+   572→   572→      setCopiedId(familyId);
+   573→   573→      toast.success('Share code copied!', { description: `"${code}" is ready to paste.` });
+   574→   574→      setTimeout(() => setCopiedId(null), 1800);
+   575→   575→    } catch {
+   576→   576→      toast.error('Could not copy to clipboard');
+   577→   577→    }
+   578→   578→  };
+   579→   579→
+   580→   580→  return (
+   581→   581→    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50">
+   582→   582→      <div className="flex min-h-screen items-center justify-center p-4">
+   583→   583→        <div className="w-full max-w-2xl">
+   584→   584→          <div className="mb-6 flex items-center justify-between">
+   585→   585→            <div>
+   586→   586→              <h2 className="text-2xl font-bold text-slate-800">Your families</h2>
+   587→   587→              <p className="text-sm text-slate-500">Signed in as {auth.user?.email}</p>
+   588→   588→            </div>
+   589→   589→            <button
+   590→   590→              onClick={() => auth.signOut()}
+   591→   591→              className="inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm text-slate-500 hover:bg-slate-100"
+   592→   592→            >
+   593→   593→              <LogOut className="h-4 w-4" />
+   594→   594→              Sign out
+   595→   595→            </button>
+   596→   596→          </div>
+   597→   597→
+   598→   598→          <div className="grid gap-3 sm:grid-cols-2">
+   599→   599→            {auth.families.map((fam) => {
+   600→   600→              const active = fam.id === auth.activeFamily?.id;
+   601→   601→              return (
+   602→   602→                <div
+   603→   603→                  key={fam.id}
+   604→   604→                  className={`rounded-2xl bg-white p-4 shadow ring-1 transition hover:shadow-md ${
+   605→   605→                    active ? 'ring-2 ring-emerald-400' : 'ring-slate-200'
+   606→   606→                  }`}
+   607→   607→                >
+   608→   608→                  <div className="mb-2 flex items-start justify-between">
+   609→   609→                    <div className="flex items-center gap-2">
+   610→   610→                      <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 text-white">
+   611→   611→                        <Users className="h-4 w-4" />
+   612→   612→                      </div>
+   613→   613→                      <div>
+   614→   614→                        <div className="font-semibold text-slate-800">{fam.name}</div>
+   615→   615→                        <div className="text-xs text-slate-500">
+   616→   616→                          {fam.memberCount} {fam.memberCount === 1 ? 'member' : 'members'}
+   617→   617→                        </div>
+   618→   618→                      </div>
+   619→   619→                    </div>
+   620→   620→                    <span className={`rounded-full px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${
+   621→   621→                      fam.role === 'admin'
+   622→   622→                        ? 'bg-rose-100 text-rose-700'
+   623→   623→                        : fam.role === 'owner'
+   624→   624→                          ? 'bg-emerald-100 text-emerald-700'
+   625→   625→                          : 'bg-teal-100 text-teal-700'
+   626→   626→                    }`}>
+   627→   627→                      {fam.role}
+   628→   628→                    </span>
+   629→   629→                  </div>
+   630→   630→
+   631→   631→                  <div className="mb-3 flex items-center gap-1 rounded-md bg-slate-50 px-2 py-1.5">
+   632→   632→                    <span className="text-[10px] font-medium uppercase text-slate-400">Code:</span>
+   633→   633→                    <code className="flex-1 font-mono text-sm font-bold text-slate-700">{fam.shareCode}</code>
+   634→   634→                    <button
+   635→   635→                      onClick={() => copyShareCode(fam.id, fam.shareCode)}
+   636→   636→                      className="rounded p-1 hover:bg-slate-200"
+   637→   637→                      aria-label="Copy share code"
+   638→   638→                    >
+   639→   639→                      {copiedId === fam.id ? (
+   640→   640→                        <Check className="h-3.5 w-3.5 text-green-600" />
+   641→   641→                      ) : (
+   642→   642→                        <Copy className="h-3.5 w-3.5 text-slate-500" />
+   643→   643→                      )}
+   644→   644→                    </button>
+   645→   645→                  </div>
+   646→   646→
+   647→   647→                  <Button
+   648→   648→                    onClick={() => auth.setActiveFamilyId(fam.id)}
+   649→   649→                    className={`w-full ${
+   650→   650→                      active
+   651→   651→                        ? 'bg-emerald-600 hover:bg-emerald-700'
+   652→   652→                        : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+   653→   653→                    }`}
+   654→   654→                    variant={active ? 'default' : 'secondary'}
+   655→   655→                  >
+   656→   656→                    {active ? 'Currently active' : 'Open'}
+   657→   657→                  </Button>
+   658→   658→                </div>
+   659→   659→              );
+   660→   660→            })}
+   661→   661→
+   662→   662→            <button
+   663→   663→              onClick={() => setView('family-create')}
+   664→   664→              className="flex min-h-[160px] flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-slate-300 text-slate-500 hover:border-emerald-400 hover:text-emerald-600"
+   665→   665→            >
+   666→   666→              <Plus className="h-6 w-6" />
+   667→   667→              <span className="text-sm font-medium">Create new family</span>
+   668→   668→            </button>
+   669→   669→            <button
+   670→   670→              onClick={() => setView('family-join')}
+   671→   671→              className="flex min-h-[160px] flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-slate-300 text-slate-500 hover:border-amber-400 hover:text-amber-600"
+   672→   672→            >
+   673→   673→              <LogIn className="h-6 w-6" />
+   674→   674→              <span className="text-sm font-medium">Join with code</span>
+   675→   675→            </button>
+   676→   676→          </div>
+   677→   677→        </div>
+   678→   678→      </div>
+   679→   679→    </div>
+   680→   680→  );
+   681→   681→}
+   682→   682→// Magic link v2
+   683→   683→
