@@ -101,6 +101,52 @@ create trigger on_family_created
     after insert on public.families
     for each row execute function public.handle_new_family_owner();
 
+-- ============= RPC: join_family_by_code (bypasses RLS) =============
+-- Lets any authenticated user join a family by its share code.
+-- Runs as security definer so it bypasses the family_members INSERT RLS policy
+-- (which has a chicken-and-egg bug: it requires membership to add membership).
+-- The share code is the secret — an attacker would need to guess the 6-char
+-- code to join, not just a UUID.
+create or replace function public.join_family_by_code(p_share_code text)
+returns table (family_id uuid, family_name text, share_code text, role text)
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+    fam record;
+    existing_role text;
+begin
+    -- Find the family by share code (case-insensitive)
+    select id, name, share_code into fam
+    from public.families
+    where upper(share_code) = upper(p_share_code)
+    limit 1;
+
+    if not found then
+        raise exception 'No family found with that share code';
+    end if;
+
+    -- Check if already a member
+    select role into existing_role
+    from public.family_members
+    where user_id = auth.uid() and family_id = fam.id
+    limit 1;
+
+    if existing_role is null then
+        -- Insert new membership as 'editor'
+        insert into public.family_members (user_id, family_id, role)
+        values (auth.uid(), fam.id, 'editor')
+        on conflict do nothing;
+        existing_role := 'editor';
+    end if;
+
+    return query select fam.id, fam.name, fam.share_code, existing_role;
+end;
+$$;
+
+grant execute on function public.join_family_by_code(text) to authenticated;
+
 -- ============= Row Level Security =============
 alter table public.families enable row level security;
 alter table public.family_members enable row level security;

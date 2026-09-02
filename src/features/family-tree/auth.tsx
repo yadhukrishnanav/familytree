@@ -21,7 +21,7 @@ export interface AuthContextValue {
   loading: boolean;
   isDemo: boolean;
   signIn: (email: string, password: string) => Promise<{ error?: string }>;
-  signUp: (email: string, password: string) => Promise<{ error?: string }>;
+  signUp: (email: string, password: string) => Promise<{ error?: string; user?: { id: string; email: string } }>;
   signInWithGoogle: () => Promise<{ error?: string }>;
   signInWithOtp: (email: string) => Promise<{ error?: string }>;
   verifyOtp: (email: string, token: string) => Promise<{ error?: string }>;
@@ -236,7 +236,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return {};
   }, [supabase, refreshFamiliesFor]);
 
-  const signUp = useCallback(async (email: string, password: string) => {
+  const signUp = useCallback(async (email: string, password: string): Promise<{ error?: string; user?: DemoUser }> => {
     if (isSupabaseConfigured && supabase) {
       const { data, error } = await supabase.auth.signUp({ email, password });
       if (error) return { error: error.message };
@@ -268,14 +268,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             email: signInData.user.email ?? email,
           };
           setUser(sess);
-          await refreshFamiliesFor(sess.id);
+          // Don't await refreshFamiliesFor here — the caller (QuickAccess) will
+          // call joinFamily next, which calls refreshFamiliesFor after joining.
+          // Awaiting here adds ~200ms of latency for a query that returns []
+          // (the user has no families yet).
+          return { user: sess };
         }
         return {};
       }
       if (data.user && data.session) {
         const sess: DemoUser = { id: data.user.id, email: data.user.email ?? email };
         setUser(sess);
-        await refreshFamiliesFor(sess.id);
+        return { user: sess };
       }
       return {};
     }
@@ -293,7 +297,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(DEMO_SESSION_KEY, JSON.stringify(sess));
     setUser(sess);
     await refreshFamiliesFor(sess.id);
-    return {};
+    return { user: sess };
   }, [supabase, refreshFamiliesFor]);
 
   const signInWithGoogle = useCallback(async () => {
@@ -428,36 +432,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (!code) return { error: 'Share code is required' };
 
     if (isSupabaseConfigured && supabase) {
-      // Find family by share_code
-      const { data: fams, error: findErr } = await supabase
-        .from('families')
-        .select('id, name, share_code')
-        .eq('share_code', code)
-        .maybeSingle();
-      if (findErr) return { error: findErr.message };
-      if (!fams) return { error: 'No family found with that share code' };
-      const fam = fams as { id: string; name: string; share_code: string };
+      // Use the join_family_by_code RPC function (security definer, bypasses
+      // the family_members RLS policy which has a chicken-and-egg bug).
+      // This is a single round-trip: lookup family by code + insert membership.
+      const { data, error } = await supabase
+        .rpc('join_family_by_code', { p_share_code: code });
 
-      // Check if already a member
-      const { data: existing } = await supabase
-        .from('family_members')
-        .select('family_id')
-        .eq('user_id', user.id)
-        .eq('family_id', fam.id)
-        .maybeSingle();
-      if (!existing) {
-        const { error: mErr } = await supabase.from('family_members').insert({
-          user_id: user.id,
-          family_id: fam.id,
-          role: 'editor',
-        });
-        if (mErr) return { error: mErr.message };
+      if (error) {
+        // Extract the human-readable part from the Postgres error message.
+        // Supabase wraps errors as: 'No family found with that share code'
+        const msg = error.message.includes('No family found')
+          ? 'No family found with that share code'
+          : error.message;
+        return { error: msg };
       }
+
+      const row = (data as Array<{ family_id: string; family_name: string; share_code: string; role: string }>)[0];
+      if (!row) return { error: 'No family found with that share code' };
+
       const info: FamilyInfo = {
-        id: fam.id,
-        name: fam.name,
-        shareCode: fam.share_code,
-        role: 'editor',
+        id: row.family_id,
+        name: row.family_name,
+        shareCode: row.share_code,
+        role: row.role as 'admin' | 'owner' | 'editor',
         memberCount: 1,
       };
       await refreshFamiliesFor(user.id);

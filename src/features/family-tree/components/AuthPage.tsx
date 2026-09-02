@@ -1,17 +1,17 @@
 'use client';
 
 // Family Tree — Auth page
-// Five views: sign-in, sign-up, family-select, family-create, family-join
-// (plus the Quick Access shortcut flow for elders joining via family code).
+// Routes between the sign-in/sign-up form (which now contains the inline
+// family-code quick-access form), family-select, family-create, and
+// family-join views.
 //
-// The 6 view components live in `./auth/` and are imported here. This file
-// only holds the top-level `AuthPage` (which routes between views) and the
-// shared `View` type (re-exported from `./auth/types` for any external use).
+// The QuickAccess shortcut flow is now INLINE on the sign-in form — no
+// separate page. Users enter their code directly on the landing page,
+// and go straight to the canvas (no intermediary screens).
 
 import { useState } from 'react';
 import { useAuth } from '../auth';
 import { useLandingLocation } from '../useLandingLocation';
-import { QuickAccess } from './auth/QuickAccess';
 import { AuthForms } from './auth/AuthForms';
 import { FamilyCreateOrJoin } from './auth/FamilyCreateOrJoin';
 import { CreateFamily } from './auth/CreateFamily';
@@ -30,16 +30,6 @@ export function AuthPage() {
   // native prompt (no app-level banner). Result is cached in localStorage so
   // PersonForm can later pre-fill the birthplace field. No visible UI.
   useLandingLocation();
-
-  // QuickAccess is a one-shot flow: user enters code -> we auto-create a guest
-  // account -> we join the family. While this flow is mid-flight (after signUp
-  // sets auth.user but before joinFamily sets activeFamily), we MUST keep
-  // showing the QuickAccess screen — otherwise AuthPage would re-render and
-  // route the now-signed-in user to the "Create a family / Join with a code"
-  // intermediary screen, defeating the whole point of Quick Access.
-  if (view === 'quick-access' && !auth.activeFamily) {
-    return <QuickAccess auth={auth} setView={setView} />;
-  }
 
   if (!auth.user) {
     return <AuthForms initialView={view} setView={setView} />;

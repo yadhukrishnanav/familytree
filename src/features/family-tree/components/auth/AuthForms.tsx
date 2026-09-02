@@ -1,6 +1,8 @@
 'use client';
 
 // Sign in / Sign up form, with magic link (OTP) mode and Google OAuth button.
+// Also contains the inline "Have a family code?" quick-access form — users
+// enter their code directly here, no separate page needed.
 
 import { useState } from 'react';
 import { useAuth } from '../../auth';
@@ -32,6 +34,36 @@ export function AuthForms({
   const [showConfirm, setShowConfirm] = useState(false);
   const [otpSent, setOtpSent] = useState(false);
   const [otpCode, setOtpCode] = useState('');
+  // Inline quick-access (family code) form state
+  const [quickCode, setQuickCode] = useState('');
+  const [quickSubmitting, setQuickSubmitting] = useState(false);
+  const [quickError, setQuickError] = useState<string | null>(null);
+
+  const handleQuickAccess = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setQuickError(null);
+    const trimmed = quickCode.trim().toUpperCase();
+    if (!trimmed) { setQuickError('Enter your family code'); return; }
+    setQuickSubmitting(true);
+    try {
+      const guestId = Math.random().toString(36).slice(2, 10);
+      const guestEmail = `guest_${guestId}@familytree.local`;
+      const guestPassword = `Guest_${guestId}!`;
+      // Sign up (auto-confirmed since mailer_autoconfirm=true).
+      const signUpRes = await auth.signUp(guestEmail, guestPassword);
+      if (signUpRes.error) {
+        // If signup fails (e.g., email already exists), try signing in.
+        const signInRes = await auth.signIn(guestEmail, guestPassword);
+        if (signInRes.error) { setQuickError(signInRes.error); setQuickSubmitting(false); return; }
+      }
+      // Join the family with the code — uses the join_family_by_code RPC
+      // (security definer, bypasses RLS).
+      const joinRes = await auth.joinFamily(trimmed);
+      if (joinRes.error) { setQuickError(joinRes.error); setQuickSubmitting(false); return; }
+      // page.tsx renders FamilyTree directly — no intermediary screen.
+    } catch (e: any) { setQuickError(e.message ?? 'Something went wrong'); }
+    setQuickSubmitting(false);
+  };
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -117,13 +149,31 @@ export function AuthForms({
             )}
           </div>
 
-          {/* Quick family code access — prominent, above sign-in */}
+          {/* Quick family code access — inline form, no separate page.
+              User enters code directly here → auto-create guest → join family → canvas. */}
           {!otpSent && !useMagicLink && (
-            <div className="mb-4 mt-4 rounded-2xl border-2 border-emerald-200 bg-emerald-50/50 p-5 text-center">
+            <form onSubmit={handleQuickAccess} className="mb-4 mt-4 rounded-2xl border-2 border-emerald-200 bg-emerald-50/50 p-5 text-center" noValidate>
               <p className="mb-3 text-base font-semibold text-emerald-700">Have a family code?</p>
-              <button type="button" onClick={() => { setView('quick-access'); setError(null); }} className="w-full rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 px-4 py-3 text-lg font-bold text-white shadow-md transition hover:from-emerald-700 hover:to-teal-600 hover:shadow-lg">🔑 Enter Family Code</button>
-              <p className="mt-2 text-xs text-slate-400">Simplest way to join — no email needed</p>
-            </div>
+              <Input
+                value={quickCode}
+                onChange={(e) => setQuickCode(e.target.value.toUpperCase())}
+                placeholder="AB12CD"
+                className="font-mono text-center text-lg font-bold tracking-[0.3em] uppercase"
+                maxLength={8}
+                disabled={quickSubmitting}
+                aria-label="Family code"
+              />
+              <p className="mt-1.5 text-xs text-slate-400">Ask your family member for the 6-character code.</p>
+              {quickError && (
+                <div className="mt-2 flex items-start gap-2 rounded-md bg-red-50 px-3 py-2 text-left text-sm text-red-700">
+                  <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+                  <span>{quickError}</span>
+                </div>
+              )}
+              <Button type="submit" disabled={quickSubmitting} className="mt-3 w-full bg-gradient-to-r from-emerald-600 to-teal-500 px-4 py-3 text-lg font-bold shadow-md transition hover:from-emerald-700 hover:to-teal-600 hover:shadow-lg">
+                {quickSubmitting ? 'Joining…' : '🔑 Enter Family Tree'}
+              </Button>
+            </form>
           )}
 
           <div className="rounded-2xl bg-white/80 p-6 shadow-xl backdrop-blur-md ring-1 ring-slate-200">
