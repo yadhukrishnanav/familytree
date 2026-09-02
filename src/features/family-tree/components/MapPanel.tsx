@@ -145,19 +145,26 @@ export function MapPanel({ persons, selectedId, onSelectPerson, onClose }: Props
 
   useEffect(() => {
     mountedRef.current = true;
-    const cache = readCache();
-    const missing = distinctPlaces.filter((p) => !cache[p]);
-
-    if (missing.length === 0) {
-      setGeocoded(cache);
-      setLoading(false);
-      return;
-    }
-
     let cancelled = false;
-    setLoading(true);
 
     (async () => {
+      // Yield a microtask first so no setState below runs synchronously inside
+      // the effect body (react-hooks/set-state-in-effect).
+      await Promise.resolve();
+      if (cancelled || !mountedRef.current) return;
+
+      const cache = readCache();
+      const missing = distinctPlaces.filter((p) => !cache[p]);
+
+      if (missing.length === 0) {
+        // All birthplaces already geocoded — surface the cache and stop.
+        setGeocoded(cache);
+        setLoading(false);
+        return;
+      }
+
+      setLoading(true);
+
       // Nominatim usage policy: max 1 request per second. We rate-limit to be polite.
       const updated = { ...cache };
       for (const place of missing) {

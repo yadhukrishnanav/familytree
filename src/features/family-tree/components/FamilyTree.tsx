@@ -154,7 +154,7 @@ export function FamilyTree() {
       y: 40,
       scale,
     });
-  }, [Object.keys(state.persons).length, state.familyUnits.length]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [Object.keys(state.persons).length, state.familyUnits.length]);
 
 
   // ---- Share code copy ----

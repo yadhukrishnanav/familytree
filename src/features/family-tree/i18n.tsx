@@ -10,7 +10,7 @@
 // To add a string: add one entry to `translations` and call `t('key')` in the
 // component. Use `{name}` placeholders and pass values as `t('key', { name })`.
 
-import { createContext, useContext, useEffect, useState, useCallback, useMemo } from 'react';
+import { createContext, useContext, useEffect, useState, useCallback, useMemo, startTransition } from 'react';
 import type { ReactNode } from 'react';
 
 export type Lang = 'en' | 'ml';
@@ -144,7 +144,10 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     const saved = readStoredLang();
     if (saved) {
-      setLang(saved);
+      // Non-urgent restore of the persisted language. startTransition keeps the
+      // update out of the synchronous effect body (react-hooks/set-state-in-effect)
+      // while still applying it right after mount — before the user notices.
+      startTransition(() => setLang(saved));
     }
   }, []);
 
