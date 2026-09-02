@@ -4,21 +4,25 @@
 // Two buttons: create a new family, or join with a share code.
 
 import { useAuth } from '../../auth';
+import { useI18n } from '../../i18n';
 import { TreePine, Plus, LogIn } from 'lucide-react';
+import { LanguageToggle } from '../LanguageToggle';
 import type { View } from './types';
 
 export function FamilyCreateOrJoin({ setView }: { setView: (v: View) => void }) {
   const auth = useAuth();
+  const { t } = useI18n();
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50">
       <div className="flex min-h-screen items-center justify-center p-4">
         <div className="w-full max-w-md text-center">
+          <div className="mb-2 flex justify-end"><LanguageToggle /></div>
           <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg">
             <TreePine className="h-7 w-7 text-white" />
           </div>
-          <h2 className="mb-2 text-2xl font-bold text-slate-800">Welcome, {auth.user?.email}!</h2>
+          <h2 className="mb-2 text-2xl font-bold text-slate-800">{t('auth.welcomeTitle', { email: auth.user?.email ?? '' })}</h2>
           <p className="mb-6 text-sm text-slate-500">
-            Create a new family tree, or join an existing one with a share code.
+            {t('auth.welcomeDesc')}
           </p>
           <div className="space-y-3">
             <button
@@ -29,8 +33,8 @@ export function FamilyCreateOrJoin({ setView }: { setView: (v: View) => void }) 
                 <Plus className="h-5 w-5" />
               </div>
               <div>
-                <div className="font-semibold text-slate-800">Create a family</div>
-                <div className="text-xs text-slate-500">Start a new tree from scratch</div>
+                <div className="font-semibold text-slate-800">{t('auth.createFamily')}</div>
+                <div className="text-xs text-slate-500">{t('auth.createFamilyDesc')}</div>
               </div>
             </button>
             <button
@@ -41,8 +45,8 @@ export function FamilyCreateOrJoin({ setView }: { setView: (v: View) => void }) 
                 <LogIn className="h-5 w-5" />
               </div>
               <div>
-                <div className="font-semibold text-slate-800">Join with a code</div>
-                <div className="text-xs text-slate-500">Enter a share code from a family member</div>
+                <div className="font-semibold text-slate-800">{t('auth.joinFamily')}</div>
+                <div className="text-xs text-slate-500">{t('auth.joinFamilyDesc')}</div>
               </div>
             </button>
           </div>
@@ -50,10 +54,10 @@ export function FamilyCreateOrJoin({ setView }: { setView: (v: View) => void }) 
             onClick={() => auth.signOut()}
             className="mt-6 text-xs text-slate-400 hover:text-slate-600"
           >
-            Sign out
+            {t('family.signOut')}
           </button>
           <p className="mt-4 text-center text-[12px] font-medium text-slate-800">
-            Built with &#10084; by one among us
+            {t('app.footer')}
           </p>
         </div>
       </div>

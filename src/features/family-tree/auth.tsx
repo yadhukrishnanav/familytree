@@ -25,7 +25,7 @@ export interface AuthContextValue {
    *  screen while the guest account is being created + joined. */
   quickJoining: boolean;
   setQuickJoining: (v: boolean) => void;
-  signIn: (email: string, password: string) => Promise<{ error?: string }>;
+  signIn: (email: string, password: string) => Promise<{ error?: string; user?: { id: string; email: string } }>;
   signUp: (email: string, password: string) => Promise<{ error?: string; user?: { id: string; email: string } }>;
   signInWithGoogle: () => Promise<{ error?: string }>;
   signInWithOtp: (email: string) => Promise<{ error?: string }>;
@@ -33,7 +33,10 @@ export interface AuthContextValue {
   signOut: () => Promise<void>;
   setActiveFamilyId: (id: string) => void;
   createFamily: (name: string) => Promise<{ error?: string; family?: FamilyInfo }>;
-  joinFamily: (shareCode: string) => Promise<{ error?: string; family?: FamilyInfo }>;
+  joinFamily: (
+    shareCode: string,
+    userIdOverride?: string,
+  ) => Promise<{ error?: string; family?: FamilyInfo }>;
   refreshFamilies: () => Promise<void>;
 }
 
@@ -227,10 +230,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [user, refreshFamiliesFor]);
 
   // ---- Actions ----
-  const signIn = useCallback(async (email: string, password: string) => {
+  const signIn = useCallback(async (email: string, password: string): Promise<{ error?: string; user?: DemoUser }> => {
     if (isSupabaseConfigured && supabase) {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) return { error: error.message };
+      if (data.user) {
+        const sess: DemoUser = { id: data.user.id, email: data.user.email ?? email };
+        setUser(sess);
+        await refreshFamiliesFor(sess.id);
+        return { user: sess };
+      }
       return {};
     }
     // Demo mode
@@ -242,7 +251,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(DEMO_SESSION_KEY, JSON.stringify(sess));
     setUser(sess);
     await refreshFamiliesFor(sess.id);
-    return {};
+    return { user: sess };
   }, [supabase, refreshFamiliesFor]);
 
   const signUp = useCallback(async (email: string, password: string): Promise<{ error?: string; user?: DemoUser }> => {
@@ -435,8 +444,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return { family: info };
   }, [user, supabase]);
 
-  const joinFamily = useCallback(async (shareCode: string) => {
-    if (!user) return { error: 'Not signed in' };
+  const joinFamily = useCallback(async (
+    shareCode: string,
+    userIdOverride?: string,
+  ) => {
+    // `userIdOverride` is required for the QuickAccess (family code) flow on
+    // the auth screen. That flow calls signUp/signIn *and* joinFamily in the
+    // same event handler, so this auth context's `user` value is still the
+    // previous (null) render until React re-renders. Using the explicit user id
+    // from the signUp/signIn result avoids a stale-closure "Not signed in" bug
+    // that sent guests to the Welcome screen instead of the canvas.
+    const userId = userIdOverride ?? user?.id;
+    if (!userId) return { error: 'Not signed in' };
     const code = shareCode.trim().toUpperCase();
     if (!code) return { error: 'Share code is required' };
 
@@ -466,7 +485,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         role: row.role as 'admin' | 'owner' | 'editor',
         memberCount: 1,
       };
-      await refreshFamiliesFor(user.id);
+      await refreshFamiliesFor(userId);
       setActiveFamilyIdState(info.id);
       setQuickJoining(false); // join complete — let AuthPage route to the canvas
       return { family: info };
@@ -476,14 +495,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const members = loadDemoMembers();
     const fam = fams.find((f) => f.shareCode === code);
     if (!fam) return { error: 'No family found with that share code' };
-    if (!members.some((m) => m.userId === user.id && m.familyId === fam.id)) {
-      members.push({ userId: user.id, familyId: fam.id, role: 'editor' });
+    if (!members.some((m) => m.userId === userId && m.familyId === fam.id)) {
+      members.push({ userId, familyId: fam.id, role: 'editor' });
       saveDemoMembers(members);
     }
-    await refreshFamiliesFor(user.id);
+    await refreshFamiliesFor(userId);
     setActiveFamilyIdState(fam.id);
     setQuickJoining(false); // join complete — let AuthPage route to the canvas
-    return {};
+    const info: FamilyInfo = {
+      id: fam.id,
+      name: fam.name,
+      shareCode: fam.shareCode,
+      role: 'editor',
+      memberCount: members.filter((m) => m.familyId === fam.id).length,
+    };
+    return { family: info };
   }, [user, supabase, refreshFamiliesFor]);
 
   const activeFamily = useMemo(

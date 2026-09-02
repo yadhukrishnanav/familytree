@@ -53,6 +53,7 @@ import type { FamilyTreeState, Person, TimelineEvent } from '../types';
 import { NIL_UUID } from '../types';
 import { useStore } from '../store';
 import { useAuth } from '../auth';
+import { useI18n } from '../i18n';
 import { deletePhoto } from '../supabase';
 import { computeLayout, NODE_WIDTH, NODE_HEIGHT } from '../layout';
 import { WEDDING, CANVAS } from '../constants';
@@ -68,6 +69,7 @@ import { PhotoGridView } from './PhotoGridView';
 import { ChatPanel } from './ChatPanel';
 import { FamilySwitcherDialog } from './FamilySwitcherDialog';
 import { EmptyState } from './EmptyState';
+import { LanguageToggle } from './LanguageToggle';
 import { CelebrationOverlay } from './CelebrationOverlay';
 import { DetailPanel } from './DetailPanel';
 import { PersonHistoryDialog } from './PersonHistoryDialog';
@@ -93,6 +95,7 @@ type ModalKind = 'add-person' | 'edit-person' | 'add-event' | 'edit-event' | nul
 export function FamilyTree() {
   const store = useStore();
   const auth = useAuth();
+  const { t } = useI18n();
   const { state } = store;
 
   const [selectedId, setSelectedId] = useState<string | null>(null);
@@ -425,7 +428,7 @@ export function FamilyTree() {
           >
             <div className="min-w-0">
               <div className="truncate text-[15px] font-semibold leading-tight text-slate-800 group-hover:text-slate-900">
-                {auth.activeFamily?.name ?? 'Family Tree'}
+                {auth.activeFamily?.name ?? t('app.name')}
               </div>
               <div className="hidden items-center gap-1 text-[10px] text-slate-400 sm:flex">
                 <span className={`h-1.5 w-1.5 rounded-full ${store.syncing ? 'bg-amber-400' : 'bg-green-400'}`} />
@@ -446,7 +449,7 @@ export function FamilyTree() {
             className="hidden items-center gap-2 rounded-full border border-emerald-200/60 bg-gradient-to-r from-emerald-50 to-teal-50 px-3 py-1.5 text-xs shadow-sm transition hover:shadow-md hover:from-emerald-100 hover:to-teal-100 sm:flex"
             title="Click to copy share code"
           >
-            <span className="text-[10px] font-semibold uppercase tracking-wider text-emerald-400">Share</span>
+            <span className="text-[10px] font-semibold uppercase tracking-wider text-emerald-400">{t('toolbar.share')}</span>
             <code className="font-mono text-[13px] font-bold tracking-wider text-emerald-700">
               {auth.activeFamily.shareCode}
             </code>
@@ -470,11 +473,12 @@ export function FamilyTree() {
         )}
 
         <div className="flex items-center gap-0.5">
+          <LanguageToggle />
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setShowActivity(true)}
-            title="Recent activity"
+            title={t('toolbar.recentActivity')}
             className="h-8 w-8 p-0"
           >
             <History className="h-4 w-4" />
@@ -484,7 +488,7 @@ export function FamilyTree() {
             size="sm"
             onClick={store.undo}
             disabled={!store.canUndo}
-            title="Undo (Ctrl/Cmd+Z)"
+            title={t('toolbar.undo')}
             className="h-8 w-8 p-0"
           >
             <Undo2 className="h-4 w-4" />
@@ -494,7 +498,7 @@ export function FamilyTree() {
             size="sm"
             onClick={store.redo}
             disabled={!store.canRedo}
-            title="Redo (Ctrl/Cmd+Shift+Z)"
+            title={t('toolbar.redo')}
             className="h-8 w-8 p-0"
           >
             <Redo2 className="h-4 w-4" />
@@ -510,8 +514,8 @@ export function FamilyTree() {
           className="gap-1.5 rounded-lg bg-gradient-to-r from-emerald-600 to-teal-600 px-3 shadow-md shadow-emerald-500/25 hover:from-emerald-700 hover:to-teal-700 hover:shadow-lg"
         >
           <Plus className="h-4 w-4" />
-          <span className="hidden sm:inline">Add Person</span>
-          <span className="sm:hidden">Person</span>
+          <span className="hidden sm:inline">{t('toolbar.addPerson')}</span>
+          <span className="sm:hidden">{t('toolbar.person')}</span>
         </Button>
         <Button
           size="sm"
@@ -520,7 +524,7 @@ export function FamilyTree() {
           className="gap-1.5 rounded-lg border-slate-300 bg-white/80 hover:bg-white"
         >
           <Calendar className="h-4 w-4" />
-          <span className="hidden sm:inline">Event</span>
+          <span className="hidden sm:inline">{t('toolbar.event')}</span>
         </Button>
 
         {/* Divider */}
@@ -535,7 +539,7 @@ export function FamilyTree() {
           title="Search (Ctrl/Cmd+K)"
         >
           <Search className="h-4 w-4" />
-          <span className="hidden md:inline">Search</span>
+          <span className="hidden md:inline">{t('toolbar.search')}</span>
         </Button>
 
         {/* View toggle: tree / grid */}
@@ -562,7 +566,7 @@ export function FamilyTree() {
           variant="outline"
           onClick={() => setShowBirthdays((v) => !v)}
           className={`gap-1.5 rounded-lg border-slate-300 bg-white/80 hover:bg-white ${showBirthdays ? 'ring-2 ring-slate-300' : ''}`}
-          title="Birthdays"
+          title={t('toolbar.birthdays')}
         >
           <Cake className="h-4 w-4 text-slate-500" />
         </Button>
@@ -573,7 +577,7 @@ export function FamilyTree() {
           variant="outline"
           onClick={() => setShowMap((v) => !v)}
           className={`gap-1.5 rounded-lg border-slate-300 bg-white/80 hover:bg-white ${showMap ? 'ring-2 ring-slate-300' : ''}`}
-          title="Family birthplace map"
+          title={t('toolbar.map')}
         >
           <MapIcon className="h-4 w-4 text-slate-500" />
         </Button>
@@ -584,7 +588,7 @@ export function FamilyTree() {
           variant="outline"
           onClick={() => setShowChat(true)}
           className="gap-1.5 rounded-lg border-slate-300 bg-white/80 hover:bg-white"
-          title="Family chat"
+          title={t('toolbar.chat')}
         >
           <MessageSquare className="h-4 w-4 text-slate-500" />
         </Button>
@@ -604,33 +608,33 @@ export function FamilyTree() {
           <DropdownMenuContent align="end" className="w-56">
             <DropdownMenuItem onClick={handleExportPng}>
               <Download className="mr-2 h-3.5 w-3.5" />
-              Export PNG
+              {t('toolbar.exportPng')}
             </DropdownMenuItem>
             <DropdownMenuItem onClick={handleExportPdf}>
               <FileText className="mr-2 h-3.5 w-3.5" />
-              Export PDF
+              {t('toolbar.exportPdf')}
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => setShowCsvImport(true)}>
               <Upload className="mr-2 h-3.5 w-3.5" />
-              Import from CSV
+              {t('toolbar.importCsv')}
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => setShowMembers(true)}>
               <Users className="mr-2 h-3.5 w-3.5" />
-              Manage members
+              {t('toolbar.manageMembers')}
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => setShowFamilySwitcher(true)}>
               <TreePine className="mr-2 h-3.5 w-3.5" />
-              Switch / create / join family
+              {t('toolbar.switchFamily')}
             </DropdownMenuItem>
             <DropdownMenuItem onClick={() => setShowFederation(true)}>
               <TreePine className="mr-2 h-3.5 w-3.5" />
-              Linked families
+              {t('toolbar.linkedFamilies')}
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => { if (confirm('Sign out of Family Tree? You can sign back in with the same email.')) auth.signOut(); }} className="text-red-600 focus:text-red-700">
+            <DropdownMenuItem onClick={() => { if (confirm(t('toolbar.signOutConfirm'))) auth.signOut(); }} className="text-red-600 focus:text-red-700">
               <LogOut className="mr-2 h-3.5 w-3.5" />
-              Sign out
+              {t('toolbar.signOut')}
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
@@ -861,7 +865,7 @@ export function FamilyTree() {
 
       {/* Footnote */}
       <div className="border-t border-slate-100 bg-white/50 px-4 py-2.5 text-center text-[16px] font-bold text-slate-900">
-        Built with &#10084; by one among us
+        {t('app.footer')}
       </div>
 
       {/* Celebration overlay (until Sep 4, 2026) */}

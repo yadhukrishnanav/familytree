@@ -5,13 +5,16 @@
 
 import { useState } from 'react';
 import { useAuth } from '../../auth';
+import { useI18n } from '../../i18n';
 import { Button } from '@/components/ui/button';
 import { Users, Plus, LogIn, LogOut, Copy, Check } from 'lucide-react';
 import { toast } from 'sonner';
+import { LanguageToggle } from '../LanguageToggle';
 import type { View } from './types';
 
 export function FamilySelect({ setView }: { setView: (v: View) => void }) {
   const auth = useAuth();
+  const { t } = useI18n();
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   const copyShareCode = async (familyId: string, code: string) => {
@@ -31,16 +34,19 @@ export function FamilySelect({ setView }: { setView: (v: View) => void }) {
         <div className="w-full max-w-2xl">
           <div className="mb-6 flex items-center justify-between">
             <div>
-              <h2 className="text-2xl font-bold text-slate-800">Your families</h2>
-              <p className="text-sm text-slate-500">Signed in as {auth.user?.email}</p>
+              <h2 className="text-2xl font-bold text-slate-800">{t('family.yourFamilies')}</h2>
+              <p className="text-sm text-slate-500">{t('family.signedInAs', { email: auth.user?.email ?? '' })}</p>
             </div>
-            <button
-              onClick={() => auth.signOut()}
-              className="inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm text-slate-500 hover:bg-slate-100"
-            >
-              <LogOut className="h-4 w-4" />
-              Sign out
-            </button>
+            <div className="flex items-center gap-1">
+              <LanguageToggle />
+              <button
+                onClick={() => auth.signOut()}
+                className="inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm text-slate-500 hover:bg-slate-100"
+              >
+                <LogOut className="h-4 w-4" />
+                {t('family.signOut')}
+              </button>
+            </div>
           </div>
 
           <div className="grid gap-3 sm:grid-cols-2">
@@ -61,7 +67,7 @@ export function FamilySelect({ setView }: { setView: (v: View) => void }) {
                       <div>
                         <div className="font-semibold text-slate-800">{fam.name}</div>
                         <div className="text-xs text-slate-500">
-                          {fam.memberCount} {fam.memberCount === 1 ? 'member' : 'members'}
+                          {fam.memberCount} {fam.memberCount === 1 ? t('family.member') : t('family.members')}
                         </div>
                       </div>
                     </div>
@@ -101,7 +107,7 @@ export function FamilySelect({ setView }: { setView: (v: View) => void }) {
                     }`}
                     variant={active ? 'default' : 'secondary'}
                   >
-                    {active ? 'Currently active' : 'Open'}
+                    {active ? t('family.currentlyActive') : t('family.open')}
                   </Button>
                 </div>
               );
@@ -112,14 +118,14 @@ export function FamilySelect({ setView }: { setView: (v: View) => void }) {
               className="flex min-h-[160px] flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-slate-300 text-slate-500 hover:border-emerald-400 hover:text-emerald-600"
             >
               <Plus className="h-6 w-6" />
-              <span className="text-sm font-medium">Create new family</span>
+              <span className="text-sm font-medium">{t('family.createNew')}</span>
             </button>
             <button
               onClick={() => setView('family-join')}
               className="flex min-h-[160px] flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-slate-300 text-slate-500 hover:border-amber-400 hover:text-amber-600"
             >
               <LogIn className="h-6 w-6" />
-              <span className="text-sm font-medium">Join with code</span>
+              <span className="text-sm font-medium">{t('family.joinWithCode')}</span>
             </button>
           </div>
         </div>

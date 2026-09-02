@@ -6,11 +6,13 @@
 
 import { useState } from 'react';
 import { useAuth } from '../../auth';
+import { useI18n } from '../../i18n';
 import { isSupabaseConfigured } from '../../supabase';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { TreePine, Sparkles, AlertCircle, Mail, Eye, EyeOff } from 'lucide-react';
+import { LanguageToggle } from '../LanguageToggle';
 import type { View } from './types';
 
 export function AuthForms({
@@ -21,6 +23,7 @@ export function AuthForms({
   setView: (v: View) => void;
 }) {
   const auth = useAuth();
+  const { t } = useI18n();
   const [isSignUp, setIsSignUp] = useState(initialView === 'sign-up');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -43,7 +46,7 @@ export function AuthForms({
     e.preventDefault();
     setQuickError(null);
     const trimmed = quickCode.trim().toUpperCase();
-    if (!trimmed) { setQuickError('Enter your family code'); return; }
+    if (!trimmed) { setQuickError(t('auth.errorCodeRequired')); return; }
     setQuickSubmitting(true);
     // Set quickJoining=true so AuthPage doesn't show the "Welcome / Create
     // a family" intermediary screen in the window between signUp (sets
@@ -55,14 +58,27 @@ export function AuthForms({
       const guestPassword = `Guest_${guestId}!`;
       // Sign up (auto-confirmed since mailer_autoconfirm=true).
       const signUpRes = await auth.signUp(guestEmail, guestPassword);
+      let guest = signUpRes.user;
       if (signUpRes.error) {
         // If signup fails (e.g., email already exists), try signing in.
         const signInRes = await auth.signIn(guestEmail, guestPassword);
         if (signInRes.error) { setQuickError(signInRes.error); setQuickSubmitting(false); auth.setQuickJoining(false); return; }
+        guest = signInRes.user;
+      }
+      // IMPORTANT: use the user id returned from signUp/signIn. `auth.user` is
+      // still the OLD value inside this handler (React hasn't re-rendered yet),
+      // so calling `auth.joinFamily` without an explicit id would see `user=null`
+      // and return "Not signed in", sending the guest to the Welcome screen.
+      if (!guest) {
+        setQuickError(t('auth.errorGuestFailed'));
+        setQuickSubmitting(false);
+        auth.setQuickJoining(false);
+        return;
       }
       // Join the family with the code — uses the join_family_by_code RPC
-      // (security definer, bypasses RLS).
-      const joinRes = await auth.joinFamily(trimmed);
+      // (security definer, bypasses RLS). Passing the guest id prevents the
+      // stale-closure auth.user bug.
+      const joinRes = await auth.joinFamily(trimmed, guest.id);
       if (joinRes.error) { setQuickError(joinRes.error); setQuickSubmitting(false); auth.setQuickJoining(false); return; }
       // page.tsx renders FamilyTree directly — no intermediary screen.
       // quickJoining stays true so AuthPage keeps showing AuthForms (not
@@ -76,7 +92,7 @@ export function AuthForms({
     setError(null);
     setInfo(null);
     if (!email.trim()) {
-      setError('Email is required');
+      setError(t('auth.errorEmailRequired'));
       return;
     }
     // Magic link flow
@@ -90,13 +106,13 @@ export function AuthForms({
           setError(res.error);
         } else {
           setOtpSent(true);
-          setInfo(`We sent a 6-digit code to ${email.trim()}. Check your inbox and enter it below.`);
+          setInfo(t('auth.otpSent', { email: email.trim() }));
         }
         return;
       }
       // Step 2: verify OTP
       if (!otpCode.trim()) {
-        setError('Enter the 6-digit code from your email');
+        setError(t('auth.errorOtpRequired'));
         return;
       }
       setSubmitting(true);
@@ -105,21 +121,21 @@ export function AuthForms({
       if (res.error) {
         setError(res.error);
       } else {
-        setInfo('Signed in! Loading your families…');
+        setInfo(t('auth.signedInLoading'));
       }
       return;
     }
     // Password flow
     if (!password) {
-      setError('Password is required');
+      setError(t('auth.errorPasswordRequired'));
       return;
     }
     if (isSignUp && password !== confirm) {
-      setError('Passwords do not match');
+      setError(t('auth.errorPasswordMismatch'));
       return;
     }
     if (isSignUp && password.length < 6) {
-      setError('Password must be at least 6 characters');
+      setError(t('auth.errorPasswordTooShort'));
       return;
     }
     setSubmitting(true);
@@ -138,19 +154,22 @@ export function AuthForms({
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-white to-teal-50">
       <div className="flex min-h-screen items-center justify-center p-4">
         <div className="w-full max-w-md">
+          <div className="mb-2 flex justify-end">
+            <LanguageToggle />
+          </div>
           {/* Brand header */}
           <div className="mb-6 text-center">
             <div className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg">
               <TreePine className="h-7 w-7 text-white" />
             </div>
-            <h1 className="text-2xl font-bold text-slate-800">Family Tree</h1>
+            <h1 className="text-2xl font-bold text-slate-800">{t('app.name')}</h1>
             <p className="text-sm text-slate-500">
-              Build, visualize, and share your family's story
+              {t('app.tagline')}
             </p>
             {!isSupabaseConfigured && (
               <div className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-teal-100 px-3 py-1 text-xs font-medium text-teal-700">
                 <Sparkles className="h-3 w-3" />
-                Demo mode — sign in with any email to explore
+                {t('auth.demoMode')}
               </div>
             )}
           </div>
@@ -159,7 +178,7 @@ export function AuthForms({
               User enters code directly here → auto-create guest → join family → canvas. */}
           {!otpSent && !useMagicLink && (
             <form onSubmit={handleQuickAccess} className="mb-4 mt-4 rounded-2xl border-2 border-emerald-200 bg-emerald-50/50 p-5 text-center" noValidate>
-              <p className="mb-3 text-base font-semibold text-emerald-700">Have a family code?</p>
+              <p className="mb-3 text-base font-semibold text-emerald-700">{t('auth.haveCode')}</p>
               <Input
                 value={quickCode}
                 onChange={(e) => setQuickCode(e.target.value.toUpperCase())}
@@ -169,7 +188,7 @@ export function AuthForms({
                 disabled={quickSubmitting}
                 aria-label="Family code"
               />
-              <p className="mt-1.5 text-xs text-slate-400">Ask your family member for the 6-character code.</p>
+              <p className="mt-1.5 text-xs text-slate-400">{t('auth.codeHint')}</p>
               {quickError && (
                 <div className="mt-2 flex items-start gap-2 rounded-md bg-red-50 px-3 py-2 text-left text-sm text-red-700">
                   <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
@@ -177,7 +196,7 @@ export function AuthForms({
                 </div>
               )}
               <Button type="submit" disabled={quickSubmitting} className="mt-3 w-full bg-gradient-to-r from-emerald-600 to-teal-500 px-4 py-3 text-lg font-bold shadow-md transition hover:from-emerald-700 hover:to-teal-600 hover:shadow-lg">
-                {quickSubmitting ? 'Joining…' : '🔑 Enter Family Tree'}
+                {quickSubmitting ? t('auth.joining') : t('auth.enterFamilyTree')}
               </Button>
             </form>
           )}
@@ -193,7 +212,7 @@ export function AuthForms({
                     !isSignUp ? 'bg-white shadow text-emerald-700' : 'text-slate-600'
                   }`}
                 >
-                  Sign in
+                  {t('auth.signIn')}
                 </button>
                 <button
                   type="button"
@@ -202,14 +221,14 @@ export function AuthForms({
                     isSignUp ? 'bg-white shadow text-emerald-700' : 'text-slate-600'
                   }`}
                 >
-                  Create account
+                  {t('auth.signUp')}
                 </button>
               </div>
             )}
 
             <form onSubmit={submit} className="space-y-3" noValidate>
               <div>
-                <Label htmlFor="email">Email</Label>
+                <Label htmlFor="email">{t('auth.email')}</Label>
                 <Input
                   id="email"
                   type="email"
@@ -225,7 +244,7 @@ export function AuthForms({
               {/* Magic link OTP code input (shown after sending) */}
               {useMagicLink && otpSent && (
                 <div>
-                  <Label htmlFor="otp">6-digit code</Label>
+                  <Label htmlFor="otp">{t('auth.otp')}</Label>
                   <Input
                     id="otp"
                     type="text"
@@ -243,7 +262,7 @@ export function AuthForms({
                     onClick={() => { setOtpSent(false); setOtpCode(''); setInfo(null); setError(null); }}
                     className="mt-1 text-xs text-slate-500 hover:text-slate-700"
                   >
-                    ← Use a different email
+                    {t('auth.differentEmail')}
                   </button>
                 </div>
               )}
@@ -252,7 +271,7 @@ export function AuthForms({
               {!useMagicLink && (
                 <>
                   <div>
-                    <Label htmlFor="password">Password</Label>
+                    <Label htmlFor="password">{t('auth.password')}</Label>
                     <div className="relative">
                       <Input
                         id="password"
@@ -275,7 +294,7 @@ export function AuthForms({
                   </div>
                   {isSignUp && (
                     <div>
-                      <Label htmlFor="confirm">Confirm password</Label>
+                      <Label htmlFor="confirm">{t('auth.confirmPassword')}</Label>
                       <div className="relative">
                         <Input
                           id="confirm"
@@ -316,10 +335,10 @@ export function AuthForms({
 
               <Button type="submit" disabled={submitting} className="w-full bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-700 hover:to-teal-600">
                 {submitting
-                  ? 'Please wait...'
+                  ? t('common.pleaseWait')
                   : useMagicLink
-                    ? otpSent ? 'Verify code' : 'Send code'
-                    : isSignUp ? 'Create account' : 'Sign in'}
+                    ? otpSent ? t('auth.otpVerify') : t('auth.otpSendCode')
+                    : isSignUp ? t('auth.signUp') : t('auth.signIn')}
               </Button>
             </form>
 
@@ -331,13 +350,13 @@ export function AuthForms({
                 className="mt-3 w-full text-center text-xs text-slate-500 hover:text-emerald-600"
               >
                 {useMagicLink
-                  ? '← Sign in with password instead'
-                  : '✉️ Sign in with email link (no password needed)'}
+                  ? t('auth.switchToPassword')
+                  : t('auth.switchToEmailLink')}
               </button>
             )}
           </div>
           <p className="mt-4 text-center text-[12px] font-medium text-slate-800">
-            Built with &#10084; by one among us
+            {t('app.footer')}
           </p>
         </div>
       </div>
