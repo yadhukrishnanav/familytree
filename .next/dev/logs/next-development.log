@@ -14299,3 +14299,2371 @@ https://nextjs.org/docs/messages/module-not-found
 
 Import trace for requested module:
 ./node_modules/next/dist/client/router.js
+[14:53:59.313] Browser ERROR   uncaughtError: Error: Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:53:59.693] Browser ERROR   ./node_modules/next/dist/pages/_app.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+[14:53:59.693] Browser ERROR   ./node_modules/next/dist/pages/_error.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+[14:53:59.693] Browser ERROR   ./node_modules/next/dist/shared/lib/constants.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_document.js
+[14:53:59.693] Browser ERROR   ./node_modules/next/dist/shared/lib/head.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_error.js
+[14:53:59.693] Browser ERROR   ./node_modules/next/dist/shared/lib/head.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_error.js
+[14:53:59.693] Browser ERROR   ./node_modules/next/dist/shared/lib/router/utils/format-url.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/server/route-modules/pages/pages-handler.js
+[14:53:59.693] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_default.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_default.cjs'
+[14:53:59.693] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs'
+[14:53:59.693] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+[14:53:59.693] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+[14:53:59.693] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+[14:54:00.383] Browser ERROR   ./node_modules/next/dist/pages/_app.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+[14:54:00.384] Browser ERROR   ./node_modules/next/dist/pages/_error.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+[14:54:00.384] Browser ERROR   ./node_modules/next/dist/shared/lib/constants.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_document.js
+[14:54:00.384] Browser ERROR   ./node_modules/next/dist/shared/lib/head.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_error.js
+[14:54:00.384] Browser ERROR   ./node_modules/next/dist/shared/lib/head.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_error.js
+[14:54:00.384] Browser ERROR   ./node_modules/next/dist/shared/lib/router/utils/format-url.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/server/route-modules/pages/pages-handler.js
+[14:54:00.384] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_default.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_default.cjs'
+[14:54:00.384] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs'
+[14:54:00.384] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+[14:54:00.384] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+[14:54:00.384] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+[14:54:51.998] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:54:51.998] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:54:51.998] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[14:54:51.998] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/index.js
+[14:54:51.998] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/next-devtools/userspace/app/errors/stitched-error.js
+[14:54:51.998] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:54:52.488] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:54:52.488] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:54:52.488] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[14:54:52.488] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/index.js
+[14:54:52.488] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/next-devtools/userspace/app/errors/stitched-error.js
+[14:54:52.488] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:54:54.018] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:54:54.022] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:54:54.022] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[14:54:54.022] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/index.js
+[14:54:54.022] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/next-devtools/userspace/app/errors/stitched-error.js
+[14:54:54.022] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:54:54.521] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:54:54.521] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:54:54.521] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[14:54:54.521] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/index.js
+[14:54:54.521] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/next-devtools/userspace/app/errors/stitched-error.js
+[14:54:54.521] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:54:56.651] Server  ERROR   ⨯ ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:54:56.689] Browser ERROR   ./node_modules/next/dist/pages/_app.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+[14:54:56.689] Browser ERROR   ./node_modules/next/dist/pages/_error.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+[14:54:56.689] Browser ERROR   ./node_modules/next/dist/shared/lib/constants.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_document.js
+[14:54:56.689] Browser ERROR   ./node_modules/next/dist/shared/lib/head.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_error.js
+[14:54:56.689] Browser ERROR   ./node_modules/next/dist/shared/lib/head.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_error.js
+[14:54:56.689] Browser ERROR   ./node_modules/next/dist/shared/lib/router/utils/format-url.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/server/route-modules/pages/pages-handler.js
+[14:54:56.689] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_default.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_default.cjs'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/cjs/_interop_require_default.cjs
+[14:54:56.689] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs
+./node_modules/next/dist/shared/lib/head.js
+./node_modules/next/dist/pages/_error.js
+[14:54:56.689] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/client/components/layout-router.js
+[14:54:56.689] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:54:56.689] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/shared/lib/router/utils/format-url.js
+./node_modules/next/dist/server/server-utils.js
+./node_modules/next/dist/lib/metadata/get-metadata-route.js
+./node_modules/next/dist/build/webpack/loaders/next-metadata-image-loader.js?type=favicon&segment=&basePath=&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js!./src/app/favicon.ico?__next_metadata__
+[14:54:56.759] Server  ERROR   ⨯ ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:54:57.404] Browser ERROR   ./node_modules/next/dist/pages/_app.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+[14:54:57.404] Browser ERROR   ./node_modules/next/dist/pages/_error.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+[14:54:57.405] Browser ERROR   ./node_modules/next/dist/shared/lib/constants.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_document.js
+[14:54:57.405] Browser ERROR   ./node_modules/next/dist/shared/lib/head.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_error.js
+[14:54:57.405] Browser ERROR   ./node_modules/next/dist/shared/lib/head.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_error.js
+[14:54:57.405] Browser ERROR   ./node_modules/next/dist/shared/lib/router/utils/format-url.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/server/route-modules/pages/pages-handler.js
+[14:54:57.405] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_default.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_default.cjs'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/cjs/_interop_require_default.cjs
+[14:54:57.405] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs
+./node_modules/next/dist/shared/lib/head.js
+./node_modules/next/dist/pages/_error.js
+[14:54:57.405] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/client/components/layout-router.js
+[14:54:57.405] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:54:57.405] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/shared/lib/router/utils/format-url.js
+./node_modules/next/dist/server/server-utils.js
+./node_modules/next/dist/lib/metadata/get-metadata-route.js
+./node_modules/next/dist/build/webpack/loaders/next-metadata-image-loader.js?type=favicon&segment=&basePath=&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js!./src/app/favicon.ico?__next_metadata__
+[14:55:08.696] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:08.696] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:08.696] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[14:55:08.696] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/index.js
+[14:55:08.696] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/next-devtools/userspace/app/errors/stitched-error.js
+[14:55:08.696] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:55:09.319] Server  ERROR   ⨯ ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:09.694] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:09.694] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:09.694] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[14:55:09.694] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/index.js
+[14:55:09.694] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/next-devtools/userspace/app/errors/stitched-error.js
+[14:55:09.694] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:55:09.694] Browser ERROR   ./node_modules/next/dist/pages/_app.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+[14:55:09.694] Browser ERROR   ./node_modules/next/dist/pages/_error.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+[14:55:09.694] Browser ERROR   ./node_modules/next/dist/shared/lib/constants.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_document.js
+[14:55:09.694] Browser ERROR   ./node_modules/next/dist/shared/lib/head.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_error.js
+[14:55:09.694] Browser ERROR   ./node_modules/next/dist/shared/lib/head.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_error.js
+[14:55:09.694] Browser ERROR   ./node_modules/next/dist/shared/lib/router/utils/format-url.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/server/route-modules/pages/pages-handler.js
+[14:55:09.694] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_default.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_default.cjs'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/cjs/_interop_require_default.cjs
+[14:55:09.694] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs
+./node_modules/next/dist/shared/lib/head.js
+./node_modules/next/dist/pages/_error.js
+[14:55:09.694] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/client/components/layout-router.js
+[14:55:09.694] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:55:09.694] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/shared/lib/router/utils/format-url.js
+./node_modules/next/dist/server/server-utils.js
+./node_modules/next/dist/lib/metadata/get-metadata-route.js
+./node_modules/next/dist/build/webpack/loaders/next-metadata-image-loader.js?type=favicon&segment=&basePath=&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js!./src/app/favicon.ico?__next_metadata__
+[14:55:09.694] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:09.694] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:09.694] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[14:55:09.694] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/index.js
+[14:55:09.694] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/next-devtools/userspace/app/errors/stitched-error.js
+[14:55:09.694] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:55:09.694] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:09.694] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:09.694] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[14:55:09.694] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/index.js
+[14:55:09.694] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/next-devtools/userspace/app/errors/stitched-error.js
+[14:55:09.694] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:55:09.694] Browser ERROR   ./node_modules/next/dist/pages/_app.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+[14:55:09.694] Browser ERROR   ./node_modules/next/dist/pages/_error.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+[14:55:09.694] Browser ERROR   ./node_modules/next/dist/shared/lib/constants.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_document.js
+[14:55:09.694] Browser ERROR   ./node_modules/next/dist/shared/lib/head.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_error.js
+[14:55:09.694] Browser ERROR   ./node_modules/next/dist/shared/lib/head.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_error.js
+[14:55:09.694] Browser ERROR   ./node_modules/next/dist/shared/lib/router/utils/format-url.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/server/route-modules/pages/pages-handler.js
+[14:55:09.694] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_default.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_default.cjs'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/cjs/_interop_require_default.cjs
+[14:55:09.694] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs
+./node_modules/next/dist/shared/lib/head.js
+./node_modules/next/dist/pages/_error.js
+[14:55:09.694] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/client/components/layout-router.js
+[14:55:09.694] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:55:09.694] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/shared/lib/router/utils/format-url.js
+./node_modules/next/dist/server/server-utils.js
+./node_modules/next/dist/lib/metadata/get-metadata-route.js
+./node_modules/next/dist/build/webpack/loaders/next-metadata-image-loader.js?type=favicon&segment=&basePath=&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js!./src/app/favicon.ico?__next_metadata__
+[14:55:10.796] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:10.796] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:10.796] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[14:55:10.796] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/index.js
+[14:55:10.796] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/next-devtools/userspace/app/errors/stitched-error.js
+[14:55:10.796] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:55:10.796] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:10.796] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:10.796] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[14:55:10.796] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/index.js
+[14:55:10.796] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/next-devtools/userspace/app/errors/stitched-error.js
+[14:55:10.796] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:55:10.796] Browser ERROR   ./node_modules/next/dist/pages/_app.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+[14:55:10.796] Browser ERROR   ./node_modules/next/dist/pages/_error.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+[14:55:10.796] Browser ERROR   ./node_modules/next/dist/shared/lib/constants.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_document.js
+[14:55:10.796] Browser ERROR   ./node_modules/next/dist/shared/lib/head.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_error.js
+[14:55:10.796] Browser ERROR   ./node_modules/next/dist/shared/lib/head.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_error.js
+[14:55:10.796] Browser ERROR   ./node_modules/next/dist/shared/lib/router/utils/format-url.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/server/route-modules/pages/pages-handler.js
+[14:55:10.796] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_default.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_default.cjs'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/cjs/_interop_require_default.cjs
+[14:55:10.796] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs
+./node_modules/next/dist/shared/lib/head.js
+./node_modules/next/dist/pages/_error.js
+[14:55:10.796] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/client/components/layout-router.js
+[14:55:10.796] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:55:10.796] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/shared/lib/router/utils/format-url.js
+./node_modules/next/dist/server/server-utils.js
+./node_modules/next/dist/lib/metadata/get-metadata-route.js
+./node_modules/next/dist/build/webpack/loaders/next-metadata-image-loader.js?type=favicon&segment=&basePath=&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js!./src/app/favicon.ico?__next_metadata__
+[14:55:10.796] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:10.796] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:10.796] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[14:55:10.796] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/index.js
+[14:55:10.796] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/next-devtools/userspace/app/errors/stitched-error.js
+[14:55:10.796] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:55:10.796] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:10.796] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:10.796] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[14:55:10.796] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/index.js
+[14:55:10.796] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/next-devtools/userspace/app/errors/stitched-error.js
+[14:55:10.796] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:55:10.796] Browser ERROR   ./node_modules/next/dist/pages/_app.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+[14:55:10.796] Browser ERROR   ./node_modules/next/dist/pages/_error.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+[14:55:10.796] Browser ERROR   ./node_modules/next/dist/shared/lib/constants.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_document.js
+[14:55:10.796] Browser ERROR   ./node_modules/next/dist/shared/lib/head.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_error.js
+[14:55:10.796] Browser ERROR   ./node_modules/next/dist/shared/lib/head.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_error.js
+[14:55:10.796] Browser ERROR   ./node_modules/next/dist/shared/lib/router/utils/format-url.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/server/route-modules/pages/pages-handler.js
+[14:55:10.796] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_default.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_default.cjs'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/cjs/_interop_require_default.cjs
+[14:55:10.796] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs
+./node_modules/next/dist/shared/lib/head.js
+./node_modules/next/dist/pages/_error.js
+[14:55:10.796] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/client/components/layout-router.js
+[14:55:10.796] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:55:10.796] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/shared/lib/router/utils/format-url.js
+./node_modules/next/dist/server/server-utils.js
+./node_modules/next/dist/lib/metadata/get-metadata-route.js
+./node_modules/next/dist/build/webpack/loaders/next-metadata-image-loader.js?type=favicon&segment=&basePath=&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js!./src/app/favicon.ico?__next_metadata__
+[14:55:24.691] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:24.691] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:24.691] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[14:55:24.691] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/index.js
+[14:55:24.691] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/next-devtools/userspace/app/errors/stitched-error.js
+[14:55:24.691] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:55:25.080] Server  ERROR   ⨯ ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:25.388] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:25.388] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:25.388] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[14:55:25.388] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/index.js
+[14:55:25.388] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/next-devtools/userspace/app/errors/stitched-error.js
+[14:55:25.388] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:55:25.388] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:25.388] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:25.388] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[14:55:25.388] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/index.js
+[14:55:25.388] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/next-devtools/userspace/app/errors/stitched-error.js
+[14:55:25.388] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:55:25.388] Browser ERROR   ./node_modules/next/dist/pages/_app.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+[14:55:25.388] Browser ERROR   ./node_modules/next/dist/pages/_error.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+[14:55:25.388] Browser ERROR   ./node_modules/next/dist/shared/lib/constants.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_document.js
+[14:55:25.388] Browser ERROR   ./node_modules/next/dist/shared/lib/head.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_error.js
+[14:55:25.388] Browser ERROR   ./node_modules/next/dist/shared/lib/head.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_error.js
+[14:55:25.388] Browser ERROR   ./node_modules/next/dist/shared/lib/router/utils/format-url.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/server/route-modules/pages/pages-handler.js
+[14:55:25.388] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_default.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_default.cjs'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/cjs/_interop_require_default.cjs
+[14:55:25.388] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs
+./node_modules/next/dist/shared/lib/head.js
+./node_modules/next/dist/pages/_error.js
+[14:55:25.388] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/client/components/layout-router.js
+[14:55:25.388] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:55:25.388] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/shared/lib/router/utils/format-url.js
+./node_modules/next/dist/server/server-utils.js
+./node_modules/next/dist/lib/metadata/get-metadata-route.js
+./node_modules/next/dist/build/webpack/loaders/next-metadata-image-loader.js?type=favicon&segment=&basePath=&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js!./src/app/favicon.ico?__next_metadata__
+[14:55:25.388] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:25.388] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:25.388] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[14:55:25.388] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/index.js
+[14:55:25.388] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/next-devtools/userspace/app/errors/stitched-error.js
+[14:55:25.388] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:55:25.388] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:25.388] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:25.388] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[14:55:25.388] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/index.js
+[14:55:25.388] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/next-devtools/userspace/app/errors/stitched-error.js
+[14:55:25.388] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:55:25.388] Browser ERROR   ./node_modules/next/dist/pages/_app.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+[14:55:25.388] Browser ERROR   ./node_modules/next/dist/pages/_error.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+[14:55:25.388] Browser ERROR   ./node_modules/next/dist/shared/lib/constants.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_document.js
+[14:55:25.388] Browser ERROR   ./node_modules/next/dist/shared/lib/head.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_error.js
+[14:55:25.388] Browser ERROR   ./node_modules/next/dist/shared/lib/head.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_error.js
+[14:55:25.388] Browser ERROR   ./node_modules/next/dist/shared/lib/router/utils/format-url.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/server/route-modules/pages/pages-handler.js
+[14:55:25.388] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_default.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_default.cjs'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/cjs/_interop_require_default.cjs
+[14:55:25.388] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs
+./node_modules/next/dist/shared/lib/head.js
+./node_modules/next/dist/pages/_error.js
+[14:55:25.388] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/client/components/layout-router.js
+[14:55:25.388] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:55:25.388] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/shared/lib/router/utils/format-url.js
+./node_modules/next/dist/server/server-utils.js
+./node_modules/next/dist/lib/metadata/get-metadata-route.js
+./node_modules/next/dist/build/webpack/loaders/next-metadata-image-loader.js?type=favicon&segment=&basePath=&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js!./src/app/favicon.ico?__next_metadata__
+[14:55:25.698] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:25.698] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:25.698] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[14:55:25.698] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/index.js
+[14:55:25.698] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/next-devtools/userspace/app/errors/stitched-error.js
+[14:55:25.698] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:55:25.698] Browser ERROR   ./node_modules/next/dist/pages/_app.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+[14:55:25.698] Browser ERROR   ./node_modules/next/dist/pages/_error.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+[14:55:25.698] Browser ERROR   ./node_modules/next/dist/shared/lib/constants.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_document.js
+[14:55:25.698] Browser ERROR   ./node_modules/next/dist/shared/lib/head.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_error.js
+[14:55:25.698] Browser ERROR   ./node_modules/next/dist/shared/lib/head.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_error.js
+[14:55:25.698] Browser ERROR   ./node_modules/next/dist/shared/lib/router/utils/format-url.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/server/route-modules/pages/pages-handler.js
+[14:55:25.698] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_default.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_default.cjs'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/cjs/_interop_require_default.cjs
+[14:55:25.698] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs
+./node_modules/next/dist/shared/lib/head.js
+./node_modules/next/dist/pages/_error.js
+[14:55:25.698] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/client/components/layout-router.js
+[14:55:25.698] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:55:25.698] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/shared/lib/router/utils/format-url.js
+./node_modules/next/dist/server/server-utils.js
+./node_modules/next/dist/lib/metadata/get-metadata-route.js
+./node_modules/next/dist/build/webpack/loaders/next-metadata-image-loader.js?type=favicon&segment=&basePath=&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js!./src/app/favicon.ico?__next_metadata__
+[14:55:25.698] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:25.698] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:25.698] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[14:55:25.698] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/index.js
+[14:55:25.698] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/next-devtools/userspace/app/errors/stitched-error.js
+[14:55:25.698] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:55:25.698] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:25.698] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:25.698] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[14:55:25.698] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/index.js
+[14:55:25.698] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/next-devtools/userspace/app/errors/stitched-error.js
+[14:55:25.698] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:55:25.698] Browser ERROR   ./node_modules/next/dist/pages/_app.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+[14:55:25.698] Browser ERROR   ./node_modules/next/dist/pages/_error.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+[14:55:25.698] Browser ERROR   ./node_modules/next/dist/shared/lib/constants.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_document.js
+[14:55:25.698] Browser ERROR   ./node_modules/next/dist/shared/lib/head.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_error.js
+[14:55:25.698] Browser ERROR   ./node_modules/next/dist/shared/lib/head.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_error.js
+[14:55:25.698] Browser ERROR   ./node_modules/next/dist/shared/lib/router/utils/format-url.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/server/route-modules/pages/pages-handler.js
+[14:55:25.698] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_default.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_default.cjs'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/cjs/_interop_require_default.cjs
+[14:55:25.698] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs
+./node_modules/next/dist/shared/lib/head.js
+./node_modules/next/dist/pages/_error.js
+[14:55:25.698] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/client/components/layout-router.js
+[14:55:25.698] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:55:25.698] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/shared/lib/router/utils/format-url.js
+./node_modules/next/dist/server/server-utils.js
+./node_modules/next/dist/lib/metadata/get-metadata-route.js
+./node_modules/next/dist/build/webpack/loaders/next-metadata-image-loader.js?type=favicon&segment=&basePath=&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js!./src/app/favicon.ico?__next_metadata__
+[14:55:39.487] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:39.487] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:39.487] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[14:55:39.487] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/index.js
+[14:55:39.487] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/next-devtools/userspace/app/errors/stitched-error.js
+[14:55:39.487] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:55:39.815] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:39.815] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:39.815] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[14:55:39.815] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/index.js
+[14:55:39.815] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/next-devtools/userspace/app/errors/stitched-error.js
+[14:55:39.815] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:55:41.484] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:41.484] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:41.484] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[14:55:41.484] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/index.js
+[14:55:41.484] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/next-devtools/userspace/app/errors/stitched-error.js
+[14:55:41.484] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:55:41.891] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:41.891] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:41.891] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[14:55:41.891] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/index.js
+[14:55:41.891] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/next-devtools/userspace/app/errors/stitched-error.js
+[14:55:41.891] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:55:42.546] Server  ERROR   ⨯ ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:42.644] Server  ERROR   ⨯ ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:42.698] Browser ERROR   ./node_modules/next/dist/pages/_app.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+[14:55:42.698] Browser ERROR   ./node_modules/next/dist/pages/_error.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+[14:55:42.698] Browser ERROR   ./node_modules/next/dist/shared/lib/constants.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_document.js
+[14:55:42.698] Browser ERROR   ./node_modules/next/dist/shared/lib/head.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_error.js
+[14:55:42.698] Browser ERROR   ./node_modules/next/dist/shared/lib/head.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_error.js
+[14:55:42.698] Browser ERROR   ./node_modules/next/dist/shared/lib/router/utils/format-url.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/server/route-modules/pages/pages-handler.js
+[14:55:42.698] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_default.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_default.cjs'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/cjs/_interop_require_default.cjs
+[14:55:42.698] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs
+./node_modules/next/dist/shared/lib/head.js
+./node_modules/next/dist/pages/_error.js
+[14:55:42.698] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/client/components/layout-router.js
+[14:55:42.698] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:55:42.698] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/shared/lib/router/utils/format-url.js
+./node_modules/next/dist/server/server-utils.js
+./node_modules/next/dist/lib/metadata/get-metadata-route.js
+./node_modules/next/dist/build/webpack/loaders/next-metadata-image-loader.js?type=favicon&segment=&basePath=&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js!./src/app/favicon.ico?__next_metadata__
+[14:55:43.379] Browser ERROR   ./node_modules/next/dist/pages/_app.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+[14:55:43.379] Browser ERROR   ./node_modules/next/dist/pages/_error.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+[14:55:43.379] Browser ERROR   ./node_modules/next/dist/shared/lib/constants.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_document.js
+[14:55:43.379] Browser ERROR   ./node_modules/next/dist/shared/lib/head.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_error.js
+[14:55:43.379] Browser ERROR   ./node_modules/next/dist/shared/lib/head.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_error.js
+[14:55:43.379] Browser ERROR   ./node_modules/next/dist/shared/lib/router/utils/format-url.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/server/route-modules/pages/pages-handler.js
+[14:55:43.379] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_default.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_default.cjs'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/cjs/_interop_require_default.cjs
+[14:55:43.379] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs
+./node_modules/next/dist/shared/lib/head.js
+./node_modules/next/dist/pages/_error.js
+[14:55:43.379] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/client/components/layout-router.js
+[14:55:43.379] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:55:43.379] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/shared/lib/router/utils/format-url.js
+./node_modules/next/dist/server/server-utils.js
+./node_modules/next/dist/lib/metadata/get-metadata-route.js
+./node_modules/next/dist/build/webpack/loaders/next-metadata-image-loader.js?type=favicon&segment=&basePath=&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js!./src/app/favicon.ico?__next_metadata__
+[14:55:54.376] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:54.376] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:54.376] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[14:55:54.376] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/index.js
+[14:55:54.376] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/next-devtools/userspace/app/errors/stitched-error.js
+[14:55:54.376] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:55:54.376] Browser ERROR   ./node_modules/next/dist/pages/_app.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+[14:55:54.376] Browser ERROR   ./node_modules/next/dist/pages/_error.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+[14:55:54.376] Browser ERROR   ./node_modules/next/dist/shared/lib/constants.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_document.js
+[14:55:54.376] Browser ERROR   ./node_modules/next/dist/shared/lib/head.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_error.js
+[14:55:54.376] Browser ERROR   ./node_modules/next/dist/shared/lib/head.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_error.js
+[14:55:54.376] Browser ERROR   ./node_modules/next/dist/shared/lib/router/utils/format-url.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/server/route-modules/pages/pages-handler.js
+[14:55:54.376] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_default.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_default.cjs'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/cjs/_interop_require_default.cjs
+[14:55:54.376] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs
+./node_modules/next/dist/shared/lib/head.js
+./node_modules/next/dist/pages/_error.js
+[14:55:54.376] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/client/components/layout-router.js
+[14:55:54.376] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:55:54.376] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/shared/lib/router/utils/format-url.js
+./node_modules/next/dist/server/server-utils.js
+./node_modules/next/dist/lib/metadata/get-metadata-route.js
+./node_modules/next/dist/build/webpack/loaders/next-metadata-image-loader.js?type=favicon&segment=&basePath=&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js!./src/app/favicon.ico?__next_metadata__
+[14:55:54.432] Server  ERROR   ⨯ ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:54.701] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:54.701] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:55:54.701] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[14:55:54.701] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/index.js
+[14:55:54.701] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/next-devtools/userspace/app/errors/stitched-error.js
+[14:55:54.701] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:55:54.701] Browser ERROR   ./node_modules/next/dist/pages/_app.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+[14:55:54.701] Browser ERROR   ./node_modules/next/dist/pages/_error.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+[14:55:54.701] Browser ERROR   ./node_modules/next/dist/shared/lib/constants.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_document.js
+[14:55:54.701] Browser ERROR   ./node_modules/next/dist/shared/lib/head.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_error.js
+[14:55:54.701] Browser ERROR   ./node_modules/next/dist/shared/lib/head.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_error.js
+[14:55:54.701] Browser ERROR   ./node_modules/next/dist/shared/lib/router/utils/format-url.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/server/route-modules/pages/pages-handler.js
+[14:55:54.701] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_default.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_default.cjs'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/cjs/_interop_require_default.cjs
+[14:55:54.701] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs
+./node_modules/next/dist/shared/lib/head.js
+./node_modules/next/dist/pages/_error.js
+[14:55:54.701] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/client/components/layout-router.js
+[14:55:54.701] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:55:54.701] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/shared/lib/router/utils/format-url.js
+./node_modules/next/dist/server/server-utils.js
+./node_modules/next/dist/lib/metadata/get-metadata-route.js
+./node_modules/next/dist/build/webpack/loaders/next-metadata-image-loader.js?type=favicon&segment=&basePath=&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js!./src/app/favicon.ico?__next_metadata__
+[14:56:14.437] Server  ERROR   ⨯ ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:56:14.718] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:56:14.718] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:56:14.718] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[14:56:14.718] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/index.js
+[14:56:14.718] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/next-devtools/userspace/app/errors/stitched-error.js
+[14:56:14.718] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:56:14.718] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:56:14.718] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:56:14.718] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[14:56:14.718] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/index.js
+[14:56:14.718] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/next-devtools/userspace/app/errors/stitched-error.js
+[14:56:14.718] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:56:14.718] Browser ERROR   ./node_modules/next/dist/pages/_app.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+[14:56:14.718] Browser ERROR   ./node_modules/next/dist/pages/_error.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+[14:56:14.718] Browser ERROR   ./node_modules/next/dist/shared/lib/constants.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_document.js
+[14:56:14.718] Browser ERROR   ./node_modules/next/dist/shared/lib/head.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_error.js
+[14:56:14.718] Browser ERROR   ./node_modules/next/dist/shared/lib/head.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_error.js
+[14:56:14.718] Browser ERROR   ./node_modules/next/dist/shared/lib/router/utils/format-url.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/server/route-modules/pages/pages-handler.js
+[14:56:14.718] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_default.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_default.cjs'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/cjs/_interop_require_default.cjs
+[14:56:14.718] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs
+./node_modules/next/dist/shared/lib/head.js
+./node_modules/next/dist/pages/_error.js
+[14:56:14.718] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/client/components/layout-router.js
+[14:56:14.718] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:56:14.718] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/shared/lib/router/utils/format-url.js
+./node_modules/next/dist/server/server-utils.js
+./node_modules/next/dist/lib/metadata/get-metadata-route.js
+./node_modules/next/dist/build/webpack/loaders/next-metadata-image-loader.js?type=favicon&segment=&basePath=&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js!./src/app/favicon.ico?__next_metadata__
+[14:56:15.377] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:56:15.377] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:56:15.377] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[14:56:15.377] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/index.js
+[14:56:15.377] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/next-devtools/userspace/app/errors/stitched-error.js
+[14:56:15.377] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:56:15.377] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:56:15.377] Browser ERROR   ./node_modules/next/dist/shared/lib/router/router.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/client/router.js
+[14:56:15.377] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+[14:56:15.377] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/index.js
+[14:56:15.377] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/next-devtools/userspace/app/errors/stitched-error.js
+[14:56:15.377] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:56:15.377] Browser ERROR   ./node_modules/next/dist/pages/_app.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+[14:56:15.377] Browser ERROR   ./node_modules/next/dist/pages/_error.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+[14:56:15.377] Browser ERROR   ./node_modules/next/dist/shared/lib/constants.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_document.js
+[14:56:15.377] Browser ERROR   ./node_modules/next/dist/shared/lib/head.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_default'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_error.js
+[14:56:15.377] Browser ERROR   ./node_modules/next/dist/shared/lib/head.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/pages/_error.js
+[14:56:15.377] Browser ERROR   ./node_modules/next/dist/shared/lib/router/utils/format-url.js
+Module not found: Can't resolve '@swc/helpers/_/_interop_require_wildcard'
+
+https://nextjs.org/docs/messages/module-not-found
+
+Import trace for requested module:
+./node_modules/next/dist/server/route-modules/pages/pages-handler.js
+[14:56:15.377] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_default.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_default.cjs'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/cjs/_interop_require_default.cjs
+[14:56:15.377] Browser ERROR   ./node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs
+Module build failed: Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/cjs/_interop_require_wildcard.cjs
+./node_modules/next/dist/shared/lib/head.js
+./node_modules/next/dist/pages/_error.js
+[14:56:15.377] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_default.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_default.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_default.js
+./node_modules/next/dist/client/components/layout-router.js
+[14:56:15.377] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/client/components/http-access-fallback/error-boundary.js
+[14:56:15.377] Browser ERROR   ./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+Error: ENOENT: no such file or directory, open '/home/z/my-project/node_modules/@swc/helpers/esm/_interop_require_wildcard.js'
+
+Import trace for requested module:
+./node_modules/@swc/helpers/esm/_interop_require_wildcard.js
+./node_modules/next/dist/shared/lib/router/utils/format-url.js
+./node_modules/next/dist/server/server-utils.js
+./node_modules/next/dist/lib/metadata/get-metadata-route.js
+./node_modules/next/dist/build/webpack/loaders/next-metadata-image-loader.js?type=favicon&segment=&basePath=&pageExtensions=tsx&pageExtensions=ts&pageExtensions=jsx&pageExtensions=js!./src/app/favicon.ico?__next_metadata__
