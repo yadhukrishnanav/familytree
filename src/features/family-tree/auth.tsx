@@ -20,6 +20,11 @@ export interface AuthContextValue {
   activeFamily: FamilyInfo | null;
   loading: boolean;
   isDemo: boolean;
+  /** True while a QuickAccess (family code) join is in progress. AuthPage
+   *  checks this to avoid showing the "Welcome / Create a family" intermediary
+   *  screen while the guest account is being created + joined. */
+  quickJoining: boolean;
+  setQuickJoining: (v: boolean) => void;
   signIn: (email: string, password: string) => Promise<{ error?: string }>;
   signUp: (email: string, password: string) => Promise<{ error?: string; user?: { id: string; email: string } }>;
   signInWithGoogle: () => Promise<{ error?: string }>;
@@ -104,6 +109,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [families, setFamilies] = useState<FamilyInfo[]>([]);
   const [activeFamilyId, setActiveFamilyIdState] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  // True while a QuickAccess (family code) join is in progress. Prevents
+  // AuthPage from showing the "Welcome / Create a family" intermediary screen
+  // in the window between signUp (sets auth.user) and joinFamily (sets activeFamily).
+  const [quickJoining, setQuickJoining] = useState(false);
 
   // ---- Refresh families helper (declared before useEffect that uses it) ----
   const refreshFamiliesFor = useCallback(async (userId: string) => {
@@ -459,6 +468,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       };
       await refreshFamiliesFor(user.id);
       setActiveFamilyIdState(info.id);
+      setQuickJoining(false); // join complete — let AuthPage route to the canvas
       return { family: info };
     }
     // Demo mode
@@ -472,6 +482,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
     await refreshFamiliesFor(user.id);
     setActiveFamilyIdState(fam.id);
+    setQuickJoining(false); // join complete — let AuthPage route to the canvas
     return {};
   }, [user, supabase, refreshFamiliesFor]);
 
@@ -486,6 +497,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     activeFamily,
     loading,
     isDemo: !isSupabaseConfigured,
+    quickJoining,
+    setQuickJoining,
     signIn,
     signUp,
     signInWithGoogle,

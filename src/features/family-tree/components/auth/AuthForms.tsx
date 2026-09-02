@@ -45,6 +45,10 @@ export function AuthForms({
     const trimmed = quickCode.trim().toUpperCase();
     if (!trimmed) { setQuickError('Enter your family code'); return; }
     setQuickSubmitting(true);
+    // Set quickJoining=true so AuthPage doesn't show the "Welcome / Create
+    // a family" intermediary screen in the window between signUp (sets
+    // auth.user) and joinFamily (sets activeFamily).
+    auth.setQuickJoining(true);
     try {
       const guestId = Math.random().toString(36).slice(2, 10);
       const guestEmail = `guest_${guestId}@familytree.local`;
@@ -54,14 +58,16 @@ export function AuthForms({
       if (signUpRes.error) {
         // If signup fails (e.g., email already exists), try signing in.
         const signInRes = await auth.signIn(guestEmail, guestPassword);
-        if (signInRes.error) { setQuickError(signInRes.error); setQuickSubmitting(false); return; }
+        if (signInRes.error) { setQuickError(signInRes.error); setQuickSubmitting(false); auth.setQuickJoining(false); return; }
       }
       // Join the family with the code — uses the join_family_by_code RPC
       // (security definer, bypasses RLS).
       const joinRes = await auth.joinFamily(trimmed);
-      if (joinRes.error) { setQuickError(joinRes.error); setQuickSubmitting(false); return; }
+      if (joinRes.error) { setQuickError(joinRes.error); setQuickSubmitting(false); auth.setQuickJoining(false); return; }
       // page.tsx renders FamilyTree directly — no intermediary screen.
-    } catch (e: any) { setQuickError(e.message ?? 'Something went wrong'); }
+      // quickJoining stays true so AuthPage keeps showing AuthForms (not
+      // the Welcome screen) until activeFamily is set, then page.tsx takes over.
+    } catch (e: any) { setQuickError(e.message ?? 'Something went wrong'); auth.setQuickJoining(false); }
     setQuickSubmitting(false);
   };
 

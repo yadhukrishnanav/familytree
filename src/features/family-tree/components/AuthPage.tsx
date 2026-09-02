@@ -31,6 +31,14 @@ export function AuthPage() {
   // PersonForm can later pre-fill the birthplace field. No visible UI.
   useLandingLocation();
 
+  // While a QuickAccess (family code) join is in progress, keep showing the
+  // AuthForms (with the spinner on the button). This prevents the "Welcome /
+  // Create a family" intermediary screen from flashing between signUp
+  // (sets auth.user) and joinFamily (sets activeFamily).
+  if (auth.quickJoining) {
+    return <AuthForms initialView="sign-in" setView={setView} />;
+  }
+
   if (!auth.user) {
     return <AuthForms initialView={view} setView={setView} />;
   }
