@@ -55,14 +55,27 @@ export function AuthForms({
       const guestPassword = `Guest_${guestId}!`;
       // Sign up (auto-confirmed since mailer_autoconfirm=true).
       const signUpRes = await auth.signUp(guestEmail, guestPassword);
+      let guest = signUpRes.user;
       if (signUpRes.error) {
         // If signup fails (e.g., email already exists), try signing in.
         const signInRes = await auth.signIn(guestEmail, guestPassword);
         if (signInRes.error) { setQuickError(signInRes.error); setQuickSubmitting(false); auth.setQuickJoining(false); return; }
+        guest = signInRes.user;
+      }
+      // IMPORTANT: use the user id returned from signUp/signIn. `auth.user` is
+      // still the OLD value inside this handler (React hasn't re-rendered yet),
+      // so calling `auth.joinFamily` without an explicit id would see `user=null`
+      // and return "Not signed in", sending the guest to the Welcome screen.
+      if (!guest) {
+        setQuickError('Could not create the guest account. Please try again.');
+        setQuickSubmitting(false);
+        auth.setQuickJoining(false);
+        return;
       }
       // Join the family with the code — uses the join_family_by_code RPC
-      // (security definer, bypasses RLS).
-      const joinRes = await auth.joinFamily(trimmed);
+      // (security definer, bypasses RLS). Passing the guest id prevents the
+      // stale-closure auth.user bug.
+      const joinRes = await auth.joinFamily(trimmed, guest.id);
       if (joinRes.error) { setQuickError(joinRes.error); setQuickSubmitting(false); auth.setQuickJoining(false); return; }
       // page.tsx renders FamilyTree directly — no intermediary screen.
       // quickJoining stays true so AuthPage keeps showing AuthForms (not
