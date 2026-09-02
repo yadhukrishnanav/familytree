@@ -117,20 +117,26 @@ declare
     fam record;
     existing_role text;
 begin
-    -- Find the family by share code (case-insensitive)
-    select id, name, share_code into fam
-    from public.families
-    where upper(share_code) = upper(p_share_code)
+    -- Find the family by share code (case-insensitive).
+    -- IMPORTANT: qualify every column with a table alias (f.<col>). The
+    -- RETURNS TABLE clause turns `share_code` and `role` into PL/pgSQL output
+    -- variables, so an unqualified `share_code` / `role` in a query collides
+    -- with them and fails at runtime with:
+    --   'column reference "share_code" is ambiguous'
+    select f.id, f.name, f.share_code into fam
+    from public.families f
+    where upper(f.share_code) = upper(p_share_code)
     limit 1;
 
     if not found then
         raise exception 'No family found with that share code';
     end if;
 
-    -- Check if already a member
-    select role into existing_role
-    from public.family_members
-    where user_id = auth.uid() and family_id = fam.id
+    -- Check if already a member (fm.role qualified for the same reason —
+    -- `role` is also an output variable of this function).
+    select fm.role into existing_role
+    from public.family_members fm
+    where fm.user_id = auth.uid() and fm.family_id = fam.id
     limit 1;
 
     if existing_role is null then

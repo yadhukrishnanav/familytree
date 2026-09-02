@@ -467,12 +467,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         .rpc('join_family_by_code', { p_share_code: code });
 
       if (error) {
-        // Extract the human-readable part from the Postgres error message.
-        // Supabase wraps errors as: 'No family found with that share code'
-        const msg = error.message.includes('No family found')
-          ? 'No family found with that share code'
-          : error.message;
-        return { error: msg };
+        // Never surface raw Postgres errors in the UI.
+        console.error('join_family_by_code RPC failed:', error);
+        const raw = error.message ?? '';
+        if (raw.includes('No family found')) {
+          return { error: 'No family found with that share code' };
+        }
+        if (raw.includes('ambiguous') || raw.includes('schema cache')) {
+          // Broken/outdated join_family_by_code function (e.g. the
+          // 'column reference "share_code" is ambiguous' bug).
+          return {
+            error:
+              'Joining is temporarily unavailable — the database needs a one-time fix. ' +
+              'Ask the family admin to run supabase/fix-join-family-by-code.sql in the Supabase SQL editor.',
+          };
+        }
+        return { error: raw || 'Could not join the family. Please try again.' };
       }
 
       const row = (data as Array<{ family_id: string; family_name: string; share_code: string; role: string }>)[0];

@@ -79,7 +79,18 @@ export function AuthForms({
       // (security definer, bypasses RLS). Passing the guest id prevents the
       // stale-closure auth.user bug.
       const joinRes = await auth.joinFamily(trimmed, guest.id);
-      if (joinRes.error) { setQuickError(joinRes.error); setQuickSubmitting(false); auth.setQuickJoining(false); return; }
+      if (joinRes.error) {
+        // The guest account was already created and signed in above. If it
+        // stays signed in, AuthPage sees (user set, no families) and swaps
+        // this form for the "Welcome / Create a family" screen — the error
+        // would vanish with the unmounted form. Sign the orphan guest back
+        // out so the user stays on the auth form and can correct the code.
+        await auth.signOut();
+        setQuickError(joinRes.error);
+        setQuickSubmitting(false);
+        auth.setQuickJoining(false);
+        return;
+      }
       // page.tsx renders FamilyTree directly — no intermediary screen.
       // quickJoining stays true so AuthPage keeps showing AuthForms (not
       // the Welcome screen) until activeFamily is set, then page.tsx takes over.
