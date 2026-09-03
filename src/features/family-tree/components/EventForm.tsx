@@ -14,7 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { Upload, X, Calendar } from 'lucide-react';
+import { Upload, X } from 'lucide-react';
 import type { Person, TimelineEvent, TimelineIcon } from '../types';
 import { uploadPhoto, deletePhoto } from '../supabase';
 
@@ -44,12 +44,14 @@ export function EventForm({ initial, familyId, persons, onSubmit, onCancel, subm
   const [title, setTitle] = useState(initial?.title ?? '');
   const [description, setDescription] = useState(initial?.description ?? '');
   const [icon, setIcon] = useState<TimelineIcon>(initial?.icon ?? 'milestone');
-  const [color, setColor] = useState(initial?.color ?? '#eab308');
   const [personIds, setPersonIds] = useState<string[]>(initial?.personIds ?? []);
   const [photoPreview, setPhotoPreview] = useState<string | undefined>(initial?.photoUrl);
   const [photoDirty, setPhotoDirty] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Color is derived from the icon — the user never picks it manually.
+  const color = ICON_OPTIONS.find((o) => o.value === icon)?.color ?? '#eab308';
 
   const handlePhotoChange = async (file: File | null) => {
     if (!file) return;
@@ -137,55 +139,29 @@ export function EventForm({ initial, familyId, persons, onSubmit, onCancel, subm
         />
       </div>
 
-      {/* Icon + color */}
-      <div className="grid grid-cols-2 gap-3">
-        <div>
-          <Label>Icon</Label>
-          <Select value={icon} onValueChange={(v) => {
-            setIcon(v as TimelineIcon);
-            const opt = ICON_OPTIONS.find((o) => o.value === v);
-            if (opt) setColor(opt.color);
-          }}>
-            <SelectTrigger>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {ICON_OPTIONS.map((o) => (
-                <SelectItem key={o.value} value={o.value}>
-                  <span className="mr-1.5">{o.emoji}</span>
-                  {o.label}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-        <div>
-          <Label htmlFor="color">Color</Label>
-          <div className="flex items-center gap-2">
-            <input
-              type="color"
-              value={color}
-              onChange={(e) => setColor(e.target.value)}
-              className="h-9 w-12 rounded border border-slate-300"
-              id="color"
-            />
-            <span className="text-xs font-mono text-slate-500">{color}</span>
-          </div>
-        </div>
+      {/* Icon (color is derived automatically from the icon) */}
+      <div>
+        <Label>Icon</Label>
+        <Select value={icon} onValueChange={(v) => setIcon(v as TimelineIcon)}>
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            {ICON_OPTIONS.map((o) => (
+              <SelectItem key={o.value} value={o.value}>
+                <span className="mr-1.5">{o.emoji}</span>
+                {o.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
       </div>
 
-      {/* Photo */}
-      <div className="flex items-center gap-4">
-        <div className="relative h-16 w-24 overflow-hidden rounded-md bg-slate-100 ring-1 ring-slate-200">
-          {photoPreview ? (
-             
+      {/* Photo — compact: only show a thumbnail when a photo exists */}
+      <div className="flex items-center gap-3">
+        {photoPreview && (
+          <div className="relative h-12 w-16 overflow-hidden rounded-md ring-1 ring-slate-200">
             <img src={photoPreview} alt="" className="h-full w-full object-cover" crossOrigin="anonymous" />
-          ) : (
-            <div className="flex h-full w-full items-center justify-center text-slate-300">
-              <Calendar className="h-6 w-6" />
-            </div>
-          )}
-          {photoPreview && (
             <button
               type="button"
               onClick={async () => {
@@ -200,8 +176,8 @@ export function EventForm({ initial, familyId, persons, onSubmit, onCancel, subm
             >
               <X className="h-3 w-3" />
             </button>
-          )}
-        </div>
+          </div>
+        )}
         <label
           htmlFor="event-photo"
           className="inline-flex cursor-pointer items-center gap-2 rounded-md border border-slate-300 bg-white px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50"
@@ -236,7 +212,7 @@ export function EventForm({ initial, familyId, persons, onSubmit, onCancel, subm
                     onClick={() => togglePerson(p.id)}
                     className={`rounded-full px-2.5 py-1 text-xs font-medium transition ${
                       active
-                        ? 'bg-purple-500 text-white'
+                        ? 'bg-emerald-600 text-white'
                         : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                     }`}
                   >

@@ -97,7 +97,7 @@ export function MemberManagerDialog({ open, onOpenChange, familyId }: Props) {
       <DialogContent className="max-h-[90vh] max-w-lg overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <Users className="h-4 w-4 text-purple-500" />
+            <Users className="h-4 w-4 text-emerald-500" />
             Family members
             <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-600">
               {members.length}
@@ -126,14 +126,14 @@ export function MemberManagerDialog({ open, onOpenChange, familyId }: Props) {
             {members.map((m) => {
               const isMe = m.user_id === auth.user?.id;
               const roleIcon = m.role === 'admin' ? <Shield className="h-3 w-3" /> : m.role === 'owner' ? <Crown className="h-3 w-3" /> : <Pencil className="h-3 w-3" />;
-              const roleColor = m.role === 'admin' ? 'bg-rose-100 text-rose-700' : m.role === 'owner' ? 'bg-purple-100 text-purple-700' : 'bg-amber-100 text-amber-700';
+              const roleColor = m.role === 'admin' ? 'bg-rose-100 text-rose-700' : m.role === 'owner' ? 'bg-emerald-100 text-emerald-700' : 'bg-amber-100 text-amber-700';
               return (
                 <li
                   key={m.user_id}
                   className="flex items-center gap-3 rounded-lg border border-slate-200 bg-white p-3"
                 >
                   {/* Avatar */}
-                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 to-pink-500 text-xs font-bold text-white">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-emerald-500 to-teal-600 text-xs font-bold text-white">
                     {(m.email?.[0] ?? '?').toUpperCase()}
                   </div>
 
@@ -209,7 +209,7 @@ export function MemberManagerDialog({ open, onOpenChange, familyId }: Props) {
         <div className="mt-4 rounded-lg bg-slate-50 p-3 text-xs text-slate-500">
           <p className="font-medium text-slate-700">Want to add a family member?</p>
           <p className="mt-0.5">
-            Share your family code <code className="font-mono font-bold text-purple-700">{myFamily?.shareCode}</code> with them. They can sign up and use &ldquo;Join with code&rdquo; on the family-select screen.
+            Share your family code <code className="font-mono font-bold text-emerald-700">{myFamily?.shareCode}</code> with them. They can sign up and use &ldquo;Join with code&rdquo; on the family-select screen.
           </p>
         </div>
       </DialogContent>

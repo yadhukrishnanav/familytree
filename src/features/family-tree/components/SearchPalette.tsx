@@ -6,7 +6,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { Search, X, MapPin, Briefcase, User } from 'lucide-react';
+import { Search, MapPin, Briefcase, User } from 'lucide-react';
 import type { Person } from '../types';
 
 interface Props {
@@ -76,12 +76,8 @@ export function SearchPalette({ open, onOpenChange, persons, onSelectPerson }: P
             placeholder="Search by name, place, or occupation…"
             className="border-0 px-0 shadow-none focus-visible:ring-0"
           />
-          <button
-            onClick={() => onOpenChange(false)}
-            className="rounded p-1 text-slate-400 hover:bg-slate-100"
-          >
-            <X className="h-3.5 w-3.5" />
-          </button>
+          {/* Close uses the Dialog's built-in top-right ✕ — a second custom
+              button here rendered two X icons side by side. */}
         </div>
         <div className="max-h-96 overflow-y-auto p-1">
           {query.trim() === '' ? (

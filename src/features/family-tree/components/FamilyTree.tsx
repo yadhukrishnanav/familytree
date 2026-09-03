@@ -1088,6 +1088,7 @@ export function FamilyTree() {
       {showFederation && auth.activeFamily && (
         <FederationPanel
           familyId={auth.activeFamily.id}
+          persons={personsArray}
           onClose={() => setShowFederation(false)}
         />
       )}

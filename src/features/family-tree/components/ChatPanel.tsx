@@ -164,7 +164,7 @@ export function ChatPanel({ familyId, onClose }: Props) {
                           <div
                             className={`relative max-w-[80%] rounded-2xl px-3 py-2 text-sm ${
                               isMine
-                                ? 'bg-gradient-to-br from-purple-500 to-pink-500 text-white'
+                                ? 'bg-gradient-to-br from-emerald-500 to-teal-600 text-white'
                                 : 'bg-white text-slate-700 ring-1 ring-slate-200'
                             }`}
                           >
@@ -206,7 +206,7 @@ export function ChatPanel({ familyId, onClose }: Props) {
             type="submit"
             size="sm"
             disabled={sending || !input.trim()}
-            className="h-10 w-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 p-0 hover:from-purple-600 hover:to-pink-600"
+            className="h-10 w-10 rounded-full bg-gradient-to-br from-emerald-600 to-teal-500 p-0 hover:from-emerald-700 hover:to-teal-600"
           >
             <Send className="h-4 w-4" />
           </Button>

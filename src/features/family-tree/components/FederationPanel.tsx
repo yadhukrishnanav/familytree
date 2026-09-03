@@ -9,15 +9,24 @@ import { Input } from '@/components/ui/input';
 import { X, Link2, Unlink, Users, TreePine, AlertCircle, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { getSupabase, isSupabaseConfigured } from '../supabase';
-import { fetchLinkedFamilies, type LinkedFamilyInfo } from '../linkedFamilies';
+import {
+  fetchLinkedFamilies,
+  createFamilyLink,
+  setLinkMembers,
+  type LinkedFamilyInfo,
+} from '../linkedFamilies';
+import type { Person } from '../types';
 
 interface Props {
   familyId: string;
+  /** Our tree's people — used to pick the COMMON MEMBER who exists in both trees. */
+  persons: Person[];
   onClose: () => void;
 }
 
-export function FederationPanel({ familyId, onClose }: Props) {
+export function FederationPanel({ familyId, persons, onClose }: Props) {
   const [code, setCode] = useState('');
+  const [commonMemberId, setCommonMemberId] = useState('');
   const [linking, setLinking] = useState(false);
   const [loading, setLoading] = useState(true);
   const [linked, setLinked] = useState<LinkedFamilyInfo[]>([]);
@@ -43,6 +52,10 @@ export function FederationPanel({ familyId, onClose }: Props) {
     const trimmed = code.trim().toUpperCase();
     if (!trimmed) {
       setError('Enter a share code');
+      return;
+    }
+    if (!commonMemberId) {
+      setError('Select the common member — the person who exists in both trees (e.g. the daughter who married across).');
       return;
     }
     if (!isSupabaseConfigured) {
@@ -79,19 +92,31 @@ export function FederationPanel({ familyId, onClose }: Props) {
       setLinking(false);
       return;
     }
-    // Insert link (always order: smaller id first to satisfy unique constraint)
-    const [family_a, family_b] = [familyId, target.id].sort();
-    const { error: insertErr } = await client
-      .from('family_links')
-      .insert({ family_a, family_b, created_by: null });
-    if (insertErr) {
-      setError(insertErr.message);
+    // Insert link anchored at the common member (our side set now; the other
+    // family's admin completes their side from their own panel).
+    const linkRes = await createFamilyLink(familyId, target.id, commonMemberId);
+    if (linkRes.error) {
+      setError(linkRes.error);
       setLinking(false);
       return;
     }
     toast.success(`Linked to ${target.name}`, { description: `Share code: ${target.share_code}` });
     setCode('');
+    setCommonMemberId('');
     setLinking(false);
+    await loadLinked();
+  };
+
+  // Complete/correct OUR side's common-member anchor on an existing link.
+  const handleSetOurMember = async (link: LinkedFamilyInfo, personId: string) => {
+    const updates =
+      link.ourSide === 'a' ? { member_a: personId } : { member_b: personId };
+    const res = await setLinkMembers(link.linkId, updates);
+    if (res.error) {
+      toast.error('Could not set common member', { description: res.error });
+      return;
+    }
+    toast.success('Common member updated');
     await loadLinked();
   };
 
@@ -151,6 +176,30 @@ export function FederationPanel({ familyId, onClose }: Props) {
                 <span className="ml-1">Link</span>
               </Button>
             </div>
+            <div className="mt-2">
+              <label className="mb-1.5 block text-xs font-semibold text-slate-700">
+                Common member (required) — the person who exists in both trees
+              </label>
+              {persons.length === 0 ? (
+                <p className="text-xs text-amber-600">Add people to your tree first — the link anchors at a person.</p>
+              ) : (
+                <select
+                  value={commonMemberId}
+                  onChange={(e) => setCommonMemberId(e.target.value)}
+                  className="w-full rounded-md border border-slate-300 bg-white px-2.5 py-2 text-sm text-slate-700 focus:border-emerald-500 focus:outline-none"
+                >
+                  <option value="">Select the linking person…</option>
+                  {persons.map((pr) => (
+                    <option key={pr.id} value={pr.id}>
+                      {pr.firstName} {pr.lastName ?? ''}{pr.birthYear ? ` (${pr.birthYear})` : ''}
+                    </option>
+                  ))}
+                </select>
+              )}
+              <p className="mt-1 text-[11px] text-slate-400">
+                e.g. pick your daughter — the other family then picks her in their tree, so the link has an exact person-to-person route.
+              </p>
+            </div>
             {error && (
               <div className="mt-2 flex items-start gap-2 rounded-md bg-red-50 px-3 py-2 text-xs text-red-700">
                 <AlertCircle className="mt-0.5 h-3 w-3 shrink-0" />
@@ -190,7 +239,31 @@ export function FederationPanel({ familyId, onClose }: Props) {
                       <div className="truncate text-sm font-medium text-slate-800">{l.name}</div>
                       <div className="text-[11px] text-slate-500">
                         Code: <code className="font-mono font-bold text-slate-700">{l.shareCode}</code>
+                        {' · '}
+                        {(() => {
+                          const ours = persons.find((pr) => pr.id === l.ourMember);
+                          const theirs = l.member;
+                          if (ours && theirs) {
+                            return <span className="text-emerald-600">Linked through {ours.firstName}{theirs ? '' : ''}</span>;
+                          }
+                          if (ours) return <span className="text-emerald-600">Through {ours.firstName} (their side pending)</span>;
+                          return <span className="text-amber-600">Common member not set</span>;
+                        })()}
                       </div>
+                      {!l.ourMember && (
+                        <select
+                          value=""
+                          onChange={(e) => { if (e.target.value) handleSetOurMember(l, e.target.value); }}
+                          className="mt-1 w-full rounded border border-amber-300 bg-amber-50 px-2 py-1 text-[11px] text-slate-700"
+                        >
+                          <option value="">Set your side&apos;s common member…</option>
+                          {persons.map((pr) => (
+                            <option key={pr.id} value={pr.id}>
+                              {pr.firstName} {pr.lastName ?? ''}
+                            </option>
+                          ))}
+                        </select>
+                      )}
                     </div>
                     <Button
                       size="sm"

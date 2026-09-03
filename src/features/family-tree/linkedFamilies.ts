@@ -23,6 +23,32 @@ export interface LinkedFamilyInfo {
   familyId: string;
   name: string;
   shareCode: string;
+  /** Common-member anchor: person row in the linked family's tree (member_a/member_b are absolute; this is THEIR side). */
+  member?: string | null;
+  /** Common-member anchor: person row in OUR family's tree (our side). */
+  ourMember?: string | null;
+  /** Which absolute column (family_a/family_b) OUR family occupies on this link row. */
+  ourSide: 'a' | 'b';
+}
+
+const LINK_SELECT_A =
+  'id, family_b, member_a, member_b, families!family_links_family_b_fkey(id, name, share_code)';
+const LINK_SELECT_B =
+  'id, family_a, member_a, member_b, families!family_links_family_a_fkey(id, name, share_code)';
+
+function toLinkedFamily(row: any, side: 'a' | 'b'): LinkedFamilyInfo {
+  const fam = row.families;
+  return {
+    linkId: row.id as string,
+    familyId: fam?.id as string,
+    name: (fam?.name as string) ?? 'Unknown',
+    shareCode: (fam?.share_code as string) ?? '',
+    // Absolute columns → relative: when the linked family is on side B, its
+    // anchor is member_b and ours is member_a, and vice versa.
+    member: side === 'a' ? (row.member_b ?? null) : (row.member_a ?? null),
+    ourMember: side === 'a' ? (row.member_a ?? null) : (row.member_b ?? null),
+    ourSide: side,
+  };
 }
 
 export interface LinkedTree {
@@ -39,27 +65,54 @@ export async function fetchLinkedFamilies(familyId: string): Promise<LinkedFamil
 
   // Links where this family is family_a (join the B side) or family_b (join the A side)
   const [a, b] = await Promise.all([
-    client
-      .from('family_links')
-      .select('id, family_b, families!family_links_family_b_fkey(id, name, share_code)')
-      .eq('family_a', familyId),
-    client
-      .from('family_links')
-      .select('id, family_a, families!family_links_family_a_fkey(id, name, share_code)')
-      .eq('family_b', familyId),
+    client.from('family_links').select(LINK_SELECT_A).eq('family_a', familyId),
+    client.from('family_links').select(LINK_SELECT_B).eq('family_b', familyId),
   ]);
   if (a.error || b.error) {
     console.warn('fetchLinkedFamilies failed', a.error ?? b.error);
     return [];
   }
-  const map = (rows: any[] | null, key: 'families'): LinkedFamilyInfo[] =>
-    (rows ?? []).map((r) => ({
-      linkId: r.id as string,
-      familyId: r[key]?.id as string,
-      name: (r[key]?.name as string) ?? 'Unknown',
-      shareCode: (r[key]?.share_code as string) ?? '',
-    }));
-  return [...map(a.data, 'families'), ...map(b.data, 'families')];
+  return [
+    ...(a.data ?? []).map((r) => toLinkedFamily(r, 'a')),
+    ...(b.data ?? []).map((r) => toLinkedFamily(r, 'b')),
+  ];
+}
+
+/**
+ * Create a link anchored at the common member (a person who exists in both
+ * trees — our side's row is set now; the other family fills theirs in).
+ */
+export async function createFamilyLink(
+  ourFamilyId: string,
+  targetFamilyId: string,
+  ourMemberPersonId: string,
+): Promise<{ error?: string }> {
+  if (!isSupabaseConfigured) return { error: 'Federation requires a configured Supabase project.' };
+  const client = getSupabase()!;
+  const [family_a, family_b] = [ourFamilyId, targetFamilyId].sort();
+  // member_a/member_b are absolute: whichever side we are gets the anchor.
+  const member_a = ourFamilyId === family_a ? ourMemberPersonId : null;
+  const member_b = ourFamilyId === family_b ? ourMemberPersonId : null;
+  const { error } = await client
+    .from('family_links')
+    .insert({ family_a, family_b, member_a, member_b });
+  if (error) return { error: error.message };
+  return {};
+}
+
+/**
+ * Set/replace the common-member anchors on an existing link. Each admin fills
+ * in their own side's person row; the trigger validates family ownership.
+ */
+export async function setLinkMembers(
+  linkId: string,
+  updates: { member_a?: string | null; member_b?: string | null },
+): Promise<{ error?: string }> {
+  if (!isSupabaseConfigured) return { error: 'Federation requires a configured Supabase project.' };
+  const client = getSupabase()!;
+  const { error } = await client.from('family_links').update(updates).eq('id', linkId);
+  if (error) return { error: error.message };
+  return {};
 }
 
 /**

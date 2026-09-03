@@ -457,3 +457,79 @@ end;
 $$;
 
 grant execute on function public.get_linked_family_tree(uuid) to authenticated;
+
+-- ============= Linked families: common-member anchor =============
+-- A link should record THROUGH WHOM the families are related: member_a is a
+-- person in family_a's tree, member_b the same real person in family_b's
+-- tree. Both set or both null; a trigger validates each member belongs to
+-- its side (and grants update to either side's admin/owner).
+alter table public.family_links
+    add column if not exists member_a uuid references public.persons(id) on delete set null;
+alter table public.family_links
+    add column if not exists member_b uuid references public.persons(id) on delete set null;
+alter table public.family_links
+    drop constraint if exists link_members_paired;
+alter table public.family_links
+    add constraint link_members_paired
+    check ((member_a is null) = (member_b is null)) not valid;
+alter table public.family_links
+    validate constraint link_members_paired;
+
+create or replace function public.validate_link_members()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+    if new.member_a is not null and not exists (
+        select 1 from public.persons p
+        where p.id = new.member_a and p.family_id = new.family_a
+    ) then
+        raise exception 'member_a must be a person in family_a';
+    end if;
+    if new.member_b is not null and not exists (
+        select 1 from public.persons p
+        where p.id = new.member_b and p.family_id = new.family_b
+    ) then
+        raise exception 'member_b must be a person in family_b';
+    end if;
+    if new.member_a is not null and new.member_a = new.member_b then
+        raise exception 'member_a and member_b must be the two tree representations of the same person, not the same row';
+    end if;
+    -- Reject reverse-direction duplicates: unique_pair is an ordered
+    -- constraint, so (B,A) would otherwise coexist with (A,B).
+    if exists (
+        select 1 from public.family_links l2
+        where l2.family_a = new.family_b and l2.family_b = new.family_a
+    ) then
+        raise exception 'These families are already linked (reverse direction)';
+    end if;
+    return new;
+end;
+$$;
+
+drop trigger if exists trg_validate_link_members on public.family_links;
+create trigger trg_validate_link_members
+    before insert or update on public.family_links
+    for each row execute function public.validate_link_members;
+
+drop policy if exists "links_update_admin" on public.family_links;
+create policy "links_update_admin" on public.family_links
+    for update to authenticated
+    using (
+        (public.is_family_member(family_a) or public.is_family_member(family_b))
+        and exists (
+            select 1 from public.family_members m
+            where (m.family_id = family_a or m.family_id = family_b)
+              and m.user_id = auth.uid() and m.role in ('admin', 'owner')
+        )
+    )
+    with check (
+        (public.is_family_member(family_a) or public.is_family_member(family_b))
+        and exists (
+            select 1 from public.family_members m
+            where (m.family_id = family_a or m.family_id = family_b)
+              and m.user_id = auth.uid() and m.role in ('admin', 'owner')
+        )
+    );
