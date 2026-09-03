@@ -25,10 +25,22 @@ interface Props {
   onSwitch: (familyId: string) => void;
 }
 
+// The dashed link connector lands on this side's anchor card; highlight it so
+// the person-to-person route is visible.
+const GHOST_PAD = 28;
+
+export function ghostAnchorCardRect(ghost: GhostTree): { left: number; top: number } | null {
+  if (!ghost.anchorPersonId) return null;
+  const node = ghost.layout.nodes.find((n) => n.personId === ghost.anchorPersonId);
+  if (!node) return null;
+  return { left: node.x + GHOST_PAD, top: node.y + GHOST_PAD };
+}
+
 export function LinkedGhostOverlay({ ghost, origin, onSwitch }: Props) {
   const { t } = useI18n();
   const { layout, persons, family } = ghost;
-  const pad = 28; // breathing room inside the dashed frame
+  // breathing room inside the dashed frame (kept in sync with ghostAnchorCardRect)
+  const pad = GHOST_PAD;
 
   return (
     <div
@@ -110,6 +122,7 @@ export function LinkedGhostOverlay({ ghost, origin, onSwitch }: Props) {
           const p = persons[node.personId];
           if (!p) return null;
           const gradient = `linear-gradient(135deg, ${p.avatarColors[0]}, ${p.avatarColors[1]})`;
+          const isAnchor = ghost.anchorPersonId === p.id;
           return (
             <div
               key={`ghost-${node.id}`}
@@ -117,7 +130,7 @@ export function LinkedGhostOverlay({ ghost, origin, onSwitch }: Props) {
               style={{ left: node.x + pad, top: node.y + pad, width: NODE_WIDTH, height: NODE_HEIGHT }}
             >
               <div
-                className="flex h-full w-full flex-col justify-center gap-1 overflow-hidden rounded-2xl border border-white/60 bg-white/90 px-3 shadow-sm backdrop-blur-sm"
+                className={`flex h-full w-full flex-col justify-center gap-1 overflow-hidden rounded-2xl border bg-white/90 px-3 shadow-sm backdrop-blur-sm ${isAnchor ? 'border-indigo-400 shadow-[0_0_0_3px_rgba(99,102,241,0.25)]' : 'border-white/60'}`}
                 style={{ transform: 'scale(0.82)', transformOrigin: 'top left', width: NODE_WIDTH, height: NODE_HEIGHT }}
               >
                 <div className="flex items-center gap-2">
@@ -154,6 +167,17 @@ export function LinkedGhostOverlay({ ghost, origin, onSwitch }: Props) {
         <span className="max-w-[180px] truncate text-[11px] font-semibold text-slate-700">
           {family.name}
         </span>
+        {(() => {
+          const anchor = ghost.anchorPersonId ? persons[ghost.anchorPersonId] : undefined;
+          return anchor ? (
+            <span
+              className="max-w-[110px] truncate text-[10px] font-medium text-indigo-500"
+              title={t('canvas.linkedThrough', { name: `${anchor.firstName} ${anchor.lastName ?? ''}`.trim() })}
+            >
+              ⇄ {anchor.firstName}
+            </span>
+          ) : null;
+        })()}
         <span className="font-mono text-[10px] font-bold text-indigo-400">{family.shareCode}</span>
         <button
           onClick={() => onSwitch(family.familyId)}

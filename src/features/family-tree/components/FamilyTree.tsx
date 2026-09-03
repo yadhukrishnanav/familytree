@@ -89,7 +89,7 @@ import { MemberManagerDialog } from './MemberManagerDialog';
 import { CSVImportDialog } from './CSVImportDialog';
 import { FederationPanel } from './FederationPanel';
 import { CanvasErrorBoundary } from './CanvasErrorBoundary';
-import { LinkedGhostOverlay } from './LinkedGhostOverlay';
+import { LinkedGhostOverlay, ghostAnchorCardRect } from './LinkedGhostOverlay';
 import { LinkedFamiliesBar } from './LinkedFamiliesBar';
 import { useLinkedFamilies, type GhostTree } from '../useLinkedFamilies';
 import { exportToPngFile, exportToPdfFile } from '../export';
@@ -866,7 +866,11 @@ export function FamilyTree() {
               })}
 
               {/* Linked-family ghosts: dashed connector + dimmed read-only
-                  previews of linked trees (right of the active tree) */}
+                  previews of linked trees (right of the active tree).
+                  The connector is PERSON-to-PERSON when a common-member
+                  anchor exists: our anchor card's right edge → their anchor
+                  card's left edge (box-to-box). Falls back to a tree-level
+                  line while anchors are unset. */}
               {ghostPlacements.length > 0 && (
                 <>
                   <svg
@@ -875,21 +879,66 @@ export function FamilyTree() {
                     height={contentHeight}
                     aria-hidden
                   >
-                    {ghostPlacements.map(({ ghost, origin }) => (
-                      <line
-                        key={`ghost-link-${ghost.family.linkId}`}
-                        x1={layout.width + 6}
-                        y1={layout.height / 2}
-                        x2={origin.x + 4}
-                        y2={origin.y + ghost.layout.height / 2}
-                        stroke="#818cf8"
-                        strokeWidth={2}
-                        strokeDasharray="8 6"
-                        strokeLinecap="round"
-                        opacity={0.7}
-                      />
-                    ))}
+                    {ghostPlacements.map(({ ghost, origin }) => {
+                      const ourNode = ghost.family.ourMember
+                        ? layout.nodes.find((n) => n.personId === ghost.family.ourMember)
+                        : undefined;
+                      const theirRect = ghostAnchorCardRect(ghost);
+                      if (ourNode && theirRect) {
+                        return (
+                          <g key={`ghost-link-${ghost.family.linkId}`}>
+                            <line
+                              x1={ourNode.x + NODE_WIDTH}
+                              y1={ourNode.y + NODE_HEIGHT / 2}
+                              x2={origin.x + theirRect.left}
+                              y2={origin.y + theirRect.top + NODE_HEIGHT / 2}
+                              stroke="#6366f1"
+                              strokeWidth={2}
+                              strokeDasharray="8 6"
+                              strokeLinecap="round"
+                              opacity={0.9}
+                            />
+                            {/* anchor dots at both ends */}
+                            <circle cx={ourNode.x + NODE_WIDTH} cy={ourNode.y + NODE_HEIGHT / 2} r={3.5} fill="#6366f1" />
+                            <circle cx={origin.x + theirRect.left} cy={origin.y + theirRect.top + NODE_HEIGHT / 2} r={3.5} fill="#6366f1" />
+                          </g>
+                        );
+                      }
+                      // Fallback: anchors not set / not resolvable — tree-level line.
+                      return (
+                        <line
+                          key={`ghost-link-${ghost.family.linkId}`}
+                          x1={layout.width + 6}
+                          y1={layout.height / 2}
+                          x2={origin.x + 4}
+                          y2={origin.y + ghost.layout.height / 2}
+                          stroke="#818cf8"
+                          strokeWidth={2}
+                          strokeDasharray="8 6"
+                          strokeLinecap="round"
+                          opacity={0.7}
+                        />
+                      );
+                    })}
                   </svg>
+
+                  {/* Highlight ring around OUR anchor card (the person the
+                      link routes through) */}
+                  {ghostPlacements.map(({ ghost }) => {
+                    const ourNode = ghost.family.ourMember
+                      ? layout.nodes.find((n) => n.personId === ghost.family.ourMember)
+                      : undefined;
+                    if (!ourNode) return null;
+                    return (
+                      <div
+                        key={`ghost-anchor-ring-${ghost.family.linkId}`}
+                        className="pointer-events-none absolute rounded-2xl border-2 border-indigo-400/80"
+                        style={{ left: ourNode.x, top: ourNode.y, width: NODE_WIDTH, height: NODE_HEIGHT }}
+                        aria-hidden
+                      />
+                    );
+                  })}
+
                   {ghostPlacements.map(({ ghost, origin }) => (
                     <LinkedGhostOverlay
                       key={ghost.family.linkId}

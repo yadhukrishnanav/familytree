@@ -58,23 +58,51 @@ export interface LinkedTree {
 
 /**
  * All families linked to `familyId` (either direction of the link).
+ *
+ * Resilience: prefers the enriched select (member_a/member_b common-member
+ * anchors — requires supabase/link-common-member.sql). If the DB patch isn't
+ * applied yet, those columns don't exist and the enriched query errors — we
+ * then fall back to the legacy column set so chips/switching keep working
+ * (anchors read as null and the ghost connector falls back to tree-level).
  */
 export async function fetchLinkedFamilies(familyId: string): Promise<LinkedFamilyInfo[]> {
   if (!isSupabaseConfigured) return [];
   const client = getSupabase()!;
 
-  // Links where this family is family_a (join the B side) or family_b (join the A side)
+  const baseCols = (side: 'a' | 'b') =>
+    side === 'a'
+      ? 'id, family_b, families!family_links_family_b_fkey(id, name, share_code)'
+      : 'id, family_a, families!family_links_family_a_fkey(id, name, share_code)';
+
+  // 1) Enriched (with anchor columns)
   const [a, b] = await Promise.all([
     client.from('family_links').select(LINK_SELECT_A).eq('family_a', familyId),
     client.from('family_links').select(LINK_SELECT_B).eq('family_b', familyId),
   ]);
-  if (a.error || b.error) {
-    console.warn('fetchLinkedFamilies failed', a.error ?? b.error);
+  if (!a.error && !b.error) {
+    return [
+      ...(a.data ?? []).map((r) => toLinkedFamily(r, 'a')),
+      ...(b.data ?? []).map((r) => toLinkedFamily(r, 'b')),
+    ];
+  }
+
+  // 2) Legacy fallback (patch not applied)
+  console.warn(
+    'fetchLinkedFamilies: anchor columns unavailable — run supabase/link-common-member.sql. ' +
+      'Falling back to legacy link fetch.',
+    a.error ?? b.error,
+  );
+  const [a2, b2] = await Promise.all([
+    client.from('family_links').select(baseCols('a')).eq('family_a', familyId),
+    client.from('family_links').select(baseCols('b')).eq('family_b', familyId),
+  ]);
+  if (a2.error || b2.error) {
+    console.warn('fetchLinkedFamilies failed', a2.error ?? b2.error);
     return [];
   }
   return [
-    ...(a.data ?? []).map((r) => toLinkedFamily(r, 'a')),
-    ...(b.data ?? []).map((r) => toLinkedFamily(r, 'b')),
+    ...(a2.data ?? []).map((r) => toLinkedFamily(r, 'a')),
+    ...(b2.data ?? []).map((r) => toLinkedFamily(r, 'b')),
   ];
 }
 

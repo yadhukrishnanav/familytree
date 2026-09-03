@@ -86,6 +86,7 @@ const translations: Record<string, TranslationEntry> = {
   'canvas.linkedFamilies': { en: 'Linked families', ml: 'ബന്ധിപ്പിച്ച കുടുംബങ്ങൾ' },
   'canvas.viewTree': { en: 'View', ml: 'കാണുക' },
   'canvas.switchToTree': { en: 'Switch to this tree', ml: 'ഈ വൃക്ഷത്തിലേക്ക് മാറുക' },
+  'canvas.linkedThrough': { en: 'Linked through {name}', ml: '{name} വഴി ബന്ധിപ്പിച്ചിരിക്കുന്നു' },
   'toolbar.signOut': { en: 'Sign out', ml: 'സൈൻ ഔട്ട്' },
   'toolbar.signOutConfirm': { en: 'Sign out of Family Tree? You can sign back in with the same email.', ml: 'കുടുംബവൃക്ഷത്തിൽ നിന്ന് സൈൻ ഔട്ട് ചെയ്യണോ? ഇതേ ഇമെയിൽ ഉപയോഗിച്ച് വീണ്ടും സൈൻ ഇൻ ചെയ്യാം.' },
   'toolbar.recentActivity': { en: 'Recent activity', ml: 'സമീപകാല പ്രവർത്തനങ്ങൾ' },

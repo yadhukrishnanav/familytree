@@ -16,6 +16,9 @@ export interface GhostTree {
   family: LinkedFamilyInfo;
   layout: LayoutResult;
   persons: LinkedTree['persons'];
+  /** Their-side common-member anchor (person id in THEIR tree) — the ghost
+   *  card the dashed link connector should land on. Null when unset. */
+  anchorPersonId: string | null;
 }
 
 export function useLinkedFamilies(activeFamilyId: string | null, enabled: boolean) {
@@ -58,6 +61,7 @@ export function useLinkedFamilies(activeFamilyId: string | null, enabled: boolea
               family: l,
               persons: tree.persons,
               layout: computeLayout(tree.persons, tree.familyUnits),
+              anchorPersonId: l.member ?? null,
             },
           ];
         }),
