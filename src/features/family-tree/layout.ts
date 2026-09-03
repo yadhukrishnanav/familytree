@@ -128,14 +128,23 @@ export function computeLayout(
       for (const sw of siblingWidths) {
         const siblingCenterX = siblingCursorX + sw.width / 2;
 
-        // Thin horizontal connector between adjacent siblings — signals
-        // "we're siblings" without a full parent-drop-down junction.
+        // Exact box edges of this sibling's leftmost card (the card itself
+        // when standalone, otherwise the left card of their couple).
+        const sibUnit = sw.childUnitId
+          ? familyUnits.find((u) => u.id === sw.childUnitId)
+          : undefined;
+        const sibBoxWidth = sibUnit?.partner2Id ? NODE_WIDTH * 2 + SPOUSE_GAP : NODE_WIDTH;
+        const sibLeftEdge = siblingCenterX - sibBoxWidth / 2;
+        const sibRightEdge = sibLeftEdge + sibBoxWidth;
+
+        // Thin horizontal connector between adjacent siblings — drawn
+        // edge-to-edge so it visibly TOUCHES both cards.
         if (prevRightEdge !== null) {
           connections.push({
             type: 'junction',
             fromX: prevRightEdge,
             fromY: connectorY,
-            toX: siblingCenterX - NODE_WIDTH / 2,
+            toX: sibLeftEdge,
             toY: connectorY,
           });
         }
@@ -157,7 +166,7 @@ export function computeLayout(
           maxX = Math.max(maxX, siblingCenterX + NODE_WIDTH / 2);
           maxY = Math.max(maxY, topY + NODE_HEIGHT);
         }
-        prevRightEdge = siblingCenterX + NODE_WIDTH / 2;
+        prevRightEdge = sibRightEdge;
         siblingCursorX += sw.width + SIBLING_GAP;
       }
       return;
@@ -236,7 +245,32 @@ export function computeLayout(
       ? partner1X + NODE_WIDTH + SPOUSE_GAP / 2
       : partner1X + NODE_WIDTH / 2;
 
-    // Junction bar (parent line down to children level)
+    // Resolve each child's layout info up front. childCenterX is the center
+    // of the child's SUBTREE; childCardCenterX is the center of the child's
+    // own CARD. They differ when the child has a spouse: the subtree is
+    // [child, gap, spouse], so its center falls inside the spouse gap. Drop
+    // connectors must land on the card (box-to-box) — otherwise the line
+    // stops in open space between child and spouse and it's ambiguous who
+    // the parents' child is.
+    const childInfos = childWidths.map((cw) => {
+      const childCenterX = childCursorX + cw.width / 2;
+      childCursorX += cw.width + SIBLING_GAP;
+      const childUnit = cw.childUnitId
+        ? familyUnits.find((u) => u.id === cw.childUnitId)
+        : undefined;
+      let childCardCenterX = childCenterX;
+      if (childUnit && childUnit.partner2Id) {
+        const halfPair = (NODE_WIDTH + SPOUSE_GAP) / 2;
+        if (childUnit.partner1Id === cw.childId) {
+          childCardCenterX = childCenterX - halfPair; // child = LEFT card of their couple
+        } else if (childUnit.partner2Id === cw.childId) {
+          childCardCenterX = childCenterX + halfPair; // child = RIGHT card
+        }
+      }
+      return { ...cw, childCenterX, childCardCenterX };
+    });
+
+    // Parent drop: parent card bottom → junction level.
     connections.push({
       type: 'junction',
       fromX: coupleCenterX,
@@ -245,54 +279,50 @@ export function computeLayout(
       toY: junctionY,
     });
 
-    const firstChildCenterX = childCursorX + childWidths[0].width / 2;
-    const lastChildCenterX =
-      childCursorX +
-      childWidths.slice(0, -1).reduce((s, c) => s + c.width + SIBLING_GAP, 0) +
-      childWidths[childWidths.length - 1].width / 2;
-
-    // Horizontal bar spanning all children centers
-    if (childWidths.length > 1) {
+    // Horizontal junction bar spanning the parent drop and every child's
+    // CARD center (not subtree centers), so each drop leaves the bar exactly
+    // vertically and lands squarely on its card.
+    const firstCardCenterX = childInfos[0].childCardCenterX;
+    const lastCardCenterX = childInfos[childInfos.length - 1].childCardCenterX;
+    const barStartX = Math.min(coupleCenterX, firstCardCenterX, lastCardCenterX);
+    const barEndX = Math.max(coupleCenterX, firstCardCenterX, lastCardCenterX);
+    if (barEndX - barStartX > 0.5) {
       connections.push({
         type: 'junction',
-        fromX: firstChildCenterX,
+        fromX: barStartX,
         fromY: junctionY,
-        toX: lastChildCenterX,
+        toX: barEndX,
         toY: junctionY,
       });
     }
 
-    for (const cw of childWidths) {
-      const childCenterX = childCursorX + cw.width / 2;
-      // Junction-to-child vertical — extend all the way to the CHILD CARD TOP
-      // (was stopping NODE_HEIGHT/2 above the child, leaving the line floating
-      // in mid-air). Now the connector goes parent-card-bottom → junction →
-      // child-card-top, fully card-to-card.
+    for (const cw of childInfos) {
+      // Junction-to-child vertical: junction bar → the child CARD's top
+      // center, exactly. Box-to-box: parent card bottom → bar → card top.
       connections.push({
         type: 'parent-child',
-        fromX: childCenterX,
+        fromX: cw.childCardCenterX,
         fromY: junctionY,
-        toX: childCenterX,
+        toX: cw.childCardCenterX,
         toY: topY + NODE_HEIGHT + GENERATION_GAP, // child card top
       });
 
       if (cw.childUnitId) {
-        positionUnit(cw.childUnitId, childCenterX, topY + NODE_HEIGHT + GENERATION_GAP, generation + 1);
+        // Positioning still uses the SUBTREE center — geometry unchanged.
+        positionUnit(cw.childUnitId, cw.childCenterX, topY + NODE_HEIGHT + GENERATION_GAP, generation + 1);
       } else {
-        // Standalone child (no own family unit) — use child's own id (not in any
-        // unit as a partner, so the bare id is unique here).
+        // Standalone child (no own family unit) — card center == subtree center.
         nodes.push({
           id: `node-${cw.childId}`,
-          x: childCenterX - NODE_WIDTH / 2,
+          x: cw.childCenterX - NODE_WIDTH / 2,
           y: topY + NODE_HEIGHT + GENERATION_GAP,
           type: 'person',
           personId: cw.childId,
           generation: generation + 1,
         });
-        maxX = Math.max(maxX, childCenterX + NODE_WIDTH / 2);
+        maxX = Math.max(maxX, cw.childCenterX + NODE_WIDTH / 2);
         maxY = Math.max(maxY, topY + NODE_HEIGHT + GENERATION_GAP + NODE_HEIGHT);
       }
-      childCursorX += cw.width + SIBLING_GAP;
     }
   }
 
