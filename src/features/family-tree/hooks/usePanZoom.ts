@@ -66,10 +66,17 @@ export function usePanZoom(layoutWidth: number, layoutHeight: number) {
   }, [transform.x, transform.y]);
 
   const onMouseMove = useCallback((e: React.MouseEvent) => {
-    if (!isPanning.current || !panStart.current) return;
-    const dx = e.clientX - panStart.current.x;
-    const dy = e.clientY - panStart.current.y;
-    setTransform((t) => ({ ...t, x: panStart.current!.tx + dx, y: panStart.current!.ty + dy }));
+    const start = panStart.current;
+    if (!isPanning.current || !start) return;
+    const dx = e.clientX - start.x;
+    const dy = e.clientY - start.y;
+    // Capture the start offset EAGERLY. The setState updater runs later
+    // (lazily, at render time) — if mouseup/leave nulls panStart.current in
+    // between, reading the ref inside the updater crashed with
+    // "Cannot read properties of null (reading 'tx')" and took down the
+    // whole page (auth state included).
+    const { tx, ty } = start;
+    setTransform((t) => ({ ...t, x: tx + dx, y: ty + dy }));
   }, []);
 
   const onMouseUp = useCallback(() => {
@@ -98,7 +105,10 @@ export function usePanZoom(layoutWidth: number, layoutHeight: number) {
       const t = e.touches[0];
       const dx = t.clientX - panStart.current.x;
       const dy = t.clientY - panStart.current.y;
-      setTransform((tr) => ({ ...tr, x: panStart.current!.tx + dx, y: panStart.current!.ty + dy }));
+      // Eager capture — same lazy-updater race as the mouse path (touchend
+      // can null panStart.current before React runs the queued updater).
+      const { tx, ty } = panStart.current;
+      setTransform((tr) => ({ ...tr, x: tx + dx, y: ty + dy }));
     } else if (e.touches.length === 2 && pinchRef.current) {
       e.preventDefault();
       const dx = e.touches[0].clientX - e.touches[1].clientX;

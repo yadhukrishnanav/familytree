@@ -88,6 +88,7 @@ const MapPanel = dynamic(() => import('./MapPanel').then((m) => m.MapPanel), {
 import { MemberManagerDialog } from './MemberManagerDialog';
 import { CSVImportDialog } from './CSVImportDialog';
 import { FederationPanel } from './FederationPanel';
+import { CanvasErrorBoundary } from './CanvasErrorBoundary';
 import { LinkedGhostOverlay } from './LinkedGhostOverlay';
 import { LinkedFamiliesBar } from './LinkedFamiliesBar';
 import { useLinkedFamilies, type GhostTree } from '../useLinkedFamilies';
@@ -675,8 +676,10 @@ export function FamilyTree() {
         </DropdownMenu>
       </div>
 
-      {/* ---- Canvas (main area) ---- */}
+      {/* ---- Canvas (main area) — crash-contained: a canvas error shows a
+           local recovery card and never unmounts auth/store state ---- */}
       <div className="relative flex-1 overflow-hidden bg-slate-50">
+        <CanvasErrorBoundary>
       {viewMode === 'grid' ? (
         <PhotoGridView
           persons={state.persons}
@@ -930,6 +933,7 @@ export function FamilyTree() {
         )}
         </>
       )}
+        </CanvasErrorBoundary>
       </div>
 
       {/* ---- Timeline ---- */}
