@@ -54,7 +54,7 @@ import { NIL_UUID } from '../types';
 import { useStore } from '../store';
 import { useAuth } from '../auth';
 import { useI18n } from '../i18n';
-import { deletePhoto } from '../supabase';
+import { deletePhoto, isSupabaseConfigured } from '../supabase';
 import { computeLayout, NODE_WIDTH, NODE_HEIGHT } from '../layout';
 import { WEDDING, CANVAS } from '../constants';
 import { PersonCard, MarriageBadge } from './PersonCard';
@@ -88,6 +88,9 @@ const MapPanel = dynamic(() => import('./MapPanel').then((m) => m.MapPanel), {
 import { MemberManagerDialog } from './MemberManagerDialog';
 import { CSVImportDialog } from './CSVImportDialog';
 import { FederationPanel } from './FederationPanel';
+import { LinkedGhostOverlay } from './LinkedGhostOverlay';
+import { LinkedFamiliesBar } from './LinkedFamiliesBar';
+import { useLinkedFamilies, type GhostTree } from '../useLinkedFamilies';
 import { exportToPngFile, exportToPdfFile } from '../export';
 
 type ModalKind = 'add-person' | 'edit-person' | 'add-event' | 'edit-event' | null;
@@ -129,6 +132,38 @@ export function FamilyTree() {
   const layout = useMemo(
     () => computeLayout(state.persons, state.familyUnits),
     [state.persons, state.familyUnits],
+  );
+
+  // ---- Linked families (federation): chips + read-only ghost previews ----
+  // Loads family_links for the active family and each linked family's tree
+  // (via the get_linked_family_tree RPC). Ghosts are laid out with the same
+  // computeLayout and rendered to the right of the active tree.
+  const linked = useLinkedFamilies(
+    auth.activeFamily?.id ?? null,
+    isSupabaseConfigured && !!auth.activeFamily,
+  );
+
+  const GHOST_GAP_X = 260; // gap between active tree and the ghost cluster
+  const GHOST_GAP_Y = 96; // vertical gap between multiple ghosts
+  const ghostPlacements = useMemo(() => {
+    const list: Array<{ ghost: GhostTree; origin: { x: number; y: number } }> = [];
+    let cursorY = 0;
+    for (const g of Object.values(linked.ghosts)) {
+      if (g.layout.width === 0) continue;
+      list.push({ ghost: g, origin: { x: layout.width + GHOST_GAP_X, y: cursorY } });
+      cursorY += g.layout.height + GHOST_GAP_Y;
+    }
+    return list;
+  }, [linked.ghosts, layout.width]);
+
+  // Expand the pannable content box so ghost clusters live inside it.
+  const contentWidth = Math.max(
+    layout.width + 100,
+    ...ghostPlacements.map((p) => p.origin.x + p.ghost.layout.width + 128),
+  );
+  const contentHeight = Math.max(
+    layout.height + 100,
+    ...ghostPlacements.map((p) => p.ghost.layout.height + 128),
   );
 
   // Pan/zoom state + handlers (wheel, mouse pan, touch pan, pinch zoom, zoom buttons).
@@ -695,8 +730,8 @@ export function FamilyTree() {
               style={{
                 transform: `translate(${transform.x}px, ${transform.y}px) scale(${transform.scale})`,
                 transformOrigin: '0 0',
-                width: layout.width + 100,
-                height: layout.height + 100,
+                width: contentWidth,
+                height: contentHeight,
               }}
             >
               {/* Subtle horizontal generation guide lines.
@@ -826,9 +861,53 @@ export function FamilyTree() {
                   </div>
                 );
               })}
+
+              {/* Linked-family ghosts: dashed connector + dimmed read-only
+                  previews of linked trees (right of the active tree) */}
+              {ghostPlacements.length > 0 && (
+                <>
+                  <svg
+                    className="pointer-events-none absolute left-0 top-0"
+                    width={contentWidth}
+                    height={contentHeight}
+                    aria-hidden
+                  >
+                    {ghostPlacements.map(({ ghost, origin }) => (
+                      <line
+                        key={`ghost-link-${ghost.family.linkId}`}
+                        x1={layout.width + 6}
+                        y1={layout.height / 2}
+                        x2={origin.x + 4}
+                        y2={origin.y + ghost.layout.height / 2}
+                        stroke="#818cf8"
+                        strokeWidth={2}
+                        strokeDasharray="8 6"
+                        strokeLinecap="round"
+                        opacity={0.7}
+                      />
+                    ))}
+                  </svg>
+                  {ghostPlacements.map(({ ghost, origin }) => (
+                    <LinkedGhostOverlay
+                      key={ghost.family.linkId}
+                      ghost={ghost}
+                      origin={origin}
+                      onSwitch={(fid) => { setSelectedId(null); auth.setActiveFamilyId(fid); }}
+                    />
+                  ))}
+                </>
+              )}
             </div>
           </div>
         )}
+
+        {/* Linked-families chips bar (switch quickly between linked trees) */}
+        <LinkedFamiliesBar
+          links={linked.links}
+          loading={linked.loading}
+          onSwitch={(fid) => { setSelectedId(null); auth.setActiveFamilyId(fid); }}
+          onManage={() => setShowFederation(true)}
+        />
 
         {/* Zoom controls (above timeline if visible) */}
         <ZoomControls

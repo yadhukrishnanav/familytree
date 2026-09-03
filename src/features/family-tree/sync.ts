@@ -10,7 +10,7 @@ import type {
 import type { FamilyTreeState, FamilyUnit, Person, TimelineEvent } from './types';
 
 // ---- Row → Domain ----
-function rowToPerson(r: PersonRow): Person {
+export function rowToPerson(r: PersonRow): Person {
   return {
     id: r.id,
     firstName: r.first_name,
@@ -25,7 +25,7 @@ function rowToPerson(r: PersonRow): Person {
   };
 }
 
-function rowToUnit(r: FamilyUnitRow): FamilyUnit {
+export function rowToUnit(r: FamilyUnitRow): FamilyUnit {
   return {
     id: r.id,
     partner1Id: r.partner1_id,

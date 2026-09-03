@@ -9,55 +9,23 @@ import { Input } from '@/components/ui/input';
 import { X, Link2, Unlink, Users, TreePine, AlertCircle, Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { getSupabase, isSupabaseConfigured } from '../supabase';
+import { fetchLinkedFamilies, type LinkedFamilyInfo } from '../linkedFamilies';
 
 interface Props {
   familyId: string;
   onClose: () => void;
 }
 
-interface LinkedFamily {
-  linkId: string;
-  familyId: string;
-  name: string;
-  shareCode: string;
-}
-
 export function FederationPanel({ familyId, onClose }: Props) {
   const [code, setCode] = useState('');
   const [linking, setLinking] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [linked, setLinked] = useState<LinkedFamily[]>([]);
+  const [linked, setLinked] = useState<LinkedFamilyInfo[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   const loadLinked = async () => {
-    if (!isSupabaseConfigured) {
-      setLoading(false);
-      return;
-    }
-    const client = getSupabase()!;
-    // Fetch links where this family is family_a OR family_b
-    const [a, b] = await Promise.all([
-      client.from('family_links').select('id, family_b, families!family_links_family_b_fkey(id, name, share_code)').eq('family_a', familyId),
-      client.from('family_links').select('id, family_a, families!family_links_family_a_fkey(id, name, share_code)').eq('family_b', familyId),
-    ]);
-    if (a.error || b.error) {
-      console.warn('Failed to load linked families', a.error ?? b.error);
-      setLoading(false);
-      return;
-    }
-    const aRows = (a.data ?? []).map((r: any) => ({
-      linkId: r.id,
-      familyId: r.families?.id,
-      name: r.families?.name ?? 'Unknown',
-      shareCode: r.families?.share_code ?? '',
-    }));
-    const bRows = (b.data ?? []).map((r: any) => ({
-      linkId: r.id,
-      familyId: r.families?.id,
-      name: r.families?.name ?? 'Unknown',
-      shareCode: r.families?.share_code ?? '',
-    }));
-    setLinked([...aRows, ...bRows]);
+    const rows = await fetchLinkedFamilies(familyId);
+    setLinked(rows);
     setLoading(false);
   };
 

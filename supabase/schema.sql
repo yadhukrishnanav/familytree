@@ -414,3 +414,46 @@ create policy "links_delete_admin" on public.family_links
               and m.role in ('admin', 'owner')
         )
     );
+
+-- ============= RPC: get_linked_family_tree (read-only ghost view) =============
+-- Lets the canvas render a dimmed "ghost" preview of a LINKED family's tree.
+-- persons/family_units RLS only allows direct members, so linked-family
+-- members need this security-definer RPC. It verifies the caller is a member
+-- of a family linked to p_family_id (or a direct member), then returns that
+-- family's persons + family_units as JSON. Read-only: no writes happen here.
+--
+-- All columns are qualified (p./u./l.) — RETURNS TABLE output variables must
+-- never collide with unqualified column names (see join_family_by_code fix).
+create or replace function public.get_linked_family_tree(p_family_id uuid)
+returns table (persons jsonb, family_units jsonb)
+language plpgsql
+security definer
+set search_path = public
+as $$
+begin
+    -- Caller must be a member of p_family_id itself, or of any family
+    -- linked to it via family_links.
+    if not (
+        public.is_family_member(p_family_id)
+        or exists (
+            select 1
+            from public.family_links l
+            where (l.family_a = p_family_id and public.is_family_member(l.family_b))
+               or (l.family_b = p_family_id and public.is_family_member(l.family_a))
+        )
+    ) then
+        raise exception 'Not a member of a linked family';
+    end if;
+
+    return query
+    select
+        (select coalesce(jsonb_agg(to_jsonb(p)), '[]'::jsonb)
+         from public.persons p
+         where p.family_id = p_family_id),
+        (select coalesce(jsonb_agg(to_jsonb(u)), '[]'::jsonb)
+         from public.family_units u
+         where u.family_id = p_family_id);
+end;
+$$;
+
+grant execute on function public.get_linked_family_tree(uuid) to authenticated;
