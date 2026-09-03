@@ -19,6 +19,11 @@ export interface AuthContextValue {
   families: FamilyInfo[];
   activeFamily: FamilyInfo | null;
   loading: boolean;
+  /** True while the family list for the signed-in user is being fetched.
+   *  AuthPage checks this so a signed-in member goes straight to the canvas
+   *  instead of flashing the "Welcome / Create a family" screen while the
+   *  (async) families query is in flight. */
+  familiesLoading: boolean;
   isDemo: boolean;
   /** True while a QuickAccess (family code) join is in progress. AuthPage
    *  checks this to avoid showing the "Welcome / Create a family" intermediary
@@ -116,9 +121,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // AuthPage from showing the "Welcome / Create a family" intermediary screen
   // in the window between signUp (sets auth.user) and joinFamily (sets activeFamily).
   const [quickJoining, setQuickJoining] = useState(false);
+  // True while refreshFamiliesFor is fetching. Starts true: if a session is
+  // restored, the family list is by definition not loaded yet, and AuthPage
+  // must not render the Welcome screen before it knows whether the user has
+  // families (that flash was sending members to "Create a family").
+  const [familiesLoading, setFamiliesLoading] = useState(true);
 
   // ---- Refresh families helper (declared before useEffect that uses it) ----
   const refreshFamiliesFor = useCallback(async (userId: string) => {
+    setFamiliesLoading(true);
+    try {
     if (isSupabaseConfigured && supabase) {
       // Query family_members joined with families
       const { data, error } = await supabase
@@ -130,23 +142,36 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setFamilies([]);
         return;
       }
-      const list: FamilyInfo[] = [];
+      const famRows: { id: string; name: string; share_code: string }[] = [];
+      const roleByFamily = new Map<string, string>();
       for (const row of (data as any[]) ?? []) {
         const fam = row.families;
         if (!fam) continue;
-        // Get member count for each family
-        const { count } = await supabase
-          .from('family_members')
-          .select('user_id', { count: 'exact', head: true })
-          .eq('family_id', fam.id);
-        list.push({
-          id: fam.id,
-          name: fam.name,
-          shareCode: fam.share_code,
-          role: row.role,
-          memberCount: count ?? 0,
-        });
+        famRows.push({ id: fam.id, name: fam.name, share_code: fam.share_code });
+        roleByFamily.set(fam.id, row.role);
       }
+      // Member counts in ONE query for all families (was N+1 before, which
+      // kept the post-sign-in "loading" window visible for ages).
+      let memberCountByFamily = new Map<string, number>();
+      if (famRows.length > 0) {
+        const { data: memberRows, error: countErr } = await supabase
+          .from('family_members')
+          .select('family_id')
+          .in('family_id', famRows.map((f) => f.id));
+        if (!countErr && memberRows) {
+          memberCountByFamily = memberRows.reduce((acc, m) => {
+            acc.set((m as { family_id: string }).family_id, (acc.get((m as { family_id: string }).family_id) ?? 0) + 1);
+            return acc;
+          }, new Map<string, number>());
+        }
+      }
+      const list: FamilyInfo[] = famRows.map((fam) => ({
+        id: fam.id,
+        name: fam.name,
+        shareCode: fam.share_code,
+        role: (roleByFamily.get(fam.id) ?? 'editor') as FamilyInfo['role'],
+        memberCount: memberCountByFamily.get(fam.id) ?? 1,
+      }));
       setFamilies(list);
       // Preserve current selection if possible
       setActiveFamilyIdState((prev) => {
@@ -173,6 +198,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (prev && list.some((f) => f.id === prev)) return prev;
         return list.length > 0 ? list[0].id : null;
       });
+    }
+    } finally {
+      setFamiliesLoading(false);
     }
   }, [supabase]);
 
@@ -532,6 +560,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     families,
     activeFamily,
     loading,
+    familiesLoading,
     isDemo: !isSupabaseConfigured,
     quickJoining,
     setQuickJoining,

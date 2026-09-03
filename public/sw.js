@@ -1,7 +1,13 @@
 // Family Tree — Service Worker
 // Simple cache-first strategy for static assets, network-first for navigation.
+//
+// NOTE ON DEPLOYS: `CACHE_NAME` must be bumped on every deploy that changes
+// app code. The activate handler deletes every cache whose name doesn't match,
+// so clients purge stale assets on the first load after the new SW arrives.
+// A stale cache was the cause of "Application error: a client-side exception"
+// after deployments (old chunks 404 on the new deployment).
 
-const CACHE_NAME = "family-tree-v1";
+const CACHE_NAME = "family-tree-v2";
 const STATIC_ASSETS = [
   "/",
   "/manifest.json",
@@ -24,6 +30,20 @@ self.addEventListener("activate", (event) => {
       Promise.all(keys.filter((k) => k !== CACHE_NAME).map((k) => caches.delete(k)))
     ).then(() => self.clients.claim())
   );
+});
+
+// Messages from the app: force-activate a waiting SW, or purge every cache.
+// Used by the error-recovery flow (see src/features/family-tree/errorRecovery.ts)
+// when a chunk fails to load after a deploy.
+self.addEventListener("message", (event) => {
+  const type = event?.data?.type;
+  if (type === "SKIP_WAITING") {
+    self.skipWaiting();
+  } else if (type === "PURGE_CACHES") {
+    event.waitUntil(
+      caches.keys().then((keys) => Promise.all(keys.map((k) => caches.delete(k))))
+    );
+  }
 });
 
 // Fetch: network-first for navigation requests (so users get latest app),

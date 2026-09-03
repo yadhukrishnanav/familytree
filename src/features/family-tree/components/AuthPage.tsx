@@ -10,6 +10,7 @@
 // and go straight to the canvas (no intermediary screens).
 
 import { useState } from 'react';
+import { TreePine } from 'lucide-react';
 import { useAuth } from '../auth';
 import { useLandingLocation } from '../useLandingLocation';
 import { AuthForms } from './auth/AuthForms';
@@ -41,6 +42,21 @@ export function AuthPage() {
 
   if (!auth.user) {
     return <AuthForms initialView={view} setView={setView} />;
+  }
+  // Signed in, but the family list hasn't loaded yet. Show the loader —
+  // NOT the Welcome screen — otherwise members see a "create or join" flash
+  // between sign-in and the canvas (and got stuck there if the query failed).
+  if (auth.familiesLoading && !auth.activeFamily) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-emerald-50 via-white to-teal-50">
+        <div className="text-center">
+          <div className="mx-auto mb-3 flex h-12 w-12 animate-pulse items-center justify-center rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-lg">
+            <TreePine className="h-6 w-6 text-white" />
+          </div>
+          <p className="text-sm text-slate-500">Loading…</p>
+        </div>
+      </div>
+    );
   }
   // If user has families, go straight to family-select (or the active family)
   if (auth.families.length > 0 && auth.activeFamily) {
