@@ -270,11 +270,15 @@ export function computeLayout(
       return { ...cw, childCenterX, childCardCenterX };
     });
 
-    // Parent drop: parent card bottom → junction level.
+    // Parent drop — no gaps: for a couple it starts at the MARRIAGE LINE's
+    // midpoint (the marriage connector itself runs border-to-border between
+    // the two cards), so the chain is fully connected: card border → marriage
+    // line → drop → junction bar → child card border. For a single parent it
+    // starts at the card's bottom edge.
     connections.push({
       type: 'junction',
       fromX: coupleCenterX,
-      fromY: topY + NODE_HEIGHT,
+      fromY: unit.partner2Id ? topY + NODE_HEIGHT / 2 : topY + NODE_HEIGHT,
       toX: coupleCenterX,
       toY: junctionY,
     });
