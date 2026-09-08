@@ -459,21 +459,12 @@ $$;
 grant execute on function public.get_linked_family_tree(uuid) to authenticated;
 
 -- ============= Linked families: common-member anchor =============
--- A link should record THROUGH WHOM the families are related: member_a is a
--- person in family_a's tree, member_b the same real person in family_b's
--- tree. Both set or both null; a trigger validates each member belongs to
--- its side (and grants update to either side's admin/owner).
-alter table public.family_links
-    add column if not exists member_a uuid references public.persons(id) on delete set null;
-alter table public.family_links
-    add column if not exists member_b uuid references public.persons(id) on delete set null;
-alter table public.family_links
-    drop constraint if exists link_members_paired;
-alter table public.family_links
-    add constraint link_members_paired
-    check ((member_a is null) = (member_b is null)) not valid;
-alter table public.family_links
-    validate constraint link_members_paired;
+-- A link records THROUGH WHOM the families are related: member_a is a person
+-- in family_a's tree, member_b the same real person in family_b's tree.
+-- Anchors may be 0, 1, or 2 (2 = fully linked; the UI shows pending states
+-- otherwise). Per-side correctness is enforced by validate_link_members;
+-- a both-set pair constraint would break the incremental link flow (the
+-- first admin can only set their own side) and was removed.
 
 create or replace function public.validate_link_members()
 returns trigger
