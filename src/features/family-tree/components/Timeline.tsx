@@ -214,12 +214,12 @@ export function Timeline({
 
             {/* Cards */}
             {cardPositions.map(({ event, x, above }) => {
-              // Tiny representation-only card: emoji + truncated title + year,
-              // with micro initial-avatars overlapping the top edge. No long
-              // words, no descriptions, no person rows.
-              const cardWidth = 128;
-              const cardHeight = 36;
-              const verticalOffset = 12;
+              // Squarish representation-only card: emoji + year on top,
+              // title WRAPPED below (small text, max 3 lines — long sentences
+              // break onto new lines instead of being cut off).
+              const cardWidth = 84;
+              const cardHeight = 68;
+              const verticalOffset = 10;
               const top = above
                 ? 'calc(50% - ' + (cardHeight + verticalOffset) + 'px)'
                 : 'calc(50% + ' + verticalOffset + 'px)';
@@ -231,16 +231,16 @@ export function Timeline({
                     className="absolute left-1/2 h-2.5 w-0.5 -translate-x-1/2"
                     style={{
                       background: event.color,
-                      top: above ? 'auto' : '-12px',
-                      bottom: above ? '-12px' : 'auto',
+                      top: above ? 'auto' : '-10px',
+                      bottom: above ? '-10px' : 'auto',
                     }}
                   />
                   <div
                     className="absolute left-1/2 h-2 w-2 -translate-x-1/2 rounded-full ring-2 ring-white"
                     style={{
                       background: event.color,
-                      top: above ? 'auto' : '-13px',
-                      bottom: above ? '-13px' : 'auto',
+                      top: above ? 'auto' : '-11px',
+                      bottom: above ? '-11px' : 'auto',
                       transform: 'translateX(-50%) translateY(50%)',
                       boxShadow: `0 0 0 1px ${event.color}`,
                     }}
@@ -256,7 +256,7 @@ export function Timeline({
                         return (
                           <div
                             key={pid}
-                            className="flex h-[14px] w-[14px] items-center justify-center rounded-full text-[7px] font-bold text-white ring-1 ring-white"
+                            className="flex h-[13px] w-[13px] items-center justify-center rounded-full text-[7px] font-bold text-white ring-1 ring-white"
                             style={{
                               background: `linear-gradient(135deg, ${p.avatarColors[0]}, ${p.avatarColors[1]})`,
                               marginLeft: idx > 0 ? '-4px' : 0,
@@ -277,32 +277,34 @@ export function Timeline({
 
                   <div
                     onClick={() => onSelectEvent?.(event)}
-                    className="flex h-9 cursor-pointer items-center gap-1.5 overflow-hidden rounded-lg bg-white px-1.5 shadow-md ring-1 ring-slate-200/80 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:ring-2"
-                    style={{ borderTop: `2px solid ${event.color}` }}
+                    className="flex cursor-pointer flex-col gap-0.5 overflow-hidden rounded-lg bg-white px-1.5 py-1 shadow-md ring-1 ring-slate-200/80 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:ring-2"
+                    style={{ borderTop: `2px solid ${event.color}`, width: cardWidth, height: cardHeight }}
                     title={event.title}
                   >
-                    <span className="shrink-0 text-[11px] leading-none">{ICON_EMOJI[event.icon] ?? '📌'}</span>
-                    <span className="min-w-0 flex-1 truncate text-[10px] font-semibold text-slate-800">
+                    <div className="flex items-center justify-between gap-1">
+                      <span className="shrink-0 text-[10px] leading-none">{ICON_EMOJI[event.icon] ?? '📌'}</span>
+                      <span
+                        className="shrink-0 font-mono text-[8px] font-bold"
+                        style={{ color: event.color }}
+                      >
+                        {event.year}
+                      </span>
+                      {onDeleteEvent && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onDeleteEvent(event.id);
+                          }}
+                          className="shrink-0 rounded p-0 opacity-0 transition group-hover:opacity-100 hover:bg-red-50"
+                          aria-label="Delete event"
+                        >
+                          <Trash2 className="h-2.5 w-2.5 text-red-500" />
+                        </button>
+                      )}
+                    </div>
+                    <span className="line-clamp-3 break-words text-[9px] font-medium leading-[1.25] text-slate-700">
                       {event.title}
                     </span>
-                    <span
-                      className="shrink-0 font-mono text-[9px] font-bold"
-                      style={{ color: event.color }}
-                    >
-                      {event.year}
-                    </span>
-                    {onDeleteEvent && (
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          onDeleteEvent(event.id);
-                        }}
-                        className="shrink-0 rounded p-0 opacity-0 transition group-hover:opacity-100 hover:bg-red-50"
-                        aria-label="Delete event"
-                      >
-                        <Trash2 className="h-2.5 w-2.5 text-red-500" />
-                      </button>
-                    )}
                   </div>
                 </div>
               );

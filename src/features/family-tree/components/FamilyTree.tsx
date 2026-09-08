@@ -782,10 +782,6 @@ export function FamilyTree() {
                     <stop offset="0%" stopColor="#ec4899" />
                     <stop offset="100%" stopColor="#f43f5e" />
                   </linearGradient>
-                  <linearGradient id="grad-parent" x1="0%" y1="0%" x2="0%" y2="100%">
-                    <stop offset="0%" stopColor="#cbd5e1" />
-                    <stop offset="100%" stopColor="#94a3b8" />
-                  </linearGradient>
                 </defs>
                 {layout.connections.map((c, i) => {
                   if (c.type === 'marriage') {
@@ -819,14 +815,19 @@ export function FamilyTree() {
                       />
                     );
                   }
-                  // Parent-child: subtle Bezier curve
+                  // Parent-child: subtle Bezier curve. IMPORTANT: solid
+                  // stroke — these paths are perfectly VERTICAL, and an
+                  // objectBoundingBox gradient on a zero-width bbox is
+                  // undefined in SVG (the path silently renders as NOTHING).
+                  // That invisible-path bug is why child drops looked
+                  // 'floating' for ages. Same rule for the ghost overlay.
                   const midY = (c.fromY + c.toY) / 2;
                   return (
                     <path
                       key={i}
                       d={`M ${c.fromX} ${c.fromY} C ${c.fromX} ${midY}, ${c.toX} ${midY}, ${c.toX} ${c.toY}`}
                       fill="none"
-                      stroke="url(#grad-parent)"
+                      stroke="#94a3b8"
                       strokeWidth={2}
                       strokeLinecap="round"
                     />

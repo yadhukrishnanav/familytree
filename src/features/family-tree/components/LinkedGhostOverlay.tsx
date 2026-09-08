@@ -88,11 +88,7 @@ export function LinkedGhostOverlay({ ghost, origin, onSwitch }: Props) {
               <stop offset="0%" stopColor="#f9a8d4" />
               <stop offset="100%" stopColor="#fda4af" />
             </linearGradient>
-            <linearGradient id="ghost-grad-parent" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#c7d2fe" />
-              <stop offset="100%" stopColor="#a5b4fc" />
-            </linearGradient>
-          </defs>
+            </defs>
           {layout.connections.map((c, i) => {
             if (c.type === 'marriage') {
               return (
@@ -124,12 +120,14 @@ export function LinkedGhostOverlay({ ghost, origin, onSwitch }: Props) {
               );
             }
             const midY = (c.fromY + c.toY) / 2;
+            // Solid stroke — vertical path + objectBoundingBox y-gradient
+            // renders as nothing (same SVG gotcha as the main tree).
             return (
               <path
                 key={i}
                 d={`M ${c.fromX + pad} ${c.fromY + pad} C ${c.fromX + pad} ${midY + pad}, ${c.toX + pad} ${midY + pad}, ${c.toX + pad} ${c.toY + pad}`}
                 fill="none"
-                stroke="url(#ghost-grad-parent)"
+                stroke="#a5b4fc"
                 strokeWidth={2}
                 strokeLinecap="round"
               />
