@@ -106,7 +106,7 @@ export function FamilyTree() {
   const [modal, setModal] = useState<ModalKind>(null);
   const [editingPerson, setEditingPerson] = useState<Person | null>(null);
   const [editingEvent, setEditingEvent] = useState<TimelineEvent | null>(null);
-  const [timelineCollapsed, setTimelineCollapsed] = useState(false);
+  const [timelineCollapsed, setTimelineCollapsed] = useState(true); // collapsed by default — canvas first
   const [submitting, setSubmitting] = useState(false);
   const [copiedCode, setCopiedCode] = useState(false);
   const [showActivity, setShowActivity] = useState(false);
@@ -885,13 +885,15 @@ export function FamilyTree() {
                         : undefined;
                       const theirRect = ghostAnchorCardRect(ghost);
                       if (ourNode && theirRect) {
+                        const y1 = ourNode.y + NODE_HEIGHT / 2;
+                        const y2 = origin.y + theirRect.top + theirRect.h / 2;
                         return (
                           <g key={`ghost-link-${ghost.family.linkId}`}>
                             <line
                               x1={ourNode.x + NODE_WIDTH}
-                              y1={ourNode.y + NODE_HEIGHT / 2}
+                              y1={y1}
                               x2={origin.x + theirRect.left}
-                              y2={origin.y + theirRect.top + NODE_HEIGHT / 2}
+                              y2={y2}
                               stroke="#6366f1"
                               strokeWidth={2}
                               strokeDasharray="8 6"
@@ -899,8 +901,8 @@ export function FamilyTree() {
                               opacity={0.9}
                             />
                             {/* anchor dots at both ends */}
-                            <circle cx={ourNode.x + NODE_WIDTH} cy={ourNode.y + NODE_HEIGHT / 2} r={3.5} fill="#6366f1" />
-                            <circle cx={origin.x + theirRect.left} cy={origin.y + theirRect.top + NODE_HEIGHT / 2} r={3.5} fill="#6366f1" />
+                            <circle cx={ourNode.x + NODE_WIDTH} cy={y1} r={3.5} fill="#6366f1" />
+                            <circle cx={origin.x + theirRect.left} cy={y2} r={3.5} fill="#6366f1" />
                           </g>
                         );
                       }

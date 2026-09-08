@@ -2,8 +2,12 @@
 
 // Family Tree — Linked-family ghost overlay
 // Renders a READ-ONLY, dimmed preview of a linked family's tree next to the
-// active tree on the canvas. Positioned inside the pan/zoom container, to the
-// right of the active tree, connected by a dashed "linked" line.
+// active tree on the canvas, connected by a dashed "linked" line.
+//
+// Scaling note: the whole cluster (frame + SVG + cards) is drawn at FULL node
+// size inside a container that is uniformly scaled down (GHOST_SCALE). Scaling
+// the container — not the individual cards — keeps every connector exactly on
+// the card borders (per-card CSS scaling desynced lines from boxes).
 //
 // Everything is pointer-events-none except the badge's switch button — the
 // ghost is context, not an editing surface. To edit the other tree, switch
@@ -19,123 +23,140 @@ export interface GhostOrigin {
   y: number;
 }
 
+// Uniform scale of the ghost cluster relative to the real tree.
+export const GHOST_SCALE = 0.8;
+// Breathing room inside the dashed frame (full-size units, pre-scale).
+export const GHOST_PAD = 28;
+
+/**
+ * Bounding rect (in parent canvas coordinates, post-scale) of the anchor
+ * person's card in this ghost — the box the dashed link connector must land
+ * on. Null when the anchor is unset or not part of the rendered layout.
+ */
+export function ghostAnchorCardRect(ghost: GhostTree): { left: number; top: number; w: number; h: number } | null {
+  if (!ghost.anchorPersonId) return null;
+  const node = ghost.layout.nodes.find((n) => n.personId === ghost.anchorPersonId);
+  if (!node) return null;
+  return {
+    left: (node.x + GHOST_PAD) * GHOST_SCALE,
+    top: (node.y + GHOST_PAD) * GHOST_SCALE,
+    w: NODE_WIDTH * GHOST_SCALE,
+    h: NODE_HEIGHT * GHOST_SCALE,
+  };
+}
+
 interface Props {
   ghost: GhostTree;
   origin: GhostOrigin;
   onSwitch: (familyId: string) => void;
 }
 
-// The dashed link connector lands on this side's anchor card; highlight it so
-// the person-to-person route is visible.
-const GHOST_PAD = 28;
-
-export function ghostAnchorCardRect(ghost: GhostTree): { left: number; top: number } | null {
-  if (!ghost.anchorPersonId) return null;
-  const node = ghost.layout.nodes.find((n) => n.personId === ghost.anchorPersonId);
-  if (!node) return null;
-  return { left: node.x + GHOST_PAD, top: node.y + GHOST_PAD };
-}
-
 export function LinkedGhostOverlay({ ghost, origin, onSwitch }: Props) {
   const { t } = useI18n();
   const { layout, persons, family } = ghost;
-  // breathing room inside the dashed frame (kept in sync with ghostAnchorCardRect)
   const pad = GHOST_PAD;
+  const fullW = layout.width + pad * 2;
+  const fullH = layout.height + pad * 2;
 
   return (
     <div
       className="absolute"
-      style={{ left: origin.x, top: origin.y, width: layout.width + pad * 2, height: layout.height + pad * 2 }}
+      style={{ left: origin.x, top: origin.y, width: fullW * GHOST_SCALE, height: fullH * GHOST_SCALE }}
     >
-      {/* Dashed frame + faint tint — signals "another tree lives here" */}
+      {/* Uniformly scaled cluster: full-size geometry inside, so every
+          connector stays exactly on the card borders */}
       <div
-        className="absolute inset-0 rounded-3xl border-2 border-dashed border-indigo-300/70 bg-indigo-50/40"
-        aria-hidden
-      />
-
-      {/* Ghost connections (self-contained SVG; unique gradient ids so they
-          never clash with the main tree's defs) */}
-      <svg
-        className="pointer-events-none absolute left-0 top-0"
-        width={layout.width + pad * 2}
-        height={layout.height + pad * 2}
-        aria-hidden
+        className="absolute left-0 top-0"
+        style={{ width: fullW, height: fullH, transform: `scale(${GHOST_SCALE})`, transformOrigin: '0 0' }}
       >
-        <defs>
-          <linearGradient id="ghost-grad-marriage" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%" stopColor="#f9a8d4" />
-            <stop offset="100%" stopColor="#fda4af" />
-          </linearGradient>
-          <linearGradient id="ghost-grad-parent" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#c7d2fe" />
-            <stop offset="100%" stopColor="#a5b4fc" />
-          </linearGradient>
-        </defs>
-        {layout.connections.map((c, i) => {
-          if (c.type === 'marriage') {
+        {/* Dashed frame + faint tint — signals "another tree lives here" */}
+        <div
+          className="absolute inset-0 rounded-3xl border-2 border-dashed border-indigo-300/70 bg-indigo-50/40"
+          aria-hidden
+        />
+
+        {/* Ghost connections (self-contained SVG; unique gradient ids so they
+            never clash with the main tree's defs) */}
+        <svg
+          className="pointer-events-none absolute left-0 top-0"
+          width={fullW}
+          height={fullH}
+          aria-hidden
+        >
+          <defs>
+            <linearGradient id="ghost-grad-marriage" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="#f9a8d4" />
+              <stop offset="100%" stopColor="#fda4af" />
+            </linearGradient>
+            <linearGradient id="ghost-grad-parent" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="#c7d2fe" />
+              <stop offset="100%" stopColor="#a5b4fc" />
+            </linearGradient>
+          </defs>
+          {layout.connections.map((c, i) => {
+            if (c.type === 'marriage') {
+              return (
+                <line
+                  key={i}
+                  x1={c.fromX + pad}
+                  y1={c.fromY + pad}
+                  x2={c.toX + pad}
+                  y2={c.toY + pad}
+                  stroke="url(#ghost-grad-marriage)"
+                  strokeWidth={2.5}
+                  strokeDasharray="6 4"
+                  strokeLinecap="round"
+                />
+              );
+            }
+            if (c.type === 'junction') {
+              return (
+                <line
+                  key={i}
+                  x1={c.fromX + pad}
+                  y1={c.fromY + pad}
+                  x2={c.toX + pad}
+                  y2={c.toY + pad}
+                  stroke="#a5b4fc"
+                  strokeWidth={2}
+                  strokeLinecap="round"
+                />
+              );
+            }
+            const midY = (c.fromY + c.toY) / 2;
             return (
-              <line
+              <path
                 key={i}
-                x1={c.fromX + pad}
-                y1={c.fromY + pad}
-                x2={c.toX + pad}
-                y2={c.toY + pad}
-                stroke="url(#ghost-grad-marriage)"
-                strokeWidth={2.5}
-                strokeDasharray="6 4"
-                strokeLinecap="round"
-              />
-            );
-          }
-          if (c.type === 'junction') {
-            return (
-              <line
-                key={i}
-                x1={c.fromX + pad}
-                y1={c.fromY + pad}
-                x2={c.toX + pad}
-                y2={c.toY + pad}
-                stroke="#a5b4fc"
+                d={`M ${c.fromX + pad} ${c.fromY + pad} C ${c.fromX + pad} ${midY + pad}, ${c.toX + pad} ${midY + pad}, ${c.toX + pad} ${c.toY + pad}`}
+                fill="none"
+                stroke="url(#ghost-grad-parent)"
                 strokeWidth={2}
                 strokeLinecap="round"
               />
             );
-          }
-          const midY = (c.fromY + c.toY) / 2;
-          return (
-            <path
-              key={i}
-              d={`M ${c.fromX + pad} ${c.fromY + pad} C ${c.fromX + pad} ${midY + pad}, ${c.toX + pad} ${midY + pad}, ${c.toX + pad} ${c.toY + pad}`}
-              fill="none"
-              stroke="url(#ghost-grad-parent)"
-              strokeWidth={2}
-              strokeLinecap="round"
-            />
-          );
-        })}
-      </svg>
+          })}
+        </svg>
 
-      {/* Ghost person mini-cards — same coordinates as a real layout, dimmed */}
-      <div className="pointer-events-none absolute inset-0 opacity-70 select-none">
-        {layout.nodes.map((node) => {
-          if (!node.personId) return null;
-          const p = persons[node.personId];
-          if (!p) return null;
-          const gradient = `linear-gradient(135deg, ${p.avatarColors[0]}, ${p.avatarColors[1]})`;
-          const isAnchor = ghost.anchorPersonId === p.id;
-          return (
-            <div
-              key={`ghost-${node.id}`}
-              className="absolute"
-              style={{ left: node.x + pad, top: node.y + pad, width: NODE_WIDTH, height: NODE_HEIGHT }}
-            >
+        {/* Ghost person cards — full node size (the container scales them),
+            dimmed; anchor card highlighted */}
+        <div className="pointer-events-none absolute inset-0 opacity-70 select-none">
+          {layout.nodes.map((node) => {
+            if (!node.personId) return null;
+            const p = persons[node.personId];
+            if (!p) return null;
+            const gradient = `linear-gradient(135deg, ${p.avatarColors[0]}, ${p.avatarColors[1]})`;
+            const isAnchor = ghost.anchorPersonId === p.id;
+            return (
               <div
-                className={`flex h-full w-full flex-col justify-center gap-1 overflow-hidden rounded-2xl border bg-white/90 px-3 shadow-sm backdrop-blur-sm ${isAnchor ? 'border-indigo-400 shadow-[0_0_0_3px_rgba(99,102,241,0.25)]' : 'border-white/60'}`}
-                style={{ transform: 'scale(0.82)', transformOrigin: 'top left', width: NODE_WIDTH, height: NODE_HEIGHT }}
+                key={`ghost-${node.id}`}
+                className="absolute"
+                style={{ left: node.x + pad, top: node.y + pad, width: NODE_WIDTH, height: NODE_HEIGHT }}
               >
-                <div className="flex items-center gap-2">
+                <div
+                  className={`flex h-full w-full items-center gap-2 overflow-hidden rounded-2xl border bg-white/90 px-3 shadow-sm backdrop-blur-sm ${isAnchor ? 'border-indigo-400 shadow-[0_0_0_3px_rgba(99,102,241,0.25)]' : 'border-white/60'}`}
+                >
                   <div
-                    className="h-6 w-6 shrink-0 rounded-full shadow-sm"
+                    className="h-8 w-8 shrink-0 rounded-full shadow-sm"
                     style={{ background: gradient }}
                     aria-hidden
                   />
@@ -151,12 +172,13 @@ export function LinkedGhostOverlay({ ghost, origin, onSwitch }: Props) {
                   </div>
                 </div>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
 
-      {/* Badge + switch button — the only interactive part */}
+      {/* Badge + switch button — OUTSIDE the scaled container so it renders at
+          natural size (the only interactive part) */}
       <div
         className="absolute -top-5 left-4 z-10 flex items-center gap-2 rounded-full border border-indigo-200 bg-white/95 py-1 pl-2 pr-1 shadow-md backdrop-blur"
         style={{ pointerEvents: 'auto' }}

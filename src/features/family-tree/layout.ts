@@ -8,6 +8,9 @@ import { LAYOUT } from './constants';
 // Re-export dimensions for components that need them (PersonCard, FamilyTree, etc.)
 // The actual values live in constants.ts → LAYOUT so there's one source of truth.
 export const NODE_WIDTH = LAYOUT.NODE_WIDTH;
+// Connector endpoints are tucked 2px UNDER the opaque cards (cards render
+// above the SVG), so no anti-aliasing/rounding can ever leave a visible gap.
+export const LINE_OVERLAP = 2;
 export const NODE_HEIGHT = LAYOUT.NODE_HEIGHT;
 export const SPOUSE_GAP = LAYOUT.SPOUSE_GAP;
 export const SIBLING_GAP = LAYOUT.SIBLING_GAP;
@@ -142,9 +145,9 @@ export function computeLayout(
         if (prevRightEdge !== null) {
           connections.push({
             type: 'junction',
-            fromX: prevRightEdge,
+            fromX: prevRightEdge - LINE_OVERLAP,
             fromY: connectorY,
-            toX: sibLeftEdge,
+            toX: sibLeftEdge + LINE_OVERLAP,
             toY: connectorY,
           });
         }
@@ -203,12 +206,12 @@ export function computeLayout(
         personId: unit.partner2Id,
         generation,
       });
-      // Marriage line
+      // Marriage line — card border to card border (2px tucked under each)
       connections.push({
         type: 'marriage',
-        fromX: partner1X + NODE_WIDTH,
+        fromX: partner1X + NODE_WIDTH - LINE_OVERLAP,
         fromY: topY + NODE_HEIGHT / 2,
-        toX: partner2X,
+        toX: partner2X + LINE_OVERLAP,
         toY: topY + NODE_HEIGHT / 2,
         marriageYear: unit.marriageYear,
       });
@@ -278,7 +281,7 @@ export function computeLayout(
     connections.push({
       type: 'junction',
       fromX: coupleCenterX,
-      fromY: unit.partner2Id ? topY + NODE_HEIGHT / 2 : topY + NODE_HEIGHT,
+      fromY: unit.partner2Id ? topY + NODE_HEIGHT / 2 : topY + NODE_HEIGHT + LINE_OVERLAP,
       toX: coupleCenterX,
       toY: junctionY,
     });
@@ -308,7 +311,7 @@ export function computeLayout(
         fromX: cw.childCardCenterX,
         fromY: junctionY,
         toX: cw.childCardCenterX,
-        toY: topY + NODE_HEIGHT + GENERATION_GAP, // child card top
+        toY: topY + NODE_HEIGHT + GENERATION_GAP + LINE_OVERLAP, // 2px under the card top
       });
 
       if (cw.childUnitId) {

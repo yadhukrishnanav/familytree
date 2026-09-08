@@ -188,7 +188,7 @@ export function Timeline({
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
-        className="ft-timeline-scroll relative h-[210px] overflow-x-auto overflow-y-hidden"
+        className="ft-timeline-scroll relative h-[150px] overflow-x-auto overflow-y-hidden"
       >
         {sorted.length === 0 ? (
           <div className="flex h-full items-center justify-center text-sm text-slate-400">
@@ -214,96 +214,94 @@ export function Timeline({
 
             {/* Cards */}
             {cardPositions.map(({ event, x, above }) => {
-              const cardWidth = 170;
-              const cardHeight = 72;
-              const verticalOffset = 14;
+              // Tiny representation-only card: emoji + truncated title + year,
+              // with micro initial-avatars overlapping the top edge. No long
+              // words, no descriptions, no person rows.
+              const cardWidth = 128;
+              const cardHeight = 36;
+              const verticalOffset = 12;
               const top = above
                 ? 'calc(50% - ' + (cardHeight + verticalOffset) + 'px)'
                 : 'calc(50% + ' + verticalOffset + 'px)';
+              const shownPeople = event.personIds.slice(0, 4);
               return (
                 <div key={event.id} className="group absolute" style={{ left: x - cardWidth / 2, top, width: cardWidth }}>
                   {/* Connecting line + dot */}
                   <div
-                    className="absolute left-1/2 h-3 w-0.5 -translate-x-1/2"
+                    className="absolute left-1/2 h-2.5 w-0.5 -translate-x-1/2"
                     style={{
                       background: event.color,
-                      top: above ? 'auto' : `-14px`,
-                      bottom: above ? `-14px` : 'auto',
+                      top: above ? 'auto' : '-12px',
+                      bottom: above ? '-12px' : 'auto',
                     }}
                   />
                   <div
-                    className="absolute left-1/2 h-3 w-3 -translate-x-1/2 rounded-full ring-2 ring-white"
+                    className="absolute left-1/2 h-2 w-2 -translate-x-1/2 rounded-full ring-2 ring-white"
                     style={{
                       background: event.color,
-                      top: above ? 'auto' : `-14px`,
-                      bottom: above ? `-14px` : 'auto',
+                      top: above ? 'auto' : '-13px',
+                      bottom: above ? '-13px' : 'auto',
                       transform: 'translateX(-50%) translateY(50%)',
                       boxShadow: `0 0 0 1px ${event.color}`,
                     }}
                   />
 
-                  <div
-                    onClick={() => onSelectEvent?.(event)}
-                    className="cursor-pointer overflow-hidden rounded-xl bg-white shadow-md ring-1 ring-slate-200/80 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:ring-2"
-                    style={{ borderTop: `3px solid ${event.color}` }}
-                  >
-                    <div className="flex items-start gap-2 px-2.5 py-2">
-                      <div
-                        className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-xs"
-                        style={{
-                          background: `${event.color}20`,
-                        }}
-                      >
-                        <span className="leading-none">{ICON_EMOJI[event.icon] ?? '📌'}</span>
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <div className="truncate text-xs font-semibold text-slate-800">
-                          {event.title}
-                        </div>
-                        <div
-                          className="text-[10px] font-mono font-bold"
-                          style={{ color: event.color }}
-                        >
-                          {event.year}
-                        </div>
-                      </div>
-                      {onDeleteEvent && (
-                        <button
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            onDeleteEvent(event.id);
-                          }}
-                          className="rounded p-0.5 opacity-0 transition group-hover:opacity-100 hover:bg-red-50"
-                          aria-label="Delete event"
-                        >
-                          <Trash2 className="h-3 w-3 text-red-500" />
-                        </button>
+                  {/* Tiny person representation — micro initial-avatars on the edge */}
+                  {shownPeople.length > 0 && (
+                    <div className="absolute -top-2 right-1 z-10 flex">
+                      {shownPeople.map((pid, idx) => {
+                        const p = persons[pid];
+                        if (!p) return null;
+                        const initials = (p.firstName[0] + (p.lastName?.[0] ?? '')).toUpperCase();
+                        return (
+                          <div
+                            key={pid}
+                            className="flex h-[14px] w-[14px] items-center justify-center rounded-full text-[7px] font-bold text-white ring-1 ring-white"
+                            style={{
+                              background: `linear-gradient(135deg, ${p.avatarColors[0]}, ${p.avatarColors[1]})`,
+                              marginLeft: idx > 0 ? '-4px' : 0,
+                            }}
+                            title={`${p.firstName} ${p.lastName ?? ''}`}
+                          >
+                            {initials}
+                          </div>
+                        );
+                      })}
+                      {event.personIds.length > 4 && (
+                        <span className="ml-0.5 rounded-full bg-white px-1 text-[7px] font-bold text-slate-500 ring-1 ring-slate-200">
+                          +{event.personIds.length - 4}
+                        </span>
                       )}
                     </div>
-                    {/* Person mini-avatars */}
-                    {event.personIds.length > 0 && (
-                      <div className="flex flex-wrap items-center gap-0.5 border-t border-slate-100 bg-slate-50/60 px-2 py-1">
-                        {event.personIds.slice(0, 5).map((pid, idx) => {
-                          const p = persons[pid];
-                          if (!p) return null;
-                          return (
-                            <div
-                              key={pid}
-                              className="h-4 w-4 rounded-full ring-2 ring-white"
-                              style={{
-                                background: `linear-gradient(135deg, ${p.avatarColors[0]}, ${p.avatarColors[1]})`,
-                                marginLeft: idx > 0 ? '-4px' : 0,
-                              }}
-                              title={`${p.firstName} ${p.lastName ?? ''}`}
-                            />
-                          );
-                        })}
-                        {event.personIds.length > 5 && (
-                          <span className="ml-1 text-[9px] font-semibold text-slate-400">
-                            +{event.personIds.length - 5}
-                          </span>
-                        )}
-                      </div>
+                  )}
+
+                  <div
+                    onClick={() => onSelectEvent?.(event)}
+                    className="flex h-9 cursor-pointer items-center gap-1.5 overflow-hidden rounded-lg bg-white px-1.5 shadow-md ring-1 ring-slate-200/80 transition-all duration-200 hover:-translate-y-0.5 hover:shadow-lg hover:ring-2"
+                    style={{ borderTop: `2px solid ${event.color}` }}
+                    title={event.title}
+                  >
+                    <span className="shrink-0 text-[11px] leading-none">{ICON_EMOJI[event.icon] ?? '📌'}</span>
+                    <span className="min-w-0 flex-1 truncate text-[10px] font-semibold text-slate-800">
+                      {event.title}
+                    </span>
+                    <span
+                      className="shrink-0 font-mono text-[9px] font-bold"
+                      style={{ color: event.color }}
+                    >
+                      {event.year}
+                    </span>
+                    {onDeleteEvent && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onDeleteEvent(event.id);
+                        }}
+                        className="shrink-0 rounded p-0 opacity-0 transition group-hover:opacity-100 hover:bg-red-50"
+                        aria-label="Delete event"
+                      >
+                        <Trash2 className="h-2.5 w-2.5 text-red-500" />
+                      </button>
                     )}
                   </div>
                 </div>
