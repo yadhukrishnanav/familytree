@@ -79,11 +79,13 @@ export function PersonForm({ initial, familyId, existingPersons, onSubmit, onCan
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault(); setError(null);
     if (!firstName.trim()) { setError('First name is required'); return; }
-    if (!birthYear.trim()) { setError('Birth year is required'); return; }
-    const by = Number(birthYear); const dy = deathYear.trim() ? Number(deathYear) : undefined;
-    if (isNaN(by) || by < 0 || by > 9999) { setError('Birth year must be valid'); return; }
+    // Birth year is optional — many relatives don't recall exact years for
+    // older family members, and the mandatory field was blocking entries entirely.
+    const by = birthYear.trim() ? Number(birthYear) : undefined;
+    const dy = deathYear.trim() ? Number(deathYear) : undefined;
+    if (by != null && (isNaN(by) || by < 0 || by > 9999)) { setError('Birth year must be valid'); return; }
     if (dy != null && (isNaN(dy) || dy < 0 || dy > 9999)) { setError('Death year must be valid'); return; }
-    if (dy != null && dy < by) { setError('Death year cannot be before birth year'); return; }
+    if (dy != null && by != null && dy < by) { setError('Death year cannot be before birth year'); return; }
 
     const person: Person = {
       id: initial?.id ?? crypto.randomUUID(),
@@ -138,7 +140,7 @@ export function PersonForm({ initial, familyId, existingPersons, onSubmit, onCan
       </div>
 
       <div className="grid grid-cols-2 gap-3">
-        <div><Label htmlFor="birthYear">Birth year *</Label><Input id="birthYear" type="number" value={birthYear} onChange={(e) => setBirthYear(e.target.value)} placeholder="1940" min={0} max={9999} /></div>
+        <div><Label htmlFor="birthYear">Birth year</Label><Input id="birthYear" type="number" value={birthYear} onChange={(e) => setBirthYear(e.target.value)} placeholder="1940 (optional)" min={0} max={9999} /></div>
         <div><Label htmlFor="deathYear">Death year</Label><Input id="deathYear" type="number" value={deathYear} onChange={(e) => setDeathYear(e.target.value)} placeholder="Leave empty if living" min={0} max={9999} /></div>
       </div>
 
