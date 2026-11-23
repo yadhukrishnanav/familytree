@@ -5,19 +5,13 @@
 // Validates: marriage year ≤ death year of both spouses,
 //            marriage year ≤ birth year of any existing child of this couple (when adding child).
 
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Input } from '@/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
 import { Heart, GitBranch, AlertCircle } from 'lucide-react';
 import type { FamilyUnit, Person } from '../types';
+import { PersonCombobox } from './PersonCombobox';
 
 type RelType = 'spouse' | 'parent-child';
 
@@ -33,12 +27,6 @@ interface Props {
 
 export function RelationshipForm({ persons, familyUnits, anchorPersonId, onSubmit, onCancel, submitting }: Props) {
   const [relType, setRelType] = useState<RelType>('spouse');
-  const sortedPersons = useMemo(
-    () => [...persons].sort((a, b) =>
-      `${a.firstName} ${a.lastName ?? ''}`.localeCompare(`${b.firstName} ${b.lastName ?? ''}`),
-    ),
-    [persons],
-  );
 
   // For spouse
   const [partner1, setPartner1] = useState(anchorPersonId ?? '');
@@ -167,9 +155,6 @@ export function RelationshipForm({ persons, familyUnits, anchorPersonId, onSubmi
     }
   };
 
-  const personLabel = (p: Person) =>
-    `${p.firstName} ${p.lastName ?? ''}`.trim() + (p.birthYear ? ` (${p.birthYear})` : '');
-
   // Live validation hints (shown as warnings, not blockers)
   const spouseHint = relType === 'spouse' && partner1 && partner2 && marriageYear.trim()
     ? validateSpouse(partner1, partner2, Number(marriageYear))
@@ -214,33 +199,25 @@ export function RelationshipForm({ persons, familyUnits, anchorPersonId, onSubmi
           <div className="grid grid-cols-2 gap-3">
             <div>
               <Label htmlFor="p1">Partner 1</Label>
-              <Select value={partner1} onValueChange={setPartner1}>
-                <SelectTrigger id="p1">
-                  <SelectValue placeholder="Select" />
-                </SelectTrigger>
-                <SelectContent>
-                  {sortedPersons.map((p) => (
-                    <SelectItem key={p.id} value={p.id} disabled={p.id === partner2}>
-                      {personLabel(p)}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <PersonCombobox
+                id="p1"
+                persons={persons}
+                value={partner1}
+                onChange={setPartner1}
+                placeholder="Select"
+                excludeIds={partner2 ? [partner2] : []}
+              />
             </div>
             <div>
               <Label htmlFor="p2">Partner 2</Label>
-              <Select value={partner2} onValueChange={setPartner2}>
-                <SelectTrigger id="p2">
-                  <SelectValue placeholder="Select" />
-                </SelectTrigger>
-                <SelectContent>
-                  {sortedPersons.map((p) => (
-                    <SelectItem key={p.id} value={p.id} disabled={p.id === partner1}>
-                      {personLabel(p)}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <PersonCombobox
+                id="p2"
+                persons={persons}
+                value={partner2}
+                onChange={setPartner2}
+                placeholder="Select"
+                excludeIds={partner1 ? [partner1] : []}
+              />
             </div>
           </div>
           <div>
@@ -269,33 +246,25 @@ export function RelationshipForm({ persons, familyUnits, anchorPersonId, onSubmi
         <div className="grid grid-cols-2 gap-3">
           <div>
             <Label htmlFor="parent">Parent</Label>
-            <Select value={parentId} onValueChange={setParentId}>
-              <SelectTrigger id="parent">
-                <SelectValue placeholder="Select" />
-              </SelectTrigger>
-              <SelectContent>
-                {sortedPersons.map((p) => (
-                  <SelectItem key={p.id} value={p.id} disabled={p.id === childId}>
-                    {personLabel(p)}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <PersonCombobox
+              id="parent"
+              persons={persons}
+              value={parentId}
+              onChange={setParentId}
+              placeholder="Select"
+              excludeIds={childId ? [childId] : []}
+            />
           </div>
           <div>
             <Label htmlFor="child">Child</Label>
-            <Select value={childId} onValueChange={setChildId}>
-              <SelectTrigger id="child">
-                <SelectValue placeholder="Select" />
-              </SelectTrigger>
-              <SelectContent>
-                {sortedPersons.map((p) => (
-                  <SelectItem key={p.id} value={p.id} disabled={p.id === parentId}>
-                    {personLabel(p)}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <PersonCombobox
+              id="child"
+              persons={persons}
+              value={childId}
+              onChange={setChildId}
+              placeholder="Select"
+              excludeIds={parentId ? [parentId] : []}
+            />
           </div>
         </div>
       )}

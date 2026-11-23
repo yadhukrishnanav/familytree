@@ -9,6 +9,7 @@ import { Upload, X, User, Heart, GitBranch, Users } from 'lucide-react';
 import type { Gender, Person } from '../types';
 import { uploadPhoto, deletePhoto } from '../supabase';
 import { pickAvatarColors } from '../data';
+import { PersonCombobox } from './PersonCombobox';
 
 export type NewRelation =
   | { kind: 'spouse'; targetPersonId: string; marriageYear?: number }
@@ -183,7 +184,14 @@ export function PersonForm({ initial, familyId, existingPersons, onSubmit, onCan
             <div className="mt-3 space-y-2">
               <div>
                 <Label htmlFor="relationTarget" className="text-xs text-slate-600">{relationKind === 'spouse' ? 'Marry which person?' : relationKind === 'child' ? 'Who is the parent?' : relationKind === 'sibling' ? 'Who is the sibling?' : 'Who is the child?'}</Label>
-                <Select value={relationTargetId} onValueChange={setRelationTargetId}><SelectTrigger id="relationTarget" className="bg-white"><SelectValue placeholder="Select a person…" /></SelectTrigger><SelectContent>{sortedExisting.map((p) => <SelectItem key={p.id} value={p.id}>{p.firstName} {p.lastName ?? ''}{p.birthYear ? ` (${p.birthYear})` : ''}</SelectItem>)}</SelectContent></Select>
+                <PersonCombobox
+                  id="relationTarget"
+                  persons={sortedExisting}
+                  value={relationTargetId}
+                  onChange={setRelationTargetId}
+                  placeholder="Select a person…"
+                  className="bg-white"
+                />
               </div>
               {relationKind === 'spouse' && <div><Label htmlFor="relationMarriageYear" className="text-xs text-slate-600">Marriage year (optional)</Label><Input id="relationMarriageYear" type="number" value={relationMarriageYear} onChange={(e) => setRelationMarriageYear(e.target.value)} placeholder="1995 (optional)" min={0} max={9999} className="bg-white" /></div>}
               {relationKind === 'sibling' && <p className="text-[11px] text-slate-500">Sibling will share the same parents as the selected person and appear at the same generation level.</p>}
