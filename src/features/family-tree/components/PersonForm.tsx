@@ -107,9 +107,10 @@ export function PersonForm({ initial, familyId, existingPersons, onSubmit, onCan
     if (relationKind !== 'none') {
       if (!relationTargetId) { setError('Please select a person to link to.'); return; }
       if (relationKind === 'spouse') {
-        if (!relationMarriageYear.trim()) { setError('Marriage year is required for spouse.'); return; }
-        const my = Number(relationMarriageYear);
-        if (isNaN(my) || my < 0 || my > 9999) { setError('Marriage year must be valid'); return; }
+        // Marriage year is optional — many relatives don't recall exact years,
+        // and the mandatory field was blocking spouse entries entirely.
+        const my = relationMarriageYear.trim() ? Number(relationMarriageYear) : undefined;
+        if (my != null && (isNaN(my) || my < 0 || my > 9999)) { setError('Marriage year must be valid'); return; }
         relation = { kind: 'spouse', targetPersonId: relationTargetId, marriageYear: my };
       } else if (relationKind === 'child') { relation = { kind: 'child', targetPersonId: relationTargetId }; }
       else if (relationKind === 'parent') { relation = { kind: 'parent', targetPersonId: relationTargetId }; }
@@ -184,7 +185,7 @@ export function PersonForm({ initial, familyId, existingPersons, onSubmit, onCan
                 <Label htmlFor="relationTarget" className="text-xs text-slate-600">{relationKind === 'spouse' ? 'Marry which person?' : relationKind === 'child' ? 'Who is the parent?' : relationKind === 'sibling' ? 'Who is the sibling?' : 'Who is the child?'}</Label>
                 <Select value={relationTargetId} onValueChange={setRelationTargetId}><SelectTrigger id="relationTarget" className="bg-white"><SelectValue placeholder="Select a person…" /></SelectTrigger><SelectContent>{sortedExisting.map((p) => <SelectItem key={p.id} value={p.id}>{p.firstName} {p.lastName ?? ''}{p.birthYear ? ` (${p.birthYear})` : ''}</SelectItem>)}</SelectContent></Select>
               </div>
-              {relationKind === 'spouse' && <div><Label htmlFor="relationMarriageYear" className="text-xs text-red-600">Marriage year *</Label><Input id="relationMarriageYear" type="number" value={relationMarriageYear} onChange={(e) => setRelationMarriageYear(e.target.value)} placeholder="1995" min={0} max={9999} className="bg-white" /></div>}
+              {relationKind === 'spouse' && <div><Label htmlFor="relationMarriageYear" className="text-xs text-slate-600">Marriage year (optional)</Label><Input id="relationMarriageYear" type="number" value={relationMarriageYear} onChange={(e) => setRelationMarriageYear(e.target.value)} placeholder="1995 (optional)" min={0} max={9999} className="bg-white" /></div>}
               {relationKind === 'sibling' && <p className="text-[11px] text-slate-500">Sibling will share the same parents as the selected person and appear at the same generation level.</p>}
             </div>
           )}
